@@ -1,0 +1,176 @@
+ACTIVE THEORY DESIGN BREAKDOWN
+Source: https://activetheory.net/
+Analyzed: 2026-04-05
+==================================================
+
+CONTEXT
+--------
+Active Theory is a creative studio known for pushing the boundaries of interactive web
+and immersive digital experiences. The site is a JavaScript-heavy single-page application —
+a canvas-based, dynamically rendered interface. This means the page's content, CTAs, and
+visuals are entirely code-driven, not document-driven.
+
+This site is a strong reference for:
+- Maximum-fidelity creative studio positioning
+- Canvas/WebGL as the primary design medium
+- Sites where the technical execution IS the brand statement
+- Touch-optimized, app-like web experiences
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Single-page application — not a traditional HTML document layout.
+Primary container: #Stage — a canvas or WebGL rendering root.
+
+There is no traditional section-based layout visible in the source.
+All content is rendered dynamically via JavaScript. The structure is more like a
+native application or game engine than a webpage.
+
+Asset loading: versioned cache-busting on all assets — optimized for performance
+at scale. Preload strategy used throughout.
+
+iOS-specific viewport handling — the experience is explicitly designed for touch devices,
+not just desktop. This is a rare commitment for a desktop-first agency.
+
+
+2. HERO SECTION FORMULA
+------------------------
+Cannot be extracted from static source — content is 100% JavaScript-rendered.
+
+What can be inferred from the technical setup:
+- The hero is almost certainly a full-screen immersive canvas experience
+- Touch behaviors are disabled (no default zoom, no tap highlight) —
+  the interface controls touch, not the browser
+- Custom scroll behavior — inertia, easing, and scroll speed are controlled by the site,
+  not the OS
+
+The formula (inferred from Active Theory's known body of work and technical signals):
+  Full-screen 3D / WebGL environment → studio name / minimal copy → scroll to explore
+
+No hero "formula" in the traditional sense. The experience itself is the message.
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+Custom typeface: NBArchitekt — loaded in three weights:
+  - Light (300)
+  - Regular (400)
+  - Bold (700)
+
+Loaded in WOFF2, WOFF, and OTF — full format coverage for maximum compatibility.
+NBArchitekt is a geometric/architectural sans-serif — precise, technical, slightly cold.
+This is not a warm or approachable typeface; it signals rigor and craft.
+
+Dark background (#000) — white or near-white type on black is the implied palette.
+This is the visual language of: architecture, high-end fashion, advanced technology.
+
+user-select: none applied globally — text is not meant to be copied or interacted with
+as text. It exists as a visual element within the rendered environment.
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+Cannot be fully assessed from static source.
+
+What is known:
+- Custom scrollbar styling with opacity variables — scroll is a designed interaction
+- Touch optimization disabled — scroll inertia is controlled programmatically
+- The rhythm of the site is determined by the JavaScript engine, not CSS layout
+
+Inferred rhythm: slow, deliberate, cinematic — each "section" is likely a scene
+transition, not a document scroll. The pacing is closer to a film than a webpage.
+
+
+5. CTA PLACEMENT
+-----------------
+Cannot be confirmed from static source.
+
+Inferred from Active Theory's positioning:
+- "Contact" or email CTA — likely minimal, direct
+- Work/projects navigation — the portfolio is the primary journey
+- No e-commerce, no form-heavy lead capture — inquiries come through reputation
+
+What the technical setup signals about CTAs:
+- Custom interactions replace standard clickable elements
+- "Click" may not be the primary interaction — hover states, scroll triggers, or
+  gesture-based interactions likely drive navigation
+- GLA11y accessibility region included — screen-reader content exists, meaning
+  there ARE text-based CTAs; they're just wrapped in the visual experience
+
+
+6. TRUST-BUILDING ELEMENTS
+---------------------------
+Cannot confirm specific logos, stats, or testimonials from static source.
+
+What is known:
+- Google Tag Manager integrated — analytics-first approach, measuring engagement deeply
+- The technical architecture itself is a trust signal: custom JS engine, asset versioning,
+  iOS-specific handling, WOFF2 font loading — this is not a template site
+- Active Theory's known client roster (PlayStation, Nike, Netflix, Google) would appear
+  in the portfolio — the client tier is the primary trust mechanism
+- The site's existence as a functioning canvas-based experience is proof of capability —
+  you cannot fake this with Webflow or WordPress
+
+
+7. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- The site is built on a custom JavaScript engine — not Webflow, not Framer, not WordPress.
+  The infrastructure IS the craft statement.
+- NBArchitekt custom font loaded in three weights with full format coverage —
+  typographic precision at the infrastructure level
+- user-select: none globally — the site does not behave like a document;
+  it behaves like an application
+- Touch behavior overrides — the studio controls the input model, not the browser
+- iOS viewport handling — explicit mobile experience design, not responsive afterthought
+- Custom scrollbar styling — even the scrollbar is designed
+- Cache-busting on all assets — performance-obsessed at the build level
+- GLA11y accessibility — they made the technically complex experience accessible;
+  this is harder than it sounds and signals genuine craft ethic
+
+The site is premium because every layer of the stack — fonts, scroll, touch, assets,
+accessibility — has been consciously designed. Nothing is default.
+
+
+8. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- NBArchitekt as a typeface reference — or similar geometric/architectural sans-serifs
+  for clients who want precision over warmth
+- Dark (#000) background with light type — the visual language of high-end tech, fashion,
+  and architecture; very effective for the right client
+- Custom scroll behavior (via Lenis or similar) — makes any site feel more intentional
+- Disabling default browser interactions (tap highlight, text selection) for
+  highly controlled UI experiences — subtle but felt
+- Loading assets with cache-busting and preload strategy — performance as a design value
+- Full-screen canvas/WebGL hero for clients whose budget and audience support it
+- Accessibility layer beneath the immersive experience — don't let technical ambition
+  compromise screen-reader support
+
+
+9. WHAT NOT TO COPY TOO LITERALLY
+-----------------------------------
+- The full canvas-based SPA architecture — requires a custom development team;
+  a bad implementation looks worse than a well-executed traditional site
+- The complete text-selection disabled approach — frustrating for users who want to
+  copy an email address, a quote, or a URL
+- The dark #000 palette — powerful but narrow; wrong for any brand that needs warmth,
+  approachability, or broad consumer appeal
+- Relying entirely on JavaScript rendering — SEO is severely limited; content is
+  invisible to crawlers unless server-side rendering is implemented
+- The zero-copy, experience-only hero — only works at Active Theory's level of visual
+  execution; anything less reads as "flashy but empty"
+
+
+TL;DR
+------
+Active Theory's site is not a website. It is a proof of concept.
+The entire technical stack — canvas rendering, custom scroll, touch overrides, asset
+versioning, accessibility layers — is the portfolio piece.
+
+The lesson: at this level of creative studio, the site itself is the pitch.
+The client isn't reading copy or scanning a grid. They're experiencing the answer
+to the question "what would you build for us?" before the first call.
+
+For most clients, this level of execution is out of scope. The transferable principle is:
+make the medium match the message. A studio that builds immersive experiences should
+have an immersive site. A consultant who values clarity should have a clear site.
+Whatever the client does best, the site should do that first.

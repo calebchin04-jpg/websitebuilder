@@ -1,0 +1,157 @@
+NEW SUSHISM DESIGN BREAKDOWN
+Source: https://new-sushism.jp/
+Analyzed: 2026-04-05
+==================================================
+
+CONTEXT
+--------
+New Sushism is a Tokyo-based multi-location sushi concept spotlighting innovative artisans
+across Shibuya, Shinjuku, and Ebisu. This site is a strong reference for:
+- Bilingual luxury hospitality/restaurant branding
+- Story-first editorial design for a small, curated offering
+- Japanese design sensibility applied to a Western-readable site
+- "Platform for people" positioning (the brand elevates its artisans, not just the food)
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Single-page scroll with anchored section navigation. Each Tokyo location gets its own
+full section — the structure mirrors a magazine editorial layout, not a product site.
+
+Section order:
+  Header Nav → Hero → About / Philosophy → Shibuya Artisan → Shinjuku Artisan
+  → Ebisu Artisan → Image Slider Galleries → Footer
+
+No sidebar, no grid of options, no comparison tables. The page moves in one direction: down.
+Each section is treated as its own "chapter" with a distinct visual identity.
+
+
+2. HERO SECTION FORMULA
+------------------------
+Structure: Philosophical statement (bilingual) + brand name as visual anchor
+
+Japanese headline: 次世代の寿司文化を築く、革新的な職人たちに出会える場所
+English parallel: "A place to meet innovative artisans shaping next-generation sushi culture"
+
+- No price, no discount, no reservation CTA in the hero
+- The hero is a cultural positioning statement, not a sales pitch
+- Bold display text ("SUSHISM," "INNOVATION WHERE TRADITION") creates visual dominance
+- The brand name itself functions as the headline — it's a compound concept worth explaining
+
+Formula to copy (for cultural/hospitality brands):
+  [Cultural mission statement] (bilingual if relevant) + [Brand name as visual anchor]
+  → Let the photography do the rest
+
+What this hero deliberately avoids:
+  - No "Book a table" above the fold
+  - No opening hours
+  - No star ratings
+  - All of that comes later, if at all
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+- Typekit custom font kit (ID: awk1txa) — suggests a premium Japanese/Latin pairing, likely
+  a refined Gothic (sans) for Japanese text and a display serif or geometric for Latin
+- Bold/heavy weight display text for hero and section titles — creates strong visual anchors
+- Light weight body copy for artisan philosophy and descriptions — maximizes contrast
+- Bilingual hierarchy: Japanese primary, English secondary — or parallel, depending on section
+- No all-caps abuse — uppercase is reserved for brand/section labels ("SUSHISM," "VIEW MORE")
+- The mix of languages IS the typography choice — the visual rhythm of kanji + Latin letterforms
+  creates texture that a monolingual site can't replicate
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+- Generous whitespace between all major sections — the pacing is meditative, not urgent
+- Full-width image zones alternate with contained text blocks — same editorial rhythm as a
+  printed food magazine
+- Navigation maintains consistent padding; CTAs are visually isolated through surrounding space
+- Three artisan sections use identical internal structure (image carousel → name/age/hometown → story)
+  — this creates a satisfying rhythm of repetition with variation
+- "LEFT RIGHT / SCROLL DOWN" directional prompts appear at image sliders — the site teaches
+  interaction rather than assuming it
+
+
+5. CTA PLACEMENT
+-----------------
+Location              | CTA              | Purpose
+--------------------- | ---------------- | -------------------
+Header                | "CONTACT"        | Always accessible, never pushy
+Artisan profiles      | "VIEW MORE"      | Progressive disclosure — earn the click
+Artisan profiles      | Tabelog links    | Third-party reservation/rating (external trust)
+Artisan profiles      | Instagram links  | Social proof / personality
+Footer                | "CONTACT"        | Recovery CTA
+
+Key pattern: Extremely minimal CTAs. The site does not ask you to do anything —
+it invites you to go deeper. "VIEW MORE" is the only real internal navigation CTA.
+
+Contact is via mailto — no embedded booking widget, no form. This is intentional:
+the friction of email signals exclusivity, not accessibility.
+
+
+6. TRUST-BUILDING ELEMENTS
+---------------------------
+- Three named, profiled artisans with: name, age, hometown, philosophy — highly personal
+- Tabelog links (Japan's dominant restaurant review platform — equivalent to OpenTable + Yelp)
+  provide external validation without cluttering the page
+- Instagram links per artisan add personality and living proof of the food
+- Founder philosophy narrative: frames the brand as a cultural movement, not a restaurant chain
+- Schema.org structured data (CollectionPage, WebSite) — technical SEO credibility built in
+- 12+ food photography images per artisan section — volume of imagery = depth of craft
+
+Trust approach: identity-based, not metric-based.
+No star count displayed on the homepage — the Tabelog links let visitors self-verify.
+
+
+7. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- Bilingual text is genuinely bilingual — not Google Translated filler; both languages carry meaning
+- Artisan profiles include age and hometown — hyper-specific details that feel researched, not templated
+- Image sliders with directional prompts ("LEFT RIGHT") teach interaction rather than assuming
+  visitors know the UX — hospitality instinct applied to web design
+- Photography is extensive and consistent across all three locations — suggests a real art director
+  and photographer, not stock imagery
+- The brand concept ("Sushism") is invented, specific, and unexplained at first — it earns curiosity
+- No homepage hero restaurant photo clichés (no overhead food shot, no "bokeh chef" photo)
+- Section divider SVGs and logo lockups suggest custom illustration work, not icon libraries
+- The page structure mirrors a curated art exhibition or printed magazine — the medium matches
+  the message (craft, curation, attention)
+
+
+8. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- Per-person editorial profiles: name + age + hometown + philosophy — works for any human-forward brand
+  (studios, agencies, practitioners, chefs, coaches)
+- Bilingual or dual-register typography as a design texture — even for English-only sites,
+  pairing a display language (large, abstract) with a body language (small, descriptive) creates the same rhythm
+- "VIEW MORE" progressive disclosure instead of showing everything — creates depth and return visits
+- External validation links (review platforms, social) embedded in profiles instead of on-page star ratings
+- Anchor-scrolled single-page structure for small, curated offerings (3–5 "chapters")
+- Directional interaction prompts at non-obvious UX patterns — teach the scroll, don't assume it
+- Invented brand concept as the hero — "Sushism" is more memorable than "Premium Sushi Tokyo"
+- Full-width image zones between constrained text sections — editorial rhythm
+
+
+9. WHAT NOT TO COPY TOO LITERALLY
+-----------------------------------
+- The mailto contact CTA — works for exclusivity positioning, kills conversion for most clients
+- The complete absence of pricing or booking above the fold — fine for a discovery-phase brand,
+  frustrating for a client whose customers need practical info fast
+- The Japan-specific Tabelog integration — know your equivalent platform per market
+- The "no metric trust" approach — works when the photography is world-class; needs at least
+  one anchor stat for clients whose visual production isn't at this level
+- The invented compound brand name ("Sushism") — advise clients carefully; a concept brand
+  name requires the design and content to fully support it or it reads as pretentious
+
+
+TL;DR
+------
+New Sushism treats its website like a curated exhibition catalog — each artisan is a chapter,
+each image gallery is a spread, and the brand concept is the title of the show.
+
+The design lesson: for any client with a small, human-forward, high-craft offering,
+drop the conversion playbook entirely. The job of the site is not to sell — it's to make
+the visitor feel they've discovered something worth telling others about.
+
+Discovery > conversion. Depth > breadth. Identity > metrics.

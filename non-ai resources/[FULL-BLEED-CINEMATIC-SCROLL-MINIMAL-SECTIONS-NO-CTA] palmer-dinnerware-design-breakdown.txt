@@ -1,0 +1,146 @@
+PALMER DINNERWARE DESIGN BREAKDOWN
+Source: https://www.palmer-dinnerware.com/
+Analyzed: 2026-04-05
+==================================================
+
+CONTEXT
+--------
+Palmer Dinnerware is a luxury/artisan product brand. This site is a strong reference for
+high-end e-commerce, sensory-first branding, and editorial product presentation.
+It is NOT a SaaS or service site — the design language is intentionally slow, immersive, and tactile.
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Minimal column structure — centered 12-column grid that collapses cleanly across 4 breakpoints:
+  Desktop (1920px) → Tablet (834px) → Mobile Landscape (767px) → Mobile Portrait (479px)
+
+The layout is extremely sparse — almost nothing competes for attention at any given moment.
+Page transitions use a full-screen overlay with smooth opacity animation between sections.
+
+Section order:
+  Nav → Hero (tagline + dual CTA) → Draggable Product Carousel → Product Grid → Footer
+
+
+2. HERO SECTION FORMULA
+------------------------
+Structure: Brand philosophy statement + dual CTA — no stats, no logos, no proof
+
+Headline/tagline: "Our collection is designed to engage all of the senses. Rich colors and
+beautifully textured finishes transform every meal into a dish worth celebrating."
+
+- This is NOT a benefit headline — it's a sensory/emotional positioning statement
+- No numbers, no features, no comparisons — pure brand voice
+- Dual CTAs: "buy product" (transactional) + "explore collection" (experiential)
+- The CTAs are lowercase — deliberately casual, not corporate
+
+Formula to copy (for luxury/lifestyle brands):
+  [Sensory/emotional promise] + [What it transforms] → [Buy CTA] / [Explore CTA]
+
+What this hero is NOT doing (intentionally):
+  - No social proof
+  - No urgency
+  - No discount offers
+  - No headline/subhead hierarchy — it's one cohesive statement
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+- Dynamic fluid scaling: font sizes adjust proportionally to viewport width, not fixed px breakpoints
+- Text animation: SplitText (GSAP) reveals each word upward on load — cinematic, not functional
+- text-wrap: balance enforced on Safari for optimal line-breaking aesthetics
+- Descender padding handled explicitly (padding-top: 0.1em, margin-top: -0.1em) — obsessive detail
+- Size range: 16px body up to 64px display text
+- No decorative fonts identified — likely a refined serif or neutral sans-serif (not confirmed)
+- Lowercase CTA labels signal informality and approachability within a luxury context
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+- Utility-first spacing system tied to a single base unit: --size-unit: 16
+  All margins, padding, and gaps are multiples of this — creates invisible but felt consistency
+- Reset classes (.margin-0, .padding-0) applied selectively — whitespace is intentional, never accidental
+- The rhythm is SLOW: few sections, lots of breathing room, no visual noise
+- Product grid is the only "dense" section — everything else is editorial pacing
+
+
+5. CTA PLACEMENT
+-----------------
+Location              | CTA                       | Purpose
+--------------------- | ------------------------- | -------------------
+Hero                  | "buy product"             | Transactional entry
+Hero                  | "explore collection"      | Experiential entry
+Product carousel      | Drag interaction          | Tactile product discovery (no CTA needed)
+Footer                | Nav links to collections  | Recovery/re-entry
+
+Key pattern: Very few hard CTAs. The product IS the CTA.
+The "drag to explore" carousel replaces a traditional grid + filter UX — it makes browsing feel physical.
+
+CTA styling: Hover state uses scale(0.95) — the button slightly shrinks on hover, not grows.
+This is a subtle inversion of standard CTA hover behavior. Feels restrained and deliberate.
+Underline links reveal with scaleX animation using cubic-bezier easing — not a simple underline.
+
+
+6. TRUST-BUILDING ELEMENTS
+---------------------------
+Almost none in the traditional sense. No testimonials, no certifications, no press logos.
+
+Trust is built through:
+- The quality of the photography and animation itself (craft signals craft)
+- Schema markup identifying Palmer as an organization creating "exquisite dinnerware collections"
+- 100+ products visible in the draggable carousel — depth of catalog implies legitimacy
+- The writing tone: confident, specific, sensory — not salesy
+
+This is worth noting: for luxury brands, traditional trust elements (star ratings, logos) can cheapen
+the perception. Palmer bets entirely on the experience of the site as proof of quality.
+
+
+7. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- Custom cursor: desktop-only, follows mouse, changes text based on data-cursor attributes —
+  this alone signals a bespoke build, not a Squarespace template
+- Lenis smooth scroll: momentum-based with customizable multiplier — feels like a native app
+- Image reveals: animated masks slide upward on scroll (y: "-100%") with custom easing —
+  images don't just appear, they unveil
+- Hamburger menu morphs into X with staggered link animations — different behavior on mobile vs. desktop
+- Accordion items use grid-template-row transitions, not height: 0 hacks — technically correct detail
+- Page transition overlay between sections — the site "breathes" between pages
+- GSAP timeline animations throughout — scroll-triggered, precisely timed, never gratuitous
+- The draggable carousel is a physical metaphor for handling dinnerware — product and UX are aligned
+
+
+8. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- Fluid type scaling (viewport-based font sizes, not fixed breakpoints) — feels alive across devices
+- SplitText word-by-word reveal animations for hero headlines — cinematic entrance
+- Image mask/unmask on scroll — more interesting than simple fade-ins
+- "Drag to explore" horizontal carousel for product or portfolio sections
+- Custom cursor with context-sensitive labels — high signal of bespoke build
+- Lenis (or similar) smooth scroll — elevates any site immediately
+- Base unit spacing system (--size-unit) — invisible but creates felt consistency
+- Lowercase CTAs for lifestyle/luxury clients — removes corporate stiffness
+- Scale-down hover on buttons (not scale-up) — subtle luxury signal
+- Keeping trust elements OFF the page when the product photography can carry the credibility alone
+
+
+9. WHAT NOT TO COPY TOO LITERALLY
+-----------------------------------
+- The near-absence of trust elements — this works for an established luxury brand;
+  a new client needs at least some proof
+- The "no urgency, no discount" CTA approach — correct for luxury, wrong for most e-commerce
+- The extremely slow rhythm and sparse section count — for a service or SaaS client,
+  this will feel like a lack of information
+- The full-page transition overlay — can feel sluggish if not executed with GSAP precision;
+  a bad implementation is worse than none
+- The emotional-only hero copy — luxury brands can get away with zero specifics;
+  most clients need to anchor the emotion with at least one concrete claim
+
+
+TL;DR
+------
+Palmer is what happens when the site itself IS the product demo. Every animation, every transition,
+every spacing decision communicates tactility, craft, and restraint. There are almost no traditional
+conversion elements — the site trusts that the experience will do the selling.
+
+The key lesson: for luxury and lifestyle clients, design confidence = brand confidence.
+The willingness to use whitespace, slow down the scroll, and withhold information is itself the message.

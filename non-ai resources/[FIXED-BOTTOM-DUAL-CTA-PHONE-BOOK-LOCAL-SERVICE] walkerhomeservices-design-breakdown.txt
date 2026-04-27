@@ -1,0 +1,303 @@
+WALKER HOME SERVICES DESIGN BREAKDOWN
+Source: https://walkerhomeservices.ca/
+Analyzed: 2026-04-17
+Platform: WordPress + Elementor + Astra theme
+==================================================
+
+CONTEXT
+--------
+Walker Home Services is an Ottawa-area home services company. The site is a strong
+reference for one specific pattern that works exceptionally well for local service
+businesses: a permanently fixed dual-CTA bar at the bottom of the viewport that keeps
+the two highest-intent conversion actions — calling and booking — reachable at all times,
+regardless of where the user is on the page.
+
+This site is a strong reference for:
+- Fixed bottom dual-CTA bar (phone + book, always visible)
+- Phone-first + book-second action hierarchy for local service businesses
+- Color-inversion hover pattern using only two brand colors
+- Body padding technique to prevent content hiding behind a fixed element
+- Minimal, self-evident CTA labeling (icon + action phrase, no explanatory text)
+- When to use a sticky bottom bar vs. a sticky nav CTA
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Page section order:
+
+  Sticky Navigation (logo, nav links)
+  → Hero (background slideshow with Ken Burns zoom effect via Elementor)
+  → Services section
+  → Trust / credentials section
+  → Booking / contact section (id="book")
+  → Footer
+  → Fixed bottom CTA bar (renders above footer, always visible)
+
+The fixed bar is NOT part of the page flow. It sits outside the scroll layer at
+`position: fixed` — it does not push content or sit in the document stack.
+It is added as a raw HTML widget in Elementor, placed after the footer element.
+
+
+2. THE STICKY BOTTOM BAR — CORE PATTERN
+-----------------------------------------
+This is the primary pattern worth extracting from this site.
+
+**HTML (exact source):**
+```html
+<div class="button-wrapper">
+
+    <a class="footer-button button-green" href="tel:6139327978">
+        <i class="fas fa-phone-alt"></i>
+        Call for Service
+    </a>
+
+    <a class="footer-button button-gold"
+       href="https://book.servicetitan.com/vun5ptzr7mai6do7v8gw7jgh?rwg_token=AFd1xn..."
+       target="_blank"
+       rel="noopener noreferrer">
+        <i class="fas fa-calendar-alt"></i>
+        Schedule Service
+    </a>
+
+</div>
+```
+
+**CSS (exact source):**
+```css
+/* STICKY WRAPPER */
+.button-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #ffffff;
+    padding: 10px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 10px;
+}
+
+/* BUTTON BASE */
+.footer-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    line-height: 1.2;
+    box-sizing: border-box;
+}
+
+/* GREEN BUTTON (phone — primary, left) */
+.button-green {
+    background-color: #263820;
+    color: #dbc370;
+}
+.button-green:hover {
+    background-color: #dbc370;
+    color: #263820;
+}
+
+/* GOLD BUTTON (book — secondary, right) */
+.button-gold {
+    background-color: #dbc370;
+    color: #263820;
+}
+.button-gold:hover {
+    background-color: #263820;
+    color: #dbc370;
+}
+
+/* ICON SPACING */
+.footer-button i {
+    margin-right: 8px;
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+    .footer-button {
+        padding: 14px;
+        font-size: 14px;
+    }
+}
+
+/* PREVENT CONTENT HIDING BEHIND THE FIXED BAR */
+body {
+    padding-bottom: 90px;
+}
+```
+
+
+3. POSITIONING MECHANICS
+--------------------------
+`position: fixed` — removes the bar from document flow entirely. It stays attached
+to the viewport, not the page. The user can scroll to the very bottom of the footer
+and the bar never moves.
+
+`bottom: 0` — flush to the viewport bottom edge.
+
+`left: 0` + `width: 100%` — spans the full viewport width, not the content width.
+This is critical: if placed inside a max-width container, it would only be as wide
+as the container. The fixed element must be a direct child of `<body>` or use
+`width: 100vw` with `left: 0` to guarantee full-width behavior.
+
+`z-index: 9999` — above all page content, overlays, dropdowns, and modals.
+Use this value cautiously — it assumes nothing else on the page claims z-index above 9999.
+In Next.js builds, use Tailwind's `z-50` (50) unless other elements conflict.
+
+`box-shadow: 0 -2px 10px rgba(0,0,0,0.1)` — upward shadow (negative Y offset).
+This creates a visual separation between the bar and the page content behind it,
+making the bar feel like it "floats" rather than being glued to the bottom. The opacity
+(0.1) is intentionally subtle — too heavy and it looks like a hard divider.
+
+`body { padding-bottom: 90px }` — the body needs explicit bottom padding equal to or
+greater than the bar's height to prevent the last visible section from being partially
+hidden behind the fixed bar. Calculate: bar padding (10px) + button padding (18px × 2)
++ line height (~18px) + icon height ≈ 90px total. If you change button padding,
+recalculate this value.
+
+
+4. COLOR SYSTEM AND INVERSION HOVER PATTERN
+---------------------------------------------
+Walker uses two brand colors: dark green `#263820` and gold `#dbc370`.
+
+The hover pattern inverts them:
+  Default state:   green button = dark green bg / gold text
+                   gold button  = gold bg / dark green text
+  Hover state:     green button = gold bg / dark green text
+                   gold button  = dark green bg / gold text
+
+Both buttons swap to the other's default state on hover. This is a two-color system —
+no third color is introduced anywhere. The result:
+- Each button's hover state is already familiar (it matches the other button's default)
+- The page feels visually coherent — every color seen in the bar has already appeared
+- The transition (0.3s ease) is slow enough to feel deliberate, not jumpy
+
+Pattern to copy:
+  Left button:  bg = var(--color-primary)  / text = var(--color-accent)
+  Right button: bg = var(--color-accent)   / text = var(--color-primary)
+  Hover both:   swap bg and text colors
+
+This works with any two-color brand system. The only requirement is sufficient
+contrast between the two colors (both used as background and text).
+
+
+5. CTA WORDING AND HIERARCHY
+------------------------------
+LEFT: "Call for Service"    — immediate, synchronous action. Phone icon.
+RIGHT: "Schedule Service"   — planned, asynchronous action. Calendar icon.
+
+Phone is LEFT for a reason: left-to-right reading order means the eye reaches it first.
+For local service businesses, the phone call is the higher-intent conversion — it reaches
+a real person immediately. Booking is valuable but takes longer to complete.
+
+Wording choices:
+  "Call for Service" — not "Call Us." The word "Service" ties the action to the outcome.
+  "Schedule Service" — not "Book Now." "Book Now" implies commitment and urgency.
+  "Schedule Service" is softer — "I'm planning, not committing." Reduces hesitation.
+
+Icon choice:
+  Phone icon: `fas fa-phone-alt` (Font Awesome) — recognizable, universally understood.
+  Calendar icon: `fas fa-calendar-alt` — communicates scheduling, not transaction.
+
+Both buttons have equal visual weight (same padding, same width, same font weight).
+The color difference (dark green vs. gold) creates hierarchy without size difference.
+Dark green = more authoritative = phone = primary action.
+
+
+6. INTEGRATION DETAILS
+------------------------
+Phone button:
+  `href="tel:6139327978"` — standard tel: link. No JavaScript needed.
+  Tapping on mobile dials directly. On desktop, opens default phone app.
+  The number should come from siteConfig, never hardcoded.
+
+Book button:
+  External URL (ServiceTitan booking platform).
+  `target="_blank"` — opens in new tab (user doesn't lose their place on the site).
+  `rel="noopener noreferrer"` — security best practice for external blank targets.
+  Alternative: link to an on-page booking section using `href="#book"` if booking
+  is embedded on the page rather than external.
+
+Icons:
+  Site uses Font Awesome CDN (`fas fa-phone-alt`, `fas fa-calendar-alt`).
+  For Next.js/Tailwind builds: use inline SVG or Heroicons to avoid external CDN dependency.
+  SVG icons should use `aria-hidden="true"` since the button text already describes the action.
+
+
+7. WHAT MAKES IT EFFECTIVE (NOT TEMPLATED)
+-------------------------------------------
+- Color inversion on hover uses the existing brand palette — no "button blue" or generic CTA
+  color introduced. The bar feels native to the site's visual system.
+- Full-width buttons (not narrow pill-shaped CTAs). The buttons fill the bar width,
+  making the tap target as large as possible on mobile.
+- No explanatory text ("Need help? Click below to..."). The icon + label is self-evident.
+  The bar does not announce itself — it just works.
+- White background bar with upward shadow creates clean separation from page content
+  without a harsh border or color block.
+- No animation on appearance (it is always visible, never hides). Simplicity is the feature.
+- The bar is implemented as a raw HTML widget in Elementor — not a plugin, not a theme
+  feature. Minimal overhead, maximum control.
+
+What this pattern deliberately avoids:
+  - No "close" or dismiss button on the bar
+  - No animation or slide-in behavior
+  - No chat widget or third CTA (two actions is the maximum before choice paralysis)
+  - No tooltip or hover description
+  - No sticky header conflict (the nav is NOT sticky on this site, avoiding double-fixed conflict)
+
+
+8. WHEN TO USE VS. WHEN NOT TO USE
+------------------------------------
+USE when:
+  - Local service business (painting, remodeling, plumbing, HVAC, landscaping, cleaning)
+  - Primary conversions are: phone call OR booked appointment
+  - Mobile traffic is significant (the bar is most valuable on mobile where the phone
+    number is buried or requires scrolling)
+  - The site is 3+ sections long (short pages don't need it — the hero CTA is sufficient)
+  - Business actively takes phone calls during business hours
+
+DO NOT USE when:
+  - Premium/luxury positioning (the bar reads as utilitarian — conflicts with premium feel)
+  - Creative agency or portfolio site (HITT, Lusion positioning — too aggressive)
+  - B2B with a long sales cycle (decision-making buyers don't call impulsively)
+  - Site already has a sticky nav with a prominent CTA (double-sticky = visual noise)
+  - Business is online-only with no phone support
+  - The booking/form is the ONLY conversion (remove the phone button if phone isn't used)
+
+
+9. PATTERNS TO COPY — IMPLEMENTATION SUMMARY
+----------------------------------------------
+For the Next.js / Tailwind / TypeScript stack used in this builder system:
+
+Grid structure:
+  `fixed bottom-0 left-0 w-full z-50 bg-white flex gap-2.5 p-2.5`
+  `shadow-[0_-2px_10px_rgba(0,0,0,0.1)]`
+
+Button base:
+  `flex items-center justify-center w-full py-[18px] px-4`
+  `font-semibold rounded-lg transition-all duration-300 no-underline`
+
+Left button (phone):
+  `bg-primary text-accent hover:bg-accent hover:text-primary`
+
+Right button (book):
+  `bg-accent text-primary hover:bg-primary hover:text-accent`
+
+Body padding:
+  Add `pb-[90px]` to the root layout wrapper or `<body>`
+
+Accessibility:
+  `aria-label="Call us at (613) 932-7978"` on phone link
+  `aria-label="Schedule a service appointment"` on book link
+  Icons: `aria-hidden="true"` (text already describes the action)
+
+Data source:
+  Phone and phoneHref from `siteConfig.phone` and `siteConfig.phoneHref`
+  Booking URL from `siteConfig.bookingUrl` (or external platform URL)

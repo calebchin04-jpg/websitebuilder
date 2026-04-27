@@ -1,0 +1,786 @@
+PAINTER BROS DESIGN BREAKDOWN
+Source: https://www.painterbros.com/
+Analyzed: 2026-04-16
+Platform: Webflow (custom franchise build)
+==================================================
+
+CONTEXT
+--------
+Painter Bros is a national franchise painting company serving residential and commercial
+clients. The site is a franchise platform — the same design system is deployed across
+hundreds of local franchise locations, with each location's phone number, zip code coverage,
+and service availability dynamically personalized.
+
+This site is a strong reference for:
+- Hero split layout: proof/copy LEFT + embedded lead form RIGHT
+- Persistent lead capture form in the navigation (sticky across scroll)
+- Phone-first CTA strategy for local service businesses
+- Location-based JavaScript personalization for franchise networks
+- Franchise-to-local architecture (national brand, local execution)
+- Blue/gold trust color system for professional service positioning
+- Form-in-hero as the primary conversion mechanism above the fold
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Section order (top to bottom):
+
+  Sticky Navigation (logo + nav links + embedded mini-form)
+  → Hero (split: copy/proof LEFT, lead capture form RIGHT)
+  → Stats Strip (500+ reviews, 4.2 stars, 100k+ jobs completed)
+  → "Professional Contractors" feature section
+  → Partner Logos (Sherwin Williams, etc.)
+  → Testimonials
+  → Secondary CTA section ("Schedule Your Free Estimate")
+  → Franchise CTA ("Be A Part Of Something Bigger")
+  → Footer (service links, locations, social icons)
+
+Lead capture is present in THREE locations above the fold:
+  1. Sticky nav (condensed form, always visible)
+  2. Hero right panel (full form)
+  3. Stats strip CTA ("Get a Free Estimate")
+
+The page is designed to capture leads at every scroll position, not just at the hero.
+
+
+2. HERO SECTION — SPLIT LAYOUT
+--------------------------------
+The hero is a two-column CSS Grid:
+
+LEFT COLUMN (1fr): Brand promise + copy
+  H1: "Your home or Business Perfectly Painted. Get a Free Estimate Today"
+  Subhead: "Expert Painters. Honest Pricing. Exceptional Results."
+  — Three parallel noun phrases. No verbs. Scannable in under 2 seconds.
+  — "Honest Pricing" is a direct objection response (painting industry known for hidden costs).
+
+RIGHT COLUMN (minmax(24rem, .5fr)): Lead capture form
+  Header: "Work With Our Experts & Schedule Your FREE Consultation"
+  Fields: First Name, Last Name, Email, Phone, Zip Code, Residential/Commercial radio
+  Button: "Get My Free Quote"
+  — Form is co-equal to content in the hero. Not secondary. Not below the fold.
+  — Glassmorphism panel: `background-color: #ffffff80` (50% opacity white) +
+    `backdrop-filter: blur(5px)` on dark background image.
+
+Background: Full-bleed WebP painting photography (1920×1080), lazy-loaded.
+Hero min-height: 85vh (keeps form visible above fold on all screens).
+
+Formula to copy (local service businesses):
+  [Outcome headline] + [3-word trust triplet as subhead]
+  → RIGHT PANEL: form with service type radio (Residential/Commercial)
+  — Form panel uses glassmorphism to float over background without blocking image.
+
+What this hero deliberately avoids:
+  - No decorative hero with a single CTA button far from the fold
+  - No "Learn More" as a primary action
+  - No hero that requires scrolling to reach a form
+
+
+CSS IMPLEMENTATION — HERO GRID:
+```css
+.hero_component {
+  grid-column-gap: 4rem;
+  grid-row-gap: 4rem;
+  grid-template-columns: 1fr minmax(24rem, .5fr);
+  min-height: 85vh;
+  display: grid;
+  place-items: center stretch;
+}
+
+.hero-form_container {
+  width: 100%;
+  min-width: 24.25rem;
+  max-width: 26rem;
+  min-height: 47vh;
+  padding: 2rem;
+  background-color: #ffffff80;          /* 50% opacity white */
+  border-radius: .5rem;
+  backdrop-filter: blur(5px);
+}
+```
+
+
+3. STICKY NAVIGATION FORM
+--------------------------
+The navigation bar contains a full mini lead capture form that persists on scroll.
+
+HTML structure:
+```html
+<div class="sticky-nav_container">
+  <form class="webflow-native-form sticky" id="form-main-sticky">
+    <div class="form-field-wrapper">
+      <input class="form-input sticky-form w-input"
+             placeholder="First Name"
+             required />
+    </div>
+    <!-- Additional fields: Last Name, Email, Phone, Zip -->
+    <input type="submit" value="Get My Free Quote" class="button w-button" />
+  </form>
+</div>
+```
+
+CSS for sticky form inputs (different from hero form):
+```css
+.form-input.sticky-form {
+  border-style: none;
+  background-color: var(--color--soft-outline);   /* #f2f3f5 — subtler than white */
+}
+```
+
+When to copy this pattern:
+  - Use a sticky nav form when the primary conversion is a quote/estimate request
+    and the page is long enough that users may scroll past the hero
+  - Keep the sticky form minimal (2–3 fields max) — it competes with nav for space
+  - The sticky form should have the same submit value as the hero form
+
+
+4. FORM — FULL IMPLEMENTATION
+------------------------------
+Complete HTML (hero form):
+
+```html
+<form id="form-main-hero" name="wf-form-Hero-Form" method="get"
+      class="webflow-native-form">
+
+  <!-- Hidden tracking fields (UTM, referrer, location) -->
+  <div class="hiddenfields w-embed">
+    <input type="hidden" value="Painter Bros - Main Site" name="site" />
+    <input type="hidden" value="" class="ppc-source"  name="PPC Source" />
+    <input type="hidden" value="" class="referer"     name="Referer" />
+    <input type="hidden" value="" class="location"    name="Location" />
+  </div>
+
+  <!-- 2-column name row -->
+  <div class="form-field-2col">
+    <div class="form-field-wrapper">
+      <label for="firstname" class="field-label sr-only">First name</label>
+      <input class="form-input hero-form w-input"
+             name="First-Name" placeholder="First Name"
+             type="text" id="firstname" required />
+    </div>
+    <div class="form-field-wrapper">
+      <label for="lastname" class="field-label sr-only">Last name</label>
+      <input class="form-input hero-form w-input"
+             name="Last-Name" placeholder="Last Name"
+             type="text" id="lastname" required />
+    </div>
+  </div>
+
+  <div class="form-field-wrapper">
+    <label for="email" class="field-label sr-only">Email</label>
+    <input class="form-input hero-form w-input"
+           name="Email-Address" placeholder="Email"
+           type="email" id="email" required />
+  </div>
+
+  <div class="form-field-wrapper">
+    <label for="phone" class="field-label sr-only">Phone number</label>
+    <input class="form-input phone_mask hero-form w-input"
+           name="Phone-Number" placeholder="Phone Number"
+           type="tel" id="phone"
+           pattern="^\([2-9]\d{2}\)\s\d{3}-\d{4}$"
+           required />
+  </div>
+
+  <div class="form-field-wrapper">
+    <label for="zipcode" class="field-label sr-only">Zip Code</label>
+    <input class="form-input hero-form w-input"
+           name="Zip-Code" placeholder="Zip Code"
+           type="text" id="zipcode"
+           minlength="5" maxlength="5"
+           pattern="[0-9]{1,5}"
+           required />
+  </div>
+
+  <!-- Residential / Commercial qualifier -->
+  <div class="radio-group form-field-2col">
+    <label class="radio-button-wrapper w-radio">
+      <input type="radio" name="Type" value="Residential"
+             class="w-form-formradioinput radio-button w-radio-input" required />
+      <span class="radio-text w-form-label">Residential</span>
+    </label>
+    <label class="radio-button-wrapper w-radio">
+      <input type="radio" name="Type" value="Commercial"
+             class="w-form-formradioinput radio-button w-radio-input" required />
+      <span class="radio-text w-form-label">Commercial</span>
+    </label>
+  </div>
+
+  <input type="submit" class="button max-width-full w-button"
+         value="Get My Free Quote" />
+</form>
+```
+
+Form input CSS:
+```css
+.form-input {
+  border: 1px solid var(--color--soft-outline);    /* #f2f3f5 */
+  background-color: var(--color--white);
+  color: var(--color--black);
+  margin-bottom: 0;
+  font-size: .8rem;
+  line-height: 1.2;
+}
+
+.form-input:focus {
+  border-color: var(--color--is-accent);           /* Gold #fdcb33 on focus */
+}
+
+.form-input::placeholder {
+  color: var(--color--text);                       /* #6e7172 */
+  font-size: .8rem;
+}
+
+.form-input.hero-form {
+  border-color: var(--color--divider);             /* #d9dbde */
+  background-color: var(--color--white);
+  height: 2.5rem;                                  /* 40px */
+  padding-left: 17px;
+}
+```
+
+2-column form row:
+```css
+.form-field-2col {
+  grid-column-gap: 7px;
+  grid-row-gap: 7px;
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+}
+```
+
+Labels use `sr-only` class — visually hidden, accessible to screen readers.
+Pattern: labels ALWAYS exist for accessibility. `placeholder` is not a substitute for `<label>`.
+
+Key form decisions:
+  - Zip code field: routes lead to correct local franchise
+  - Residential/Commercial radio: qualifies lead type before submission
+  - Phone pattern: `^\([2-9]\d{2}\)\s\d{3}-\d{4}$` — US format with masking
+  - Hidden fields capture UTM source, referrer, location — all pre-filled via JS
+
+
+5. TYPOGRAPHY
+-------------
+Font loading (Google Web Font API):
+```html
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script type="text/javascript">
+WebFont.load({
+  google: {
+    families: ["Barlow Semi Condensed:300,400,500,600,700",
+               "Poppins:300,400,500,600,700"]
+  }
+});
+</script>
+```
+
+CSS variables:
+```css
+--font--body:    Poppins, sans-serif;
+--font--heading: "Barlow Semi Condensed", sans-serif;
+
+/* Type scale */
+--font--text-6xl:  3rem;      /* 48px — H1 */
+--font--text-4xl:  2.5rem;    /* 40px — H2 */
+--font--text-2xl:  2rem;      /* 32px — H3 */
+--font--text-xl:   1.5rem;    /* 24px — H4 */
+--font--text-lg:   1.25rem;   /* 20px — H5 */
+--font--text-md:   1.125rem;  /* 18px — H6 */
+--font--text-base: 1rem;      /* 16px — body */
+--font--text-sm:   .875rem;   /* 14px — small */
+--font--text-xs:   .75rem;    /* 12px — tiny */
+```
+
+H1 CSS:
+```css
+h1 {
+  font-family: var(--font--heading);   /* Barlow Semi Condensed */
+  font-size: var(--font--text-6xl);    /* 3rem / 48px */
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+```
+
+Body CSS:
+```css
+body {
+  font-family: var(--font--body);      /* Poppins */
+  color: var(--color--is-primary-black);
+  font-size: .8rem;                    /* 12.8px — small body intentional */
+  line-height: 1.6;
+}
+```
+
+Typography logic:
+  - Barlow Semi Condensed (condensed heading font) creates high visual weight at large sizes
+    without requiring extreme pixel sizes — useful for service site heroics
+  - Poppins (geometric sans) for body — clean, modern, high legibility at small sizes
+  - 12.8px body text is intentionally small — lets headings dominate visually
+  - No decorative fonts. Heading condensed sans + body geometric = professional service standard.
+
+Font pairing to copy:
+  [Condensed heading font (Barlow, Oswald, or similar)] + [Geometric body font (Poppins, DM Sans)]
+  This pairing is the default "professional local service" typographic choice — use it when
+  the business needs to feel credible without being corporate.
+
+
+6. COLOR SYSTEM — EXACT VALUES
+-------------------------------
+```css
+:root {
+  /* Primary — Navy blues */
+  --color--is-primary-black: #0b1e33;    /* Dark navy — main text */
+  --color--is-primary-dark:  #07304c;    /* Darker navy */
+  --color--is-primary:       #094d80;    /* Medium navy — borders */
+  --color--is-primary-light: #0d6cb4;    /* Bright blue — primary buttons */
+
+  /* Accent — Gold */
+  --color--is-accent:        #e9a92f;    /* Gold — secondary accent */
+  --color--is-accent-light:  #fdcb33;    /* Lighter gold — CTA buttons */
+
+  /* Neutrals */
+  --color--white:            #ffffff;
+  --color--light-gray:       #f7f8fa;    /* Very light — section bg */
+  --color--text:             #6e7172;    /* Gray — body copy */
+  --color--divider:          #d9dbde;    /* Light gray — borders */
+  --color--soft-outline:     #f2f3f5;    /* Ultra-light — form borders */
+  --color--white-smoke:      #ededef;
+}
+```
+
+Color usage:
+  Blue   `#0d6cb4` — Primary buttons, interactive elements. Trust, reliability.
+  Gold   `#fdcb33` — Accent CTAs and hover states. Warmth, call to action.
+  Navy   `#0b1e33` — Primary text. Authority without being harsh pure black.
+  Gray   `#6e7172` — Body copy. Readable without competing with headings.
+
+Color psychology for local service:
+  Blue/navy = licensed, insured, professional, trustworthy (counters fly-by-night perception)
+  Gold = premium, warm, call-to-action energy (not alarming like red)
+  This combination is the "trusted local professional" signal. Works for: painting, plumbing,
+  HVAC, roofing, electrical, remodeling.
+
+
+7. BUTTON SYSTEM — FULL CSS
+-----------------------------
+Base button:
+```css
+.button {
+  border: 2px solid var(--color--is-primary-light);
+  background-color: var(--color--is-primary-light);  /* Blue */
+  color: var(--color--white);
+  text-align: center;
+  cursor: pointer;
+  border-radius: .25rem;
+  justify-content: center;
+  align-items: center;
+  padding: .825rem 1.25rem;        /* 13.2px 20px */
+  font-size: .8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: all .2s;
+  display: flex;
+}
+
+.button:hover {
+  color: var(--color--white);
+  transform: scale(1.025);          /* Subtle scale — not dramatic */
+}
+
+.button:focus {
+  outline-color: var(--color--is-accent);
+  outline-offset: 2px;
+  outline-width: 2px;
+  outline-style: solid;
+}
+```
+
+Accent (gold) variant:
+```css
+.button.is-accent {
+  border-color: var(--color--is-accent-light);      /* #fdcb33 */
+  background-color: var(--color--is-accent-light);
+  color: var(--color--is-primary-black);            /* Dark text on light bg */
+}
+```
+
+Small variant:
+```css
+.button.is-small {
+  padding: .5rem 1rem;
+}
+```
+
+Phone link button:
+```css
+.link-phone {
+  font-family: var(--font--heading);   /* Barlow Semi Condensed */
+  flex-flow: column;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: color .2s;
+  display: inline-flex;
+}
+
+.link-phone.is-alternate {
+  color: var(--color--white);
+  font-weight: 600;
+}
+
+.link-phone.is-alternate.is-small {
+  font-size: 1.5rem;
+}
+```
+
+Phone tel: link HTML:
+```html
+<a href="tel:+18445092313" class="link-phone is-alternate is-small w-inline-block">
+  <div class="link-phone-local">844-509-2313</div>
+</a>
+```
+
+Note: `.link-phone-local` class is targeted by JavaScript to swap in local franchise number.
+The `href` attribute is also updated by JS: `link.setAttribute('href', 'tel:' + localNumber)`.
+
+
+8. LOCATION PERSONALIZATION — JAVASCRIPT
+-----------------------------------------
+The most technically distinctive pattern on the site. Every franchise location has a
+hidden `.loc` element with data attributes. JS reads zip codes, matches them to the
+user's input (or geolocation), and personalizes phone numbers and copy.
+
+Location data element (hidden):
+```html
+<div class="loc"
+     data-city="Denver"
+     data-state="Colorado"
+     data-phone="720-555-1234"
+     data-zips="80201,80202,80203"
+     data-franchiseid="loc-123">
+</div>
+```
+
+Personalization JavaScript (simplified from source):
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Build city index from all .loc elements
+  const cityIndex = {};
+  document.querySelectorAll('.loc').forEach(n => {
+    const city  = (n.dataset.city  || '').trim();
+    const phone = (n.dataset.phone || '').trim();
+    const zips  = (n.dataset.zips  || '').split(',');
+
+    if (!cityIndex[city]) {
+      cityIndex[city] = { phone, zips: new Set() };
+    }
+    zips.forEach(z => cityIndex[city].zips.add(z.trim()));
+  });
+
+  // Swap all phone links to local number
+  function updatePhoneLinks(phoneNumber) {
+    document.querySelectorAll('.link-phone-local').forEach(link => {
+      link.textContent = phoneNumber;
+      link.setAttribute('href', `tel:${phoneNumber.replace(/\D/g, '')}`);
+    });
+  }
+
+  // Match zip code to city, update page
+  function matchZip(zip) {
+    for (const [city, data] of Object.entries(cityIndex)) {
+      if (data.zips.has(zip)) {
+        updatePhoneLinks(data.phone);
+        // Optionally update city name in copy
+        document.querySelectorAll('.city-name').forEach(el => {
+          el.textContent = city;
+        });
+        break;
+      }
+    }
+  }
+
+  // Called when user submits zip code in form
+  const zipInput = document.querySelector('#zipcode');
+  if (zipInput) {
+    zipInput.addEventListener('blur', () => matchZip(zipInput.value));
+  }
+});
+```
+
+Hidden tracking fields (auto-filled on form submit):
+```javascript
+// UTM parameter capture
+const urlParams = new URLSearchParams(window.location.search);
+document.querySelector('.ppc-source').value  = urlParams.get('utm_source') || '';
+document.querySelector('.referer').value     = document.referrer || '';
+document.querySelector('.location').value    = detectedCity || '';
+```
+
+When to copy this pattern:
+  - Any business with multiple locations where phone numbers differ
+  - Multi-location service businesses (multiple cities)
+  - Franchise networks
+
+
+9. IMAGE LOADING STRATEGY
+--------------------------
+Hero background image:
+```html
+<img src="painters-hero.webp"
+     loading="lazy"
+     width="1920"
+     height="1080"
+     alt="Painterbros painting a room"
+     srcset="...500w, ...800w, ...1080w, ...1600w, ...1920w"
+     sizes="(max-width: 1919px) 100vw, 1920px"
+     class="image-cover hero-image" />
+```
+
+Hero image preloading (JS — prevents hero flash):
+```javascript
+window.addEventListener('DOMContentLoaded', () => {
+  const imageElement = document.querySelector('.image-cover.hero-image');
+  if (imageElement) {
+    const preloadLink = document.createElement('link');
+    preloadLink.rel   = 'preload';
+    preloadLink.href  = imageElement.src;
+    preloadLink.as    = 'image';
+    document.head.appendChild(preloadLink);
+  }
+});
+```
+
+Format: All images served as WebP.
+Responsive: 5-point srcset (500w, 800w, 1080w, 1600w, 1920w).
+Lazy loading on hero image with JS preload — lazy prevents render-blocking, JS preload
+ensures the hero image loads early enough to avoid flash.
+
+
+10. STATS / TRUST STRIP — HTML
+--------------------------------
+```html
+<div class="stats-wrapper">
+
+  <div class="stats_text-wrapper">
+    <div class="u-flex-horizontal-nowrap dark-35">
+      <div fb-count="true" class="stats_title heading-style-h2">500</div>
+      <div class="stats_title heading-style-h2">+</div>
+    </div>
+    <div class="text-size-small">Google Reviews</div>
+  </div>
+
+  <div class="vertical-divider background-color-white"></div>
+
+  <div class="stats_text-wrapper">
+    <div class="u-flex-horizontal-nowrap">
+      <div fb-count="true" class="stats_title heading-style-h2">4.2</div>
+      <div class="stats_title heading-style-h2">+</div>
+    </div>
+    <div class="review-star-rating_wrapper text-color-accent">
+      <!-- 4 full SVG stars + 1 half SVG star, filled with currentColor (#fdcb33) -->
+      <svg viewBox="0 0 18 17" fill="currentColor">
+        <path d="M8.16379 0.551109..."/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="vertical-divider background-color-white"></div>
+
+  <div class="stats_text-wrapper">
+    <div class="u-flex-horizontal-nowrap">
+      <div fb-count="true" class="stats_title heading-style-h2">100</div>
+      <div class="stats_title heading-style-h2">k+</div>
+    </div>
+    <div class="text-size-small">Jobs Completed</div>
+  </div>
+
+</div>
+```
+
+`fb-count="true"` attribute: targets elements for an animated count-up on scroll.
+Stars use inline SVG with `fill="currentColor"` + a gold color class — stars scale and
+theme correctly with CSS without separate icon files.
+
+
+11. SCHEMA MARKUP (JSON-LD)
+-----------------------------
+Note: LocalBusiness schema exists in the source but is COMMENTED OUT in production:
+```html
+<!-- UNCOMMENT TO USE
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Painter Bros",
+  "telephone": "+18445092313",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "...",
+    "addressLocality": "...",
+    "postalCode": "..."
+  }
+}
+</script>
+-->
+```
+
+This is a QA failure — the schema is written but not active. For any local service build,
+this must be uncommented and completed with real values before launch.
+
+
+12. NAVIGATION — HTML & CLASSES
+---------------------------------
+```html
+<nav role="navigation" class="navbar1_menu-primary w-nav-menu">
+  <div class="display-flex height-100">
+
+    <!-- Dropdown item -->
+    <div data-hover="true" data-delay="0"
+         class="navbar1_menu-dropdown w-dropdown">
+      <div class="navbar1_dropdown-toggle w-dropdown-toggle">
+        <a href="/residential" class="navbar1_link-wrapper toggle w-inline-block">
+          <div class="navbar1_link-text">Residential</div>
+        </a>
+        <div class="dropdown-icon w-embed">
+          <!-- Chevron down SVG -->
+        </div>
+      </div>
+      <nav class="navbar1_dropdown-list w-dropdown-list">
+        <a href="/residential/interior-painting"
+           class="navbar1_dropdown-link mega">Interior Painting</a>
+        <a href="/residential/exterior-painting"
+           class="navbar1_dropdown-link mega">Exterior Painting</a>
+      </nav>
+    </div>
+
+  </div>
+</nav>
+```
+
+Nav items: Residential, Commercial, About Us, Reviews, Financing,
+           Work for Painter Bros, Franchising, Customer Login
+
+Dual-audience nav routing (similar to HITT):
+  - "Work for Painter Bros" and "Franchising" are peer nav items alongside service items
+  - No secondary nav tier — all audiences are in the primary nav
+  - Contrast with HITT: here the audiences are co-equal in a single nav tier
+
+Mobile nav button:
+```css
+.navbar1_menu-button {
+  float: right;
+  cursor: pointer;
+  padding: 18px;
+  display: block;
+}
+```
+
+
+13. RESPONSIVE BREAKPOINTS
+----------------------------
+```css
+/* Tablet */
+@media screen and (max-width: 991px) {
+  /* Grid adjustments, nav collapses */
+}
+
+/* Small tablet / large mobile */
+@media screen and (max-width: 767px) {
+  /* Single column stacking */
+}
+
+/* Mobile */
+@media screen and (max-width: 479px) {
+  .hide-mobile { display: none !important; }
+  /* Hero form stacks to full width */
+  /* Sticky form takes priority */
+}
+```
+
+Mobile-specific behavior:
+  - Hero splits to single column (form below copy on mobile)
+  - Sticky nav form becomes the primary capture point on mobile
+  - Form grid (2-col name row) collapses to single column on mobile
+  - Phone CTA displayed prominently on mobile (larger tap target)
+
+
+14. THIRD-PARTY INTEGRATIONS
+------------------------------
+Google Tag Manager: GTM-MDJWC7ZD
+Google Site Verification: present in meta
+Facebook Domain Verification: present in meta
+Twilio Domain Verification: present in meta (for SMS/call tracking)
+Webflow native forms (webflow-native-form class)
+
+Twilio integration is significant:
+  - Painter Bros uses call tracking to attribute incoming calls to specific marketing channels
+  - Phone numbers on the site may be dynamically replaced by Twilio tracking numbers
+  - The `.link-phone-local` pattern also supports Twilio number injection
+
+
+15. WHAT MAKES IT FEEL LIKE A FRANCHISE LOCAL SERVICE SITE
+------------------------------------------------------------
+1. Three simultaneous lead capture points (sticky nav, hero form, mid-page CTA)
+2. Phone number displayed multiple times, large, as a primary CTA
+3. Location selector ("Find Your Local Painter Bros") prominently placed
+4. Zip code qualification field in every form
+5. Dynamic city name insertion in copy via JS
+6. Partner logo strip (Sherwin Williams) signals national brand credibility
+7. Service area specificity (zip-based routing to franchise)
+8. "Franchising" nav item — franchise opportunity marketing is integrated, not hidden
+9. Review counts visible above fold (500+, 4.2 stars)
+10. "Licensed & Insured" messaging
+
+What franchise service sites do differently than independent local service sites:
+  - More aggressive lead capture (multiple forms, sticky nav form)
+  - Phone-first (not form-first) on mobile
+  - Location routing built into every interaction
+  - Partner/brand credibility (national brand associations)
+  - Review aggregation (500+ across all locations vs. 65+ for one location)
+
+
+16. PATTERNS TO COPY — PRIORITY ORDER
+---------------------------------------
+
+FOR ANY LOCAL SERVICE BUSINESS (painting, remodeling, landscaping):
+
+Hero split layout (form RIGHT, copy LEFT):
+  Use when: primary conversion is a quote/estimate request.
+  The form should be visible without scrolling. Don't put it below the fold.
+  Glassmorphism panel: `background-color: rgba(255,255,255,0.5); backdrop-filter: blur(5px)`
+  Grid: `grid-template-columns: 1fr minmax(24rem, .5fr)`
+
+Service type radio in form:
+  Always include Residential/Commercial split if the business serves both.
+  This qualifies the lead before it hits the CRM and routes it correctly.
+
+Zip code as required field:
+  Enables location routing for multi-location businesses.
+  Even for single-location businesses: confirms the lead is in the service area
+  before the owner invests time in a quote call.
+
+Phone tel: link pattern:
+  ```html
+  <a href="tel:+15035550000">(503) 555-0000</a>
+  ```
+  Display the number as text AND link it. Never make a user copy-paste a phone number.
+
+Stats strip after hero:
+  500+ reviews | 4.2 stars | 100k+ jobs
+  Three stats, separated by vertical dividers. Inline SVG stars (not icon font).
+  Visible above first scroll. Directly reinforces hero claims.
+
+Hidden tracking fields:
+  Always include UTM source, referrer, and location in hidden form fields.
+  Essential for attributing which marketing channel generates leads.
+  ```html
+  <input type="hidden" class="ppc-source" name="PPC Source" />
+  <input type="hidden" class="referer"    name="Referer" />
+  ```
+
+FOR MULTI-LOCATION BUSINESSES:
+  Location JS personalization pattern:
+  Data attributes on hidden `.loc` elements → JS builds zip-to-phone index →
+  Zip input on blur triggers phone number swap across all `.link-phone-local` elements.
+  This keeps the static site dynamic without a CMS or server-side rendering.

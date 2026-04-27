@@ -1,0 +1,58 @@
+export const reviews = [
+  {
+    id: 1,
+    name: 'Sandra K.',
+    location: 'Markham',
+    rating: 5,
+    date: '2025-11-12',
+    text: 'Called at 11pm for a burst pipe under the kitchen sink. The plumber arrived in under an hour, had everything fixed by 1am, and the price was exactly what they quoted on the phone. No surprises. Will absolutely call again.',
+    service: 'Emergency Plumbing',
+  },
+  {
+    id: 2,
+    name: 'David L.',
+    location: 'Unionville',
+    rating: 5,
+    date: '2025-10-28',
+    text: 'Used Mr. Rooter for a main drain backup. They came the same day, ran a camera down the line, and showed me exactly what the problem was before quoting. Cleared the blockage and the price was fair. Honest company.',
+    service: 'Drain Cleaning',
+  },
+  {
+    id: 3,
+    name: 'Michelle T.',
+    location: 'Stouffville',
+    rating: 5,
+    date: '2025-12-03',
+    text: 'Water heater stopped working on a Friday evening. Had a new one installed by Saturday afternoon. The technician was professional, explained everything, and cleaned up completely before leaving. Highly recommend.',
+    service: 'Water Heater',
+  },
+  {
+    id: 4,
+    name: 'James R.',
+    location: 'Markham',
+    rating: 5,
+    date: '2026-01-15',
+    text: 'Had them install a backwater valve and sump pump. They helped us with the Markham rebate application too. Took a full day but the crew was tidy and professional. No overtime charges even though the job ran late.',
+    service: 'Backwater Valve',
+  },
+  {
+    id: 5,
+    name: 'Patricia M.',
+    location: 'Richmond Hill',
+    rating: 5,
+    date: '2026-02-08',
+    text: 'Third time using this company in five years. Consistent service every time — they show up when they say they will, tell you the price upfront, and do the job right. That\'s all you want from a plumber.',
+    service: 'Sewer Line',
+  },
+  {
+    id: 6,
+    name: 'Kevin C.',
+    location: 'Markham',
+    rating: 4,
+    date: '2025-09-20',
+    text: 'Good service overall. They were upfront about the cost and fixed the sewer blockage without any issues. Arrived within the window they gave me. Would use again.',
+    service: 'Drain Cleaning',
+  },
+] as const
+
+export type Review = (typeof reviews)[number]

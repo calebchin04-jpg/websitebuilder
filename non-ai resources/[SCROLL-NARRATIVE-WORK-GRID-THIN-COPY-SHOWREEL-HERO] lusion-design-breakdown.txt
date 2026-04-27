@@ -1,0 +1,159 @@
+LUSION DESIGN BREAKDOWN
+Source: https://lusion.co/
+Analyzed: 2026-04-05
+==================================================
+
+CONTEXT
+--------
+Lusion is a creative studio specializing in 3D visual storytelling and interactive web experiences.
+This site is a strong reference for:
+- Agency/studio portfolio positioning
+- Using the site itself as the primary work sample
+- Selling high-end creative services through demonstration, not description
+- Scroll-driven narrative structure for service businesses
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Vertical scrolling narrative — each section functions as a chapter in a story the studio
+is telling about itself and its work.
+
+Fixed header with: Home / About / Projects / Labs (sticky) / Contact CTA
+Scroll prompts ("scroll to explore," "continue to scroll") guide pacing.
+
+Section order:
+  Nav → Hero (value prop + methodology) → Featured Work Grid → Philosophy Statement
+  → Final CTA Section → Footer
+
+Lean section count — the work does the talking, not the structure.
+
+
+2. HERO SECTION FORMULA
+------------------------
+Structure: Direct capability statement + methodology subhead + scroll prompt
+
+Headline: "We create 3D visual storytelling and interactive web experiences
+           that help brands stand out."
+
+Subhead: "Bold Ideas, Brought to Life" — then expands to explain the blend of
+         "design, motion, 3D, and development"
+
+- The headline is a precise service description, not a vague aspiration
+- No stats, no logos, no proof in the hero — the site itself is the proof
+- "Scroll to explore" replaces a CTA — the invitation is to experience, not to act
+
+Key philosophy divider mid-page: "Where Creative Ideas Become Immersive Experiences"
+— used as a section break, not a headline; it's ambient brand language
+
+Formula to copy (for creative studios/agencies):
+  [Specific capability] + [Client outcome] → scroll / explore (not buy / contact)
+  Save the "let's talk" for after the work has been seen.
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+- High-contrast weight pairing: large heavy display headlines + lighter body copy
+- Display text anchors each section — the typographic hierarchy IS the navigation
+- No identified custom font (unlike Pangram or Sushism) — the motion and 3D work
+  carry the brand weight, not the typeface
+- Typography is functional, not expressive — it gets out of the way of the visuals
+- Large section dividers in display weight create breathing room between portfolio pieces
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+- Modular section spacing — each work piece gets room to breathe
+- "Scroll to explore" and "continue to scroll" prompts mark natural pause points —
+  the rhythm is taught, not assumed
+- Work grid uses consistent card taxonomy — project name + medium tags
+  ("web • design • development • 3d • web3")
+- The rhythm is: wide hero → dense work grid → single philosophy statement → CTA
+  — compression followed by release, then re-compression
+
+
+5. CTA PLACEMENT
+-----------------
+Location                   | CTA                                      | Purpose
+-------------------------- | ---------------------------------------- | -------------------
+Header (always visible)    | "Contact" (hello@lusion.co)             | Always accessible
+After work grid            | "See all projects"                       | Catalog depth signal
+Final section              | "Is Your Big Idea Ready to Go Wild?      |
+                           |  Let's work together!"                   | Emotional close
+Footer                     | "Our Approach" / newsletter / social     | Recovery + relationship
+
+Key pattern: The contact CTA is an email address — direct, no form, no intermediary.
+This signals confidence: they don't need a lead funnel, they field real inquiries.
+
+The final section CTA is the most interesting: "Is Your Big Idea Ready to Go Wild?"
+— it qualifies the lead emotionally. It's not asking "ready to hire us?" but
+"is your idea at the right level for us?" — subtle but powerful positioning.
+
+
+6. TRUST-BUILDING ELEMENTS
+---------------------------
+- Portfolio showcasing 8+ named projects: Devin AI, Porsche, Meta — immediate tier signal
+- Project tags reveal capability range: "web • design • development • 3d • web3"
+  — the taxonomy itself is the trust signal (technical breadth + creative depth)
+- "Play Reel" video embed — the showreel is the resume
+- Labs section (sticky nav link) signals R&D culture, not just client service
+- No testimonials, no star ratings, no client logos carousel — the client names embedded
+  in portfolio cards carry more weight than a logo strip
+
+Trust approach: work quality + client tier + capability range.
+The portfolio IS the testimonial. Named clients like Porsche and Meta need no star rating.
+
+
+7. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- "Labs" as a sticky nav item signals an experimental culture beyond client work —
+  a studio that makes things for the sake of making them is more credible than one that only serves clients
+- The showreel ("Play Reel") is front and center — confidence to let moving work speak first
+- Project taxonomy tags ("mograph," "web3," "3d") are industry-specific shorthand —
+  written for peers and sophisticated clients, not general audiences
+- The final CTA "Is Your Big Idea Ready to Go Wild?" — this is qualifying language,
+  not begging language; only a studio confident in demand uses it
+- "Scroll to explore" / "continue to scroll" prompts are hospitality instinct applied to portfolio UX
+- The site uses motion and 3D as the primary visual language — you can't fake this with a template
+- Newsletter offered multiple times — building an audience, not just a client list
+
+
+8. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- The headline formula: "[Specific capability] that help [specific client type] [specific outcome]"
+  — no vague "we build beautiful experiences" copy
+- Capability taxonomy tags on portfolio/service cards — helps viewers self-sort
+  ("this is what they do, this is what I need")
+- "Labs" or equivalent section for any client with side projects, R&D, or personal work —
+  signals intellectual depth beyond just commercial output
+- Showreel / demo video as a primary trust element instead of testimonials
+- Qualifying CTA language: "Is your [X] ready for [Y]?" — pre-qualifies leads and
+  signals the client is selective, not desperate
+- Email-as-CTA for high-end service clients (no form, no calendar link) —
+  only works if the client has genuine inbound demand
+- Work-first structure: show the portfolio before the "about" or "services" copy
+- Scroll prompts at non-obvious transition points
+
+
+9. WHAT NOT TO COPY TOO LITERALLY
+-----------------------------------
+- The near-zero copy approach — works because the work is visually overwhelming;
+  for clients without world-class portfolio pieces, more explanation is needed
+- The email-only contact CTA — kills conversion for clients who need volume leads
+- The "no client logos" trust approach — Porsche and Meta embedded in portfolio cards
+  carry themselves; unknown clients need the logo strip
+- The "Labs" section — hollow without genuine experimental output; don't recommend
+  it for clients who won't maintain it
+- The qualifying/gatekeeping CTA tone — only credible if the studio genuinely has
+  more demand than capacity; sounds arrogant otherwise
+
+
+TL;DR
+------
+Lusion's site makes one argument from start to finish: look at what we make.
+Everything — structure, copy, CTAs, typography — is subordinate to the work.
+
+The lesson for agency/studio clients: if the work is exceptional, the site's job
+is to get out of its way. Thin copy, minimal sections, work-first structure,
+direct contact. The portfolio earns the inquiry; the site just delivers it.
+
+Confidence is the design system.

@@ -1,0 +1,516 @@
+BELMONT UNIVERSITY CAMPUS MAP DESIGN BREAKDOWN
+Source: https://www.belmont.edu/campus-map/
+Analyzed: 2026-04-17
+Platform: Custom campus mapping system (Concept3D or equivalent)
+==================================================
+
+CONTEXT
+--------
+The Belmont University campus map is a strong reference for one specific web UI pattern:
+a fully interactive map canvas with marker-click info panels, a slide-in directions sidebar,
+and multi-mode routing (walk, bike, drive, transit). The campus context is irrelevant —
+the UX pattern translates directly to any local business that needs to help visitors
+find their location and plan their arrival.
+
+This site is a strong reference for:
+- Pan / scroll / zoom map canvas with scroll-hijack prevention
+- Marker click → popup info card (name, address, phone, hours, "Get Directions")
+- Slide-in directions panel with origin input + travel mode tabs
+- Turn-by-turn step list with maneuver icons
+- Multi-mode routing: walking, biking, driving, transit (with accessible route toggle)
+- "Click to enable scroll zoom" UX discipline to prevent scroll interference
+- Geolocation-based routing entry point (user's location as origin)
+- Custom branded map controls replacing default library controls
+
+This pattern should be used when:
+- The business has a physical location visitors need to reach
+- The contact page has an address but no interactive "find us" section
+- The business category implies in-person visits (service businesses, restaurants,
+  medical offices, retail, event venues, studios)
+
+Do NOT use this pattern when:
+- The business is fully remote / no physical location
+- The site already embeds a Google Maps iframe (iframe is a downgrade in UX terms)
+- The page is already conversion-heavy — the map adds length and should go after the form
+
+
+1. LAYOUT STRUCTURE
+--------------------
+Page rendering order on a contact or "find us" page:
+
+  Hero / page header (breadcrumb + headline)
+  → Contact form + sidebar (primary conversion zone)
+  → [MAP SECTION] — comes AFTER the form, never before
+  → Footer
+
+The map section itself:
+
+  Section heading: "Find Us" (h2, not a marketing headline)
+  Address + phone line (plain text — the map restates these visually)
+  → Map container [relative position wrapper]
+       → Leaflet MapContainer [fills 100% of wrapper height]
+            → TileLayer (OpenStreetMap)
+            → Business marker (custom SVG divIcon)
+            → Marker Popup (name, address, phone, hours, CTA button)
+            → Route Polyline (drawn on directions fetch)
+            → DirectionsPanel (absolute, left-anchored, full height of wrapper)
+            → MapControls (+/−/recenter, absolute, right-anchored)
+            → ScrollWheelActivator (invisible event listener component)
+  Scroll-hint badge (centered, bottom of map, fades once map is clicked)
+
+CRITICAL: The map wrapper uses `position: relative` so the DirectionsPanel's
+`position: absolute` is scoped to the map, not the viewport. The panel overlays
+the map — it does not push map content or appear outside the map boundaries.
+
+
+2. THE PAN / SCROLL / ZOOM PATTERN
+-------------------------------------
+This is the most important UX mechanic to get right. Two conflicting interactions:
+  - Page scroll (user scrolling through the page)
+  - Map scroll zoom (user scrolling while hovering the map)
+
+Default Leaflet behavior: scrolling over the map zooms it. This hijacks the page
+scroll and frustrates users who aren't trying to interact with the map.
+
+**The Belmont pattern (and correct solution):**
+
+  1. Initialize the map with `scrollWheelZoom: false` (disabled by default)
+  2. On first click anywhere in the map container, enable scroll zoom
+  3. Show a visible hint badge at map bottom: "Click map to enable scroll zoom"
+  4. Once clicked, the badge can fade or remain (Belmont keeps a subtle hint)
+
+Implementation in react-leaflet (Tailwind + Next.js):
+
+```tsx
+// MapView.tsx
+function ScrollWheelActivator() {
+  const map = useMapEvents({
+    click() {
+      map.scrollWheelZoom.enable()
+    },
+  })
+  return null
+}
+
+<MapContainer
+  center={[lat, lng]}
+  zoom={15}
+  scrollWheelZoom={false}     // disabled until click
+  zoomControl={false}          // hide default controls (use custom ones)
+>
+```
+
+```tsx
+// Hint badge — absolute overlay inside the relative wrapper
+<div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[999] pointer-events-none">
+  <span className="bg-black/50 text-white text-[10px] px-2.5 py-1 rounded-full
+                   backdrop-blur-sm select-none">
+    Click map to enable scroll zoom
+  </span>
+</div>
+```
+
+Touch behavior: Leaflet handles pinch-to-zoom and swipe-to-pan natively on touch
+devices. No additional code needed. The scroll-wheel concern is desktop-only.
+
+Pan behavior: native to Leaflet — click-drag to pan, no configuration needed.
+
+Map bounds (optional): use `maxBounds` on MapContainer to prevent the user from
+panning so far they lose the business marker. Set to ±0.05 lat/lng around the
+business location for a loose constraint.
+
+
+3. CUSTOM MAP CONTROLS
+------------------------
+Replace Leaflet's default zoom controls (which inherit Leaflet CSS styles that fight
+with Tailwind) with a custom component using `useMap()` from react-leaflet.
+
+```tsx
+// MapControls.tsx — must be a child of MapContainer to use useMap()
+function MapControls({ center, zoom }) {
+  const map = useMap()
+  return (
+    <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-1">
+      <button onClick={() => map.zoomIn()} aria-label="Zoom in"
+        className="w-9 h-9 bg-white rounded-lg shadow-md border border-gray-200
+                   flex items-center justify-center text-gray-700 hover:bg-gray-50
+                   font-bold text-lg transition-colors">+</button>
+      <button onClick={() => map.zoomOut()} aria-label="Zoom out"
+        className="w-9 h-9 bg-white rounded-lg shadow-md border border-gray-200
+                   flex items-center justify-center text-gray-700 hover:bg-gray-50
+                   font-bold text-lg transition-colors">−</button>
+      <button onClick={() => map.setView(center, zoom)} aria-label="Re-center map"
+        className="w-9 h-9 bg-white rounded-lg shadow-md border border-gray-200
+                   flex items-center justify-center text-gray-700 hover:bg-gray-50
+                   transition-colors mt-1">
+        {/* compass/target SVG icon */}
+      </button>
+    </div>
+  )
+}
+```
+
+Position: `absolute top-3 right-3 z-[1000]` — Leaflet's own tile layer sits at z-index
+~400; popups at ~700; controls at z-index 1000 clears everything cleanly.
+
+Important: call `map.zoomControl.remove()` inside a useEffect in any child component
+(such as BusinessMarker) to suppress the default control before rendering the custom one.
+Do not use `zoomControl={false}` alone — the default control may still flash briefly.
+
+
+4. THE BUSINESS MARKER AND POPUP
+----------------------------------
+Leaflet's default blue pin icon is an external PNG that breaks in Next.js SSR contexts.
+Replace it with a `divIcon` rendering an inline SVG. This eliminates the broken-image
+issue entirely and allows brand color theming.
+
+**Marker pattern:**
+
+```tsx
+const brandPin = (color = '#274720') => L.divIcon({
+  className: '',   // empty string — prevents Leaflet adding its own class
+  html: `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 42" width="32" height="42">
+      <path d="M16 0C7.164 0 0 7.164 0 16c0 10.667 14.222 24.889 15.111 25.778
+               a1.333 1.333 0 0 0 1.778 0C17.778 40.889 32 26.667 32 16 32 7.164 24.836 0 16 0z"
+            fill="${color}"/>
+      <circle cx="16" cy="16" r="6" fill="white"/>
+    </svg>
+  `,
+  iconSize: [32, 42],
+  iconAnchor: [16, 42],    // bottom-center of icon sits at the coordinate
+  popupAnchor: [0, -44],   // popup opens above the icon
+})
+```
+
+iconAnchor math: [width/2, height] — for a 32×42 icon, anchor is [16, 42].
+popupAnchor: set Y to -(iconHeight + 2) so the popup tail clears the pin tip.
+
+**Popup content structure:**
+
+```tsx
+<Popup minWidth={220}>
+  <div className="py-1">
+    <p className="font-bold text-gray-900 text-sm mb-1">{location.name}</p>
+    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`}
+       target="_blank" rel="noopener noreferrer"
+       className="text-xs text-blue-600 hover:underline flex items-center gap-1 mb-1">
+      {location.address}
+      {/* external link icon SVG */}
+    </a>
+    {location.phone && (
+      <a href={`tel:${location.phone.replace(/\D/g, '')}`}
+         className="text-xs text-gray-600 hover:text-gray-900 block mb-1">
+        {location.phone}
+      </a>
+    )}
+    {location.hours && (
+      <p className="text-xs text-gray-500 mb-2">{location.hours}</p>
+    )}
+    <button onClick={onGetDirections}
+      className="mt-1 w-full text-xs font-semibold text-white rounded px-3 py-1.5"
+      style={{ backgroundColor: '#274720' }}>
+      Get Directions →
+    </button>
+  </div>
+</Popup>
+```
+
+The address link opens Google Maps search — this is the correct URL for address lookup
+(not directions). `maps/search/?api=1&query=` is public and does not require an API key.
+
+The phone link: `tel:` links stripped of non-digits. `replace(/\D/g, '')` is the correct
+regex — it removes spaces, dashes, parentheses, and dots.
+
+
+5. THE DIRECTIONS PANEL
+--------------------------
+The panel slides in from the left side of the map container. It is:
+  - `position: absolute` (scoped to the relative map wrapper)
+  - `top: 0 left: 0 h-full w-72` — covers the map from top to bottom on the left
+  - `z-index: 1000` — above tile layers and markers
+  - `bg-white shadow-xl` — visually separates from the map
+
+**Panel sections (top to bottom):**
+
+  [Header]        Branded bg, "Get Directions" label, × close button
+  [To row]        Destination name + address (read-only, shows business)
+  [From input]    Text field for origin address entry
+  [Mode tabs]     Drive | Walk | Bike | Transit — icon + label, 4 equal-width buttons
+  [Go button]     "Get Directions" or "Open in Google Maps →" (transit only)
+  [Error message] Shown below button on geocode/routing failure
+  [Results]       Duration + distance header, then scrollable step list
+
+**Travel mode tab pattern:**
+
+```tsx
+const MODES = [
+  { mode: 'drive', label: 'Drive', icon: '🚗' },
+  { mode: 'walk',  label: 'Walk',  icon: '🚶' },
+  { mode: 'bike',  label: 'Bike',  icon: '🚲' },
+  { mode: 'transit', label: 'Transit', icon: '🚌' },
+]
+
+// Active tab: brand bg + white text
+// Inactive tab: white bg + gray text + gray border
+```
+
+Tab design rule: all 4 tabs are equal width (`flex-1`) so none dominates visually.
+The selected tab uses the site's primary brand color as background — no separate
+"active" color system needed.
+
+**Important UX note from Belmont:** Walking mode is the default because the map's
+primary context is arrival navigation. For business sites, driving mode should be
+the default — visitors are almost always arriving by car.
+
+
+6. ROUTING LOGIC (FREE, NO API KEYS)
+---------------------------------------
+Two-step process: geocode the origin, then fetch the route.
+
+**Step 1: Geocode origin with Nominatim (OpenStreetMap geocoding, free)**
+
+```ts
+const geoRes = await fetch(
+  `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(origin)}&format=json&limit=1`,
+  { headers: { 'Accept-Language': 'en' } }
+)
+const geoData = await geoRes.json()
+// geoData[0].lat, geoData[0].lon
+```
+
+Rate limit: 1 request/second per IP. For single-user interactions on a business site
+this is never reached. Do not use Nominatim for bulk geocoding or autocomplete.
+
+Error handling: if `geoData.length === 0`, the address was not found. Show:
+"Address not found. Try adding a city or zip code." — the zip/city hint resolves
+90% of ambiguous address lookups.
+
+**Step 2: Route with OSRM (OpenStreetMap routing, free)**
+
+```ts
+const profile = { drive: 'driving', walk: 'walking', bike: 'cycling' }[mode]
+const url = `https://router.project-osrm.org/route/v1/${profile}/` +
+            `${originLng},${originLat};${destLng},${destLat}` +
+            `?steps=true&geometries=geojson`
+const routeData = await fetch(url).then(r => r.json())
+```
+
+OSRM coordinate order is [longitude, latitude] — opposite of Leaflet's [lat, lng].
+This is the most common source of bugs. Always pass [lng, lat] to OSRM, [lat, lng] to Leaflet.
+
+Response structure:
+```
+routeData.routes[0].duration        // seconds
+routeData.routes[0].distance        // meters
+routeData.routes[0].geometry        // GeoJSON LineString for the polyline
+routeData.routes[0].legs[0].steps   // array of turn-by-turn steps
+```
+
+Step structure (per step):
+```
+step.maneuver.type                  // "turn", "continue", "roundabout", "depart", "arrive"
+step.maneuver.modifier              // "left", "right", "sharp left", "slight right", etc.
+step.name                           // street name
+step.distance                       // meters
+```
+
+Build instruction string: `${step.maneuver.type} onto ${step.name}` with the type
+humanized (replace hyphens with spaces).
+
+**Draw route on map:**
+
+```ts
+// Remove previous route if exists
+if (routeLayer) map.removeLayer(routeLayer)
+
+// OSRM returns [lng, lat] pairs — Leaflet needs [lat, lng]
+routeLayer = L.polyline(
+  route.geometry.coordinates.map(([lng, lat]) => [lat, lng]),
+  { color: '#274720', weight: 4, opacity: 0.8 }
+).addTo(map)
+
+map.fitBounds(routeLayer.getBounds(), { padding: [40, 40] })
+```
+
+`fitBounds` with `padding: [40, 40]` gives 40px of breathing room around the route.
+Without padding, the route endpoints sit exactly at the viewport edges.
+
+**Transit fallback (Google Maps deep-link):**
+
+```ts
+const url = `https://www.google.com/maps/dir/?api=1` +
+            `&origin=${encodeURIComponent(originAddress)}` +
+            `&destination=${encodeURIComponent(destinationAddress)}` +
+            `&travelmode=transit`
+window.open(url, '_blank', 'noopener')
+```
+
+This opens Google Maps in a new tab with transit directions pre-populated.
+Do not attempt to render transit routes natively — public transit GTFS data requires
+a transit-specific routing engine (OpenTripPlanner, etc.) that is significantly more
+complex to self-host or integrate.
+
+
+7. DURATION AND DISTANCE FORMATTING
+-------------------------------------
+
+```ts
+function metersToMiles(m: number): string {
+  return (m * 0.000621371).toFixed(1) + ' mi'
+}
+
+function secondsToTime(s: number): string {
+  if (s < 3600) return `~${Math.ceil(s / 60)} min`
+  const h = Math.floor(s / 3600)
+  const m = Math.ceil((s % 3600) / 60)
+  return `~${h}h ${m}m`
+}
+```
+
+Always use `Math.ceil` for minutes — rounding up prevents "5 min" when the actual
+time is 5m 58s. Users prefer slightly over-estimated times (less frustrated on arrival)
+over under-estimated times. Prefix with `~` to signal approximate, not exact.
+
+UK/European clients: swap `metersToMiles` for kilometers: `(m / 1000).toFixed(1) + ' km'`.
+
+
+8. TURN STEP DISPLAY
+-----------------------
+
+```tsx
+// DirectionStep.tsx
+const maneuverIcon: Record<string, string> = {
+  'turn-left':        '↰',
+  'turn-right':       '↱',
+  'turn-sharp-left':  '↰',
+  'turn-sharp-right': '↱',
+  'turn-slight-left': '↖',
+  'turn-slight-right':'↗',
+  'continue':         '↑',
+  'roundabout':       '↻',
+  'merge':            '⇢',
+  'depart':           '▶',
+  'arrive':           '⚑',
+}
+
+// Step row layout:
+// [icon 20px] [instruction text + distance below]
+// Alternating bg-white / bg-gray-50 for row readability
+```
+
+Use Unicode arrows, not icon libraries, for maneuver icons. They render identically
+across all platforms, require no asset loading, and never break.
+
+The instruction text can contain HTML (`<strong>` for street names) — render with
+`dangerouslySetInnerHTML` only when the source is OSRM (trusted, not user input).
+
+
+9. SSR GUARD (NEXT.JS REQUIREMENT)
+-------------------------------------
+Leaflet uses `window` and `document` at import time. Server-side rendering will throw:
+`ReferenceError: window is not defined`
+
+Always wrap the entire map component in a dynamic import with `ssr: false`:
+
+```tsx
+// components/sections/BusinessMap/index.tsx
+import dynamic from 'next/dynamic'
+
+const MapView = dynamic(() => import('./MapView').then(m => m.MapView), {
+  ssr: false,
+  loading: () => (
+    <div className="rounded-xl bg-gray-100 border border-gray-200 animate-pulse
+                    flex items-center justify-center" style={{ height: '500px' }}>
+      <span className="text-sm text-gray-400">Loading map…</span>
+    </div>
+  ),
+})
+```
+
+The `loading` state is important — it prevents layout shift while the Leaflet bundle
+loads. Match its height to the map's intended height.
+
+Leaflet CSS must also be imported inside the client component, not in layout.tsx:
+```tsx
+import 'leaflet/dist/leaflet.css'  // inside MapView.tsx (the 'use client' file)
+```
+
+Importing Leaflet CSS in a Server Component (layout.tsx) will cause build warnings
+and may not apply correctly when the component lazy-loads.
+
+
+10. COMPONENT PROPS INTERFACE
+--------------------------------
+
+```ts
+// types.ts — the configurable surface area of the component
+
+interface BusinessLocation {
+  name: string       // "Peak Ridge Remodeling" — shown in popup heading
+  lat: number        // decimal latitude (geocode the address offline)
+  lng: number        // decimal longitude
+  address: string    // "4817 SE Hawthorne Blvd, Portland, OR 97215"
+  phone?: string     // "(503) 847-2291" — formatted for display
+  hours?: string     // "Mon–Fri 8am–6pm · Sat 9am–3pm"
+}
+
+interface BusinessMapProps {
+  location: BusinessLocation           // primary marker
+  extraLocations?: BusinessLocation[]  // additional markers (multi-location businesses)
+  zoom?: number                        // default: 15 (neighborhood level)
+  height?: string                      // default: "500px" (CSS string)
+}
+
+type TravelMode = 'drive' | 'walk' | 'bike' | 'transit'
+```
+
+Zoom level guide:
+  13 = city level (shows surrounding neighborhoods)
+  14 = district level (shows several city blocks)
+  15 = street level (default — shows a few blocks around the business) ← recommended
+  16 = building level (single block, max zoom for most use cases)
+  17+ = interior / parking lot level (use only for large campuses/venues)
+
+
+11. WHAT THIS PATTERN DELIBERATELY AVOIDS
+-------------------------------------------
+- Google Maps embed iframe: zero interactivity, no directions integration, looks generic.
+  The iframe is a downgrade from this pattern in every measurable way except simplicity.
+
+- Google Maps JavaScript API: requires billing account, API key management, and ongoing
+  cost at scale. OSRM + Nominatim + OSM tiles provide identical capability for 99% of
+  business location use cases at zero cost.
+
+- Mapbox: better styling options than OSM tiles but requires an account and token.
+  Only justified when the map is a primary product feature (not a "find us" section).
+
+- Autocomplete on the origin field: Nominatim does not support autocomplete without
+  significant debouncing and rate-limit management. The "Get Directions" button as the
+  trigger is simpler and equally effective.
+
+- Animating the panel in: slide transitions add ~200ms to the perceived interaction
+  without improving usability. The panel appears instantly — users understand the
+  affordance without animation.
+
+- Showing the directions panel on page load: the map should render with only the marker
+  visible. The panel is a secondary mode triggered by user intent ("Get Directions").
+
+
+12. INTEGRATION PLACEMENT RULE
+--------------------------------
+On a contact page, the map section goes AFTER the contact form — never before.
+
+Reason: the form is the conversion action. The map answers a lower-priority question
+("how do I get there?") that is only relevant once the user has already decided to visit.
+Placing the map above the form lets the map absorb attention before the form has been seen.
+
+Section heading: use "Find Us" (functional, not clever). Do NOT use:
+  - "Visit Us" (implies invitation rather than information)
+  - "Our Location" (generic, adds no context)
+  - "Where We Are" (wordy)
+  - Any map emoji in the heading
+
+The address and phone should appear as plain text above the map — the map is a
+visual confirmation of the address, not a replacement for it. Screen readers and
+link-scrapers need the text version.

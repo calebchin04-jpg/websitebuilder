@@ -1,0 +1,225 @@
+MAMMUT EIGER EXTREME — EXPEDITION BAIKAL DESIGN BREAKDOWN
+Source: https://eiger-extreme.mammut.com/en
+Analyzed: 2026-04-05
+==================================================
+
+CONTEXT
+--------
+This is Mammut's campaign microsite for their Eiger Extreme collection, framed around
+pro climber Dani Arnold's expedition to Lake Baikal. It is NOT a standard e-commerce page.
+It is a long-form editorial/narrative microsite where the story earns the product sale.
+
+This site is a strong reference for:
+- Narrative-first product marketing ("story sells, then product")
+- Scroll-driven product reveal within a story context
+- How outdoor/adventure brands justify premium pricing through proof-of-use
+- Hotspot overlays on photography as a product discovery mechanism
+- Athlete-as-endorsement vs. celebrity-as-endorsement
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Modular, scrollable storytelling format. Sections alternate between:
+  - Narrative/atmospheric (expedition story, conditions, athlete biography)
+  - Product showcase (dedicated per-product blocks with specs + shop CTA)
+  - Editorial collage (multi-image tiles, video embeds)
+
+Section order:
+  Blur/Animated Intro → Two-Image Hero Collage → Athlete Info → Environmental Metrics
+  → Product 1 (Eigerjoch Pro Jacket) → Three-Column Image Tiles → Text Interstitial
+  → Full-Width Vertical Image → Horizontal Product Slider → Product 2 (Nordwand Pro Jacket)
+  → Product 3 (Helmet) → Product 4 (Boots) → Products Summary Grid → Next Section CTA
+
+No sidebar. No nav menu cluttering the experience. Full-bleed sections throughout.
+The scroll journey has a clear narrative arc: world → person → conditions → gear.
+
+
+2. HERO SECTION FORMULA
+------------------------
+Structure: Atmospheric background + athlete cutout + location name + expedition stats
+
+- Full-width landscape image (the environment is introduced before the person or product)
+- Foreground cutout of the athlete layered over the background — creates depth
+- Centered heading: "Baikal" — one word, no tagline, no product mention
+- Expedition stats below: Depth (-5030m), Temperature (-40°C), Wind (up to 120 km/h)
+- Product image embedded as a link in the subheading — product enters the story, not the hero
+
+Formula to copy (for outdoor/adventure/performance brands):
+  [Environment establishes stakes] → [Athlete in environment] → [Location as headline]
+  → [Conditions as stats] → [Product enters as the solution, not the focus]
+
+Critical insight: the hero does NOT show a product. The conditions ARE the product pitch.
+By the time a product appears, you already understand why it exists.
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+- Primary: Large, bold Helvetica-adjacent sans-serif — authoritative, not decorative
+- Stats: Bold numerical format with units prominent — data as drama
+  (depth, temperature, wind speed are displayed like instrument readings, not copy)
+- Body copy: Medium weight, left-aligned — editorial/journalistic register
+- Product names: H3 weight within showcase blocks — subordinate to the narrative
+- Labels: Small weight for USP callouts and measurement units
+- No expressive or editorial typeface — the photography and conditions carry the emotion;
+  type remains functional and credible
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+- Full-bleed sections throughout — no visible max-width constraint
+- Generous vertical padding above and below each major content block
+- The rhythm alternates: atmospheric/narrative (wide, slow) → product (structured, detailed)
+  → atmospheric/narrative → product — like breathing in and out
+- Product showcase blocks are denser than narrative blocks — intentional; you've been
+  softened up by the story before the product asks for your attention
+- Product photography is center-aligned with symmetric margins — isolation signals importance
+
+
+5. PRODUCT DISPLAY — THE CORE FOCUS
+-------------------------------------
+
+## The Primary Product Showcase Pattern
+
+Each major product gets a DEDICATED FULL BLOCK with this consistent structure:
+  1. High-resolution portrait product photograph (approx. 1412×2206px)
+     — isolated on neutral/white background, narrow width, extended height
+     — focal point data embedded (x/y coordinates) — the image is always well-composed
+  2. Gender toggle (Men/Women) — switches both photography and shop URL
+  3. Product title as a linked heading (tapping = product page)
+  4. 3–4 rotating USP slides (benefit carousel):
+     - Material name ("Ultra-light Pertex® Quantum Pro")
+     - Function description ("insulated with water-resistant filling")
+     - Performance spec ("Fill power 850 in³ — warmest jacket Mammut offers")
+  5. Vertical gauge/meter visualization showing an environmental metric (temperature, etc.)
+  6. "Shop [Product Name]" CTA button — gender-specific URL
+
+## How the USP Slides Work
+Each slide auto-rotates through benefit statements while the product image stays fixed.
+The product is always visible; the text changes around it.
+This creates the illusion of the product being inspected from multiple angles while
+physically only one image is shown — attention stays on the product, not the copy.
+Zoom factor varies per product image (1.0–1.7) — subtle zoom on the static image
+adds perceived motion without a carousel.
+
+## Hotspot Overlay System
+Hotspots are positioned absolutely over editorial/lifestyle photography using
+x/y pixel coordinate data. A spot on a jacket in a lifestyle photo links directly
+to that product page. The coordinates are baked into the image data — precise.
+
+This means: products are "findable" inside the story photography, not just in
+dedicated showcase blocks. A viewer watching the athlete climb can click on his jacket.
+
+## Transition Triggers Between Products
+- Scroll-based reveal (not hover, not click, not timed auto-advance)
+- Products are separated by narrative/atmospheric sections — story acts as a palate cleanser
+  between product reveals
+- No scroll-jacking detected — native scroll is preserved, transitions happen on scroll entry
+- Lazy loading per section — each product block loads as it enters the viewport
+- Horizontal slider used for secondary products — scroll-triggered carousel
+
+## Product Photography Approach
+- Isolated product shots on neutral background (portrait orientation, no lifestyle context)
+  used for the main showcase blocks — allows the product to be assessed clinically
+- Lifestyle/action shots in editorial collages — emotional context
+- The two types are never mixed in the same block: one shows what it looks like,
+  the other shows why you need it
+- Separate mobile/portrait-oriented image variants — the product photography is
+  re-shot or re-cropped for mobile, not just scaled down
+
+## Product Sequencing Strategy
+The order products appear follows logical on-body layering from outside to inside:
+  Shell jacket → insulation layer → helmet → boots
+This mirrors how you'd actually dress for an extreme mountaineering expedition —
+the site teaches the full system, not just individual items.
+
+
+6. CTA PLACEMENT
+-----------------
+Location                    | CTA                          | Purpose
+--------------------------- | ---------------------------- | -------------------
+Hero subheading             | Embedded product image link  | Soft product intro
+Below each product block    | "Shop [Product Name]"        | Direct purchase
+Products Summary Grid       | Gallery of all products      | Full collection view
+End of page                 | "GORE-TEX PRO Technology"    | Brand/tech deep dive
+
+Key pattern: CTAs only appear AFTER the product has been fully justified by the story.
+"Shop" is earned, not demanded. There is no "Buy Now" before you've understood why.
+The CTAs are product-specific ("Shop Eigerjoch Pro IN Hooded Jacket") — never generic.
+
+
+7. TRUST-BUILDING ELEMENTS
+---------------------------
+- Athlete biography: Name + role + start year + birthdate — hyper-specific, not PR-fluffed
+- Audio clips from the athlete ("A new project" — Dani Arnold) — voice as authenticity
+- Real expedition conditions as design context: -40°C, -5030m, 120 km/h wind
+  — these numbers validate every product claim before it's made
+- Material certifications: GORE-TEX PRO, Pertex® Quantum Pro, fill power ratings (850 in³)
+  — third-party material brands carry their own credibility (GORE-TEX is trusted globally)
+- The expedition itself as proof-of-use: products weren't tested in a lab, they were
+  used on a real climb, in real conditions, by a real professional
+
+Trust approach: conditions → person → materials → proof-of-use
+Never: "5-star review" or "trusted by thousands"
+
+
+8. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- Environmental stats displayed as instrument readings (not marketing claims)
+- Athlete has a birth date, membership year, and professional designation — not a brand ambassador,
+  a documented person with a documented career
+- Product focal point coordinates are baked into the asset data — nothing is carelessly cropped
+- Hotspot system over lifestyle photos — technical precision in linking products within narrative
+- Gender toggle switches BOTH the image and the product URL — not just a label swap
+- USP slides rotate while the product image stays fixed — the product never leaves the frame
+- Products are introduced in the order you'd dress for the climb — editorial intelligence
+- Mobile image variants are re-shot/re-cropped, not just scaled — production investment is visible
+- The word "Baikal" is the hero headline — a place name with no explanation.
+  The audience is trusted to be curious, not told to be impressed.
+
+
+9. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- Conditions-first hero: establish the problem/environment before the product appears
+  — works for any performance product (fitness, outdoor, medical, professional tools)
+- USP rotating slide carousel with fixed product image: keeps attention on the product
+  while delivering multiple benefit messages — very efficient use of vertical space
+- Dedicated full block per hero product: don't list products in a grid;
+  give each one its own moment with photography, benefits, and a CTA
+- Hotspot overlays on lifestyle photography: let viewers discover products inside the story
+- Product sequencing that follows real-world usage logic (how you'd use them, not SKU order)
+- Material/certification brands as trust anchors (GORE-TEX, Pertex, etc.) — third-party
+  ingredient brands work for any industry (certifications, ingredients, components)
+- Athlete/expert biography with specific details (dates, years, role) not just a name + quote
+- Audio/video testimonials from the person, not a written quote card
+- Gender/variant toggle that switches both image and URL — clean, functional, no extra page load
+- "Shop [Specific Product Name]" CTAs — never generic "Shop Now"
+
+
+10. WHAT NOT TO COPY TOO LITERALLY
+------------------------------------
+- The single-expedition narrative structure — only works if the client has a genuinely
+  compelling story and a real person willing to be documented
+- Environmental condition stats as hero copy — specific to performance/outdoor brands;
+  wrong for brands where conditions are not part of the value proposition
+- The near-total absence of pricing above the fold — works for aspirational brands
+  where desire is built before cost is considered; wrong for price-competitive clients
+- The hotspot coordinate system — requires custom development or a platform (like Contentful
+  or a headless CMS) that supports embedded coordinate data
+- The "Baikal" one-word hero headline — works because the brand and athlete do the lifting;
+  an unknown brand with a one-word headline reads as vague, not confident
+
+
+TL;DR
+------
+Mammut's Eiger Extreme site is the definitive example of narrative-first product marketing.
+The product is never the story — the conditions are. By the time a product appears,
+the viewer already understands the stakes, trusts the person using it, and believes
+the spec sheet is real because they've seen the environment that demanded it.
+
+The product display technique (fixed image + rotating benefit slides + isolated portrait
+photography + gender toggle + hotspot in lifestyle shots) is one of the most sophisticated
+product presentation systems in consumer web design. Every element earns the viewer's trust
+before the "Shop" CTA ever appears.
+
+Core lesson: context sells products. Conditions sell performance products.
+The site's job is to make the viewer feel the cold before they read the spec sheet.

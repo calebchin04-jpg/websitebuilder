@@ -1,0 +1,105 @@
+STRIPE DESIGN BREAKDOWN
+Source: https://stripe.com/en-ca
+Analyzed: 2026-04-05
+==================================================
+
+1. LAYOUT STRUCTURE
+-------------------
+Strict single-column progressive disclosure: brand promise → product proof → social proof → conversion.
+No sidebars, no clutter. Each section has one job.
+
+Section order:
+  Nav → Hero → Logos → Products → Metrics → Case Studies → Developer → News → Footer CTA → Footer
+
+Wide but constrained — content max-width is generous but well-padded. Nothing bleeds awkwardly.
+
+
+2. HERO SECTION FORMULA
+------------------------
+Structure: Big bold claim + one-line clarification + dual CTA
+
+- Headline: direct economic benefit ("grow your revenue"), not a feature list
+- No fluff adjectives ("powerful," "seamless," "modern") — just the outcome
+- Two CTAs with clear hierarchy: primary self-serve ("Get started") + low-friction social login ("Sign up with Google")
+- Background is atmospheric, not literal — animated wave signals "tech" without being stock-photo generic
+
+Formula to copy:
+  [Outcome] + [Who it's for] → [CTA] / [Secondary CTA]
+
+
+3. TYPOGRAPHY CHOICES
+----------------------
+- Custom sans-serif (Stripe uses their own typeface derived from Inter/system stacks for body)
+- Weights: 700+ for headlines, 400–500 for body — very high contrast between levels
+- Uppercase labels on CTAs and badges (scannable, authoritative)
+- No decorative fonts — zero serif, zero display fonts, everything is functional
+- Line heights are generous in body copy, tight in headlines
+
+
+4. SPACING AND SECTION RHYTHM
+------------------------------
+- Generous padding — sections breathe; each section feels like its own landing page
+- Consistent internal padding: content never touches the edge
+- Rhythm alternates: wide full-bleed section → constrained text section → wide again
+- Stats and metrics get their own dedicated "moment" — they don't compete with copy
+
+
+5. CTA PLACEMENT
+-----------------
+Location              | CTA                              | Purpose
+--------------------- | -------------------------------- | -------------------
+Nav                   | "Start now" + "Contact sales"    | Always available
+Hero                  | "Get started" + "Sign up with Google" | Capture intent
+Mid-page case studies | "Read the story"                 | Soft engagement
+Developer section     | "Read the docs"                  | Technical funnel
+Footer                | Full CTA block                   | Last-chance conversion
+
+Key pattern: CTAs are never far away, but never feel aggressive.
+The footer CTA is a full dedicated section — not an afterthought.
+
+
+6. TRUST-BUILDING ELEMENTS
+---------------------------
+- Hard stats with specificity: $1.9tn processed, 135+ currencies, 99.999% uptime — not vague claims
+- Logo carousel with brands everyone recognizes (Shopify, Amazon, Anthropic, Uber)
+- Case studies with metrics — not "they loved us" but "X% revenue increase for Y company"
+- Direct quotes from named people at named companies
+- Parallelogram-framed real photography of actual businesses using the product
+
+
+7. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED)
+--------------------------------------------------
+- No stock photos — all imagery is custom illustration, custom photography, or real product UI
+- Restraint in color — very few accent colors, only used with purpose
+- Custom shapes — the parallelogram crop is a signature, immediately recognizable element
+- Metrics are verifiable — real numbers, not percentages without context
+- Copy doesn't try too hard — no superlatives, no exclamation points, just confident declarative sentences
+- Micro-animations are subtle — the wave doesn't demand attention; it rewards it
+- Section transitions are intentional — each section earns the next, creating a narrative arc
+
+
+8. WHAT TO COPY FOR A CLIENT WEBSITE
+--------------------------------------
+- The hero formula: outcome-first headline, one supporting line, two-tier CTA
+- Stats block: 3–4 hard numbers with large typography in their own dedicated section
+- Logo carousel: even 6–8 recognizable logos dramatically increases credibility
+- Case study structure: brand → metric → quote → "products used" tags
+- CTA-free breathing room — several sections have no CTA; this builds trust before the ask
+- Constrained color palette: 1 brand color, 1 neutral, white backgrounds, dark text
+- Uppercase labels for category/tag elements
+
+
+9. WHAT NOT TO COPY TOO LITERALLY
+-----------------------------------
+- The animated wave hero — so associated with Stripe it reads as a clone immediately
+- The parallelogram image crop — their signature shape; avoid it directly
+- The purple — Stripe's purple is culturally linked to them specifically
+- The exact stat categories (uptime, currencies) — relevant to payments infra, not most client businesses
+- The "backbone of global commerce" scale of messaging — works for Stripe because they genuinely are that;
+  smaller businesses using this tone sound inauthentic
+
+
+TL;DR
+------
+Confident, restrained, outcome-first copy + hard proof + breathing room + persistent but non-aggressive CTAs.
+The premium feel comes from what they LEAVE OUT, not what they add in.

@@ -1,0 +1,338 @@
+HITT CONTRACTING DESIGN BREAKDOWN
+Source: https://www.hitt.com/
+Analyzed: 2026-04-16
+==================================================
+
+CONTEXT
+--------
+HITT is a national commercial construction firm with ~90 years of history, $13B projected
+annual revenue, and 3,300+ employees across 16 offices. The site serves two distinct
+high-value audiences simultaneously — potential clients (project owners, corporate real
+estate decision-makers) and potential talent (experienced construction professionals).
+
+This site is a strong reference for:
+- Dual-intent homepage serving two audiences without fragmentation or audience selectors
+- Keeping project proof central while routing two different journeys
+- Navigation architecture as the primary audience-sorting mechanism
+- Single dominant CTA discipline (one yellow button per page)
+- Premium B2B/professional services positioning without corporate stiffness
+- Trust through process transparency rather than testimonial walls
+
+
+1. LAYOUT STRUCTURE
+-------------------
+Section order (top to bottom):
+
+  Primary Navigation (mega-menu, client-forward)
+  → Secondary Navigation (right-aligned: News, Locations, Contact, Subcontractors, Careers)
+  → Hero ("Trust built through every experience")
+  → Value Proposition Statement (1–2 sentences, brand promise)
+  → Projects Filterable Gallery (center of page, serves both audiences)
+  → Key Metrics Block (4 stats: $13B, 83% repeat, 3,300+ team, 16 offices)
+  → Markets/Practices Grid (13 markets × 3 practices)
+  → Experience Framework Section (5-phase client journey)
+  → "You Belong Here" Talent Recruitment Block
+  → R&D / Innovation Section ("Igniting Progress")
+  → News/Insights Carousel (3 articles)
+  → "Let's Chat" CTA Prompt (footer entry)
+  → Footer (Work With HITT + Learn More columns)
+
+Client-audience sections front-load the page. Talent section appears after all proof content.
+This is not an accident — it communicates primary audience priority without labeling it.
+
+
+2. DUAL-AUDIENCE MECHANISM — THE CORE PATTERN
+----------------------------------------------
+The site serves two audiences through SPATIAL SEPARATION + UNIFIED IDENTITY.
+There is no audience toggle. No "Are you a client or job seeker?" prompt. No split screen.
+
+The mechanism is:
+
+| Layer | Client Path | Talent Path |
+|---|---|---|
+| Primary nav | Expertise (Markets, Practices), Projects, Experience | — |
+| Secondary nav | News, Locations, Contact | Careers (co-equal item) |
+| Hero language | "Trust built through every experience" | Same headline — applies to culture too |
+| Page sequencing | Projects, metrics, markets come first | "You Belong Here" section comes after proof |
+| CTA wording | "Build With Us" | "Join Our Team" |
+| Proof type | Project portfolio, 83% repeat rate | 199 promotions in 2024, named contacts |
+
+WHY IT DOESN'T FEEL SPLIT:
+- The headline ("Trust built through every experience") is intentionally ambiguous — clients read
+  trust in execution; talent reads trust in culture. One message, two valid interpretations.
+- The projects section simultaneously demonstrates: capability (for clients) + breadth of work
+  types and geographic reach (for job seekers evaluating career growth).
+- "You Belong Here" comes after, not alongside. Sequencing signals priority; it doesn't conflict.
+
+Formula to copy:
+  [Shared value proposition in hero] → [Client proof first] → [Talent section after proof]
+  Nav: [client-forward primary nav] + [careers in secondary nav as equal item]
+
+
+3. HERO SECTION FORMULA
+------------------------
+Headline: "Trust built through *every* experience"
+  — Declarative claim, not aspirational. Uses italic on single keyword for emphasis.
+  — "Every" is the operative word — it's a process commitment, not a one-time promise.
+
+Subhead: "Delivering a premium construction experience on every project we build."
+  — Reinforces the headline, adds specificity (premium, every project).
+  — "Premium experience" positions them away from commodity contractors.
+
+Body copy:
+  "We work tirelessly and intentionally to earn your trust by making every experience
+   with HITT exceptional. From routine service work to complex corporate headquarters
+   and data center campuses across the nation, our goal is to achieve success together.
+   You have a vision for your next big project — work with HITT to make it a reality."
+  — Scope range ("routine service" to "data center campuses") = both approachable and capable.
+  — "Success together" = partnership framing, not vendor framing.
+  — Ends with "You have a vision" — addresses the client directly.
+
+CTA: "Build With Us"
+  — Action verb + "with us" (partnership, not transaction).
+  — Yellow #D6DB1D button — the ONLY yellow button on the homepage.
+
+Background: Full-bleed high-res construction photography, overlay applied.
+Animation: Scroll-triggered fade-in on hero elements (opacity 0 → 1).
+
+Formula to copy (B2B professional services):
+  [Process commitment as headline] + [Scope range as proof of breadth]
+  + [Partnership-framed closing line] → [Action verb + "with us" CTA]
+
+What this hero deliberately avoids:
+  - No stats in the hero (stats have their own dedicated section)
+  - No list of services above the fold
+  - No "Get a free quote" language (too transactional for this positioning)
+  - No auto-playing video
+  - No carousel
+
+
+4. NAVIGATION ARCHITECTURE
+---------------------------
+Primary nav (left, client-forward):
+  Expertise (mega-menu)
+  ├─ Markets (13 categories: Healthcare, Mission Critical, Life Sciences, etc.)
+  └─ Practices (Core & Shell, Repositioning, Tenant Fit-Outs)
+  Projects → /projects/
+  The HITT Experience (client journey, safety, tools)
+  R&D (vision, projects, insights, CoLab)
+  Our Team (principal + senior leadership)
+  About (who we are, corporate responsibility, You Belong Here, sustainability)
+
+Secondary nav (right, organizational):
+  News Hub | Locations | Contact | Subcontractors | Careers
+
+Key design decision:
+  Careers is in the secondary nav — visible and equal, but not competing with the primary
+  client-facing structure. Talent users see it immediately; it doesn't distract clients
+  who are scanning for Expertise or Projects.
+
+Mega-menu on hover (desktop). Hamburger collapse under 768px.
+
+
+5. PROJECT PROOF — CENTRAL TO BOTH AUDIENCES
+---------------------------------------------
+The projects filterable gallery sits at the center of the homepage — not below the fold,
+not relegated to a "Our Work" section. It is the primary proof layer.
+
+Filter axes:
+  - 12+ market categories (Healthcare, Office, Mission Critical, etc.)
+  - 15+ city/location filters
+  - 3 practice types (Core & Shell, Renovations, Tenant Fit-Outs)
+
+For clients: filtering demonstrates category specialization. A healthcare client filters
+Healthcare and sees precedent and depth. Confidence builder without needing a call.
+
+For talent: the breadth of filterable options signals geographic reach and type diversity —
+evidence that career growth and varied work exist at the firm.
+
+The gallery serves both audiences simultaneously through the same component.
+No audience-specific gallery. One proof layer, two interpretations.
+
+Project detail page structure (not narrative case studies):
+  - Location, Client Name, Contract Value, Square Footage, Timeline
+  - Project overview (scope description, not challenge-solution-result)
+  - Key Team Members with photos and titles (executive visibility for talent)
+  - Related Projects
+  - "Let's Chat" CTA footer
+
+Notable: No traditional "challenge → solution → result" case study format.
+Instead: announcement/credential model. States what was built and for whom.
+This works for high-confidentiality institutional clients who cannot be quoted.
+
+
+6. TYPOGRAPHY
+-------------
+Font stack: System sans-serif (Inter/-apple-system/similar). Not a custom display font —
+the work and trust signals carry the brand weight, not typography.
+
+Size scale (conservative range, not extreme jumps):
+  Page/section hero: 42–48px, weight 700
+  Section subheads: 36px, weight 700
+  Card titles: 18px, weight 700
+  Body: 16px, weight 400
+  Small/legal: 13px, weight 400
+  Buttons: 14px, weight 500
+
+Special treatments:
+  - Italics used sparingly for single-keyword emphasis (not decorative)
+  - Bold within paragraph text for highlights
+  - No excessive letter-spacing — weight contrast does the hierarchy work
+  - No decorative, serif, or display typeface
+
+Key insight: modest size scale (13–42px). Weight does more work than size.
+Italics are semantic, not stylistic. Typography is functional — gets out of the way.
+
+
+7. COLOR SYSTEM
+---------------
+Yellow/Lime  #D6DB1D — Primary action color. Hero CTA button ONLY. Used once.
+             Semantics: optimism, movement, "let's go."
+
+Trust Blue   #1863DC — All secondary CTAs and exploration links throughout.
+             Semantics: reliability, intelligence, "keep reading."
+
+Black        #000000 — Headlines, body text. Authority, clarity.
+White        #FFFFFF — Backgrounds, breathing room.
+Dark Gray    #121212, #2A2A2A — Section backgrounds. Sophistication.
+Medium Gray  #757575, #D0D0D0 — Footer links, secondary labels. Hierarchy.
+Border Gray  #D0D5D2 — Dividers, structure.
+
+Color discipline:
+  Yellow button appears ONCE on the homepage (hero). This is extreme restraint.
+  The scarcity makes it the most powerful element on the page.
+  Every other CTA is a blue text link — exploratory, not committal.
+  No red, orange, or aggressive colors. Avoids the commodity contractor aesthetic.
+
+
+8. SPACING AND SECTION RHYTHM
+------------------------------
+CSS spacing preset system (design tokens approach):
+  --spacing-20: 0.44rem (7px)   — tight internal spacing
+  --spacing-40: 1rem (16px)     — standard internal
+  --spacing-50: 1.5rem (24px)   — section internal
+  --spacing-60: 2.25rem (36px)  — section separation
+  --spacing-80: 5.06rem (81px)  — hero/feature section breathing
+
+Rhythm pattern:
+  Hero: BREATHES (80px+ padding) — one job: set tone
+  Proof/projects: DENSE (50–60px) — information earns the density
+  Metrics: DENSE — stat clarity requires focus
+  Talent section: BREATHES (80px+) — emotional section needs space
+  Footer CTA: TRANSITIONS
+
+Button proportions: 8px vertical × 27px horizontal padding = taller, narrower = premium.
+(Most templated sites use square padding. This elongated proportion reads as considered.)
+
+
+9. CTA MAP
+----------
+Location              | CTA                   | Type          | Purpose
+--------------------- | --------------------- | ------------- | -------------------
+Primary nav           | (none)                | —             | Exploration only
+Hero                  | "Build With Us"       | Yellow button | Primary conversion
+Experience section    | "Trust, Built"        | Blue text     | Soft engagement
+Projects section      | "View All"            | Text link     | Portfolio depth
+Markets grid          | Category cards        | Card links    | Service exploration
+Talent section        | "Join Our Team"       | Blue text     | Talent conversion
+R&D section           | "See Our Spark"       | Blue text     | Innovation exploration
+Footer entry          | "Let's chat."         | Large text    | Last-chance recovery
+Footer nav            | "Careers," "Who We Are" | Text links  | Tertiary
+
+CTA wording patterns:
+  "Build With Us" — action verb + "with us" (partnership)
+  "Join Our Team" — joining, not applying (community framing)
+  "Let's chat." — lowercase, period. Conversational. Low-friction. Not "Contact Sales."
+  "See Our Spark" — curiosity, not commitment
+
+One yellow button. Multiple blue text links. Never more than 3 primary CTAs visible at once.
+
+
+10. TRUST-BUILDING ELEMENTS
+----------------------------
+Quantified metrics (used once, in dedicated section):
+  "$13 Billion Projected Annual Revenue"
+  "83% Client Repeat Business" — retention as proof of satisfaction
+  "3,300+ Team Members" — scale without impersonal feel
+  "16 offices nationwide"
+
+Institutional positioning claim: "National Leader in Commercial Construction"
+Ranking: "#10 Top General Contractor" (Engineering News-Record) — cited factually, not flaunted
+
+Process transparency (Experience page — 5-phase journey):
+  Consideration → Award → Preconstruction → Construction → Post-construction
+  Each phase describes HOW they operate, not WHAT they promise.
+  "Available even pre-award" — credibility starts before the contract.
+  This is systematic trust, not promise-based trust.
+
+Talent-specific trust signals (Careers page):
+  - 4 testimonials with full name, title, department, and direct email
+  - Quotes address anxiety: "Relationships are what make HITT successful"
+  - Named recruiting contact (Cory Hilliard, Recruiting Manager + email)
+  — Named contact beats a generic form. It signals human-scale culture.
+
+What trust-building deliberately avoids:
+  - No client logo wall (institutional clients require confidentiality)
+  - No generic "awards" section
+  - No stock photography or AI imagery
+  - No testimonials on client-facing pages (only careers page)
+  - No "Since [year]" vanity heritage — trust is earned ongoing, not inherited
+
+
+11. WHAT MAKES IT FEEL PREMIUM (NOT AI-GENERATED OR TEMPLATED)
+---------------------------------------------------------------
+- Single yellow CTA per page: extreme discipline. Template sites have CTAs everywhere.
+  Scarcity paradoxically makes the one yellow button the most powerful element.
+- Custom design token system: spacing, colors, and typography via CSS variables
+  (signals intentional design system, not default theme settings)
+- Named contacts instead of forms: "Cory Hilliard, Recruiting Manager + email"
+- Metrics are verifiable and specific: "83% repeat" not "high retention"
+- Process transparency: 5-phase journey describes method, not outcome
+- Typography restraint: italics used for one word, not entire headlines
+- No exclamation points in client-facing copy (only in testimonials)
+- No "industry-leading" self-labeling anywhere
+- No popups, chat widgets, or urgency language
+- Section breathing: 80px+ padding for emotional/hero sections vs. 50px for dense proof
+- High-res original construction photography throughout (no stock)
+- Responsive architecture restructures at multiple breakpoints (845px, 768px, 576px, 425px, 352px)
+  — not just font scaling, but layout changes
+
+What it deliberately avoids:
+  "Industry-leading" / "award-winning" / "best-in-class" anywhere
+  Auto-playing video in hero
+  Carousel for core content
+  "Join the [adjective] team" clichés
+  Gradient-heavy aesthetic
+  Headshot testimonial wall
+  Urgency language ("limited availability," "act now")
+  Chat widgets
+
+
+12. PATTERNS TO COPY FOR LOCAL SERVICE BUSINESSES
+--------------------------------------------------
+These patterns transfer directly to local service businesses (remodeling, painting, etc.):
+
+Dual-audience without fragmentation:
+  - If a business hires subcontractors or staff, don't create a separate "Jobs" page
+    hidden in the footer. Give it a nav slot in secondary nav, then a "You Belong Here"
+    section at the bottom of the homepage, after all client proof.
+  - Hero language should work for both audiences — "Built on referrals" reads as quality
+    to clients and culture to potential hires.
+
+CTA scarcity:
+  - One dominant button (primary color) per page.
+  - All other navigation is text links (secondary color).
+  - The one button cannot be confused with a link.
+
+Process transparency as trust:
+  - A 3–5 step "how we work" section builds more trust than 10 testimonials.
+  - Describe the method, not the outcome. "We send a lead carpenter and a dedicated PM
+    to every job" is more credible than "We deliver exceptional results."
+
+Named contacts:
+  - "Questions about hiring? Call Dana at (503) 847-2291" beats a generic contact form.
+  - Even on small local sites, a named contact signals that real people are reachable.
+
+Stats with specificity:
+  - "63 kitchen projects in Portland since 2018" beats "hundreds of happy clients"
+  - Specific numbers signal that they can be verified. Ranges signal that they were made up.

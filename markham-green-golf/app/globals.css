@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-surface-dark:      #1a3a2a;
+  --color-surface-dark-alt:  #0f1f17;
+  --color-surface-light:     #f8f5f0;
+  --color-surface-light-alt: #f4f4f4;
+  --color-accent:            #c8a84b;
+  --color-accent-hover:      #a8882a;
+  --color-text-primary:      #1a1a1a;
+  --color-text-inverse:      #f5f0e8;
+  --color-text-secondary:    #6b6560;
+  --color-border:            #e5e0d8;
+  --color-success:           #16a34a;
+  --color-error:             #dc2626;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-surface-light);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up   { animation: fadeUp 420ms ease both; }
+.fade-up-1 { animation: fadeUp 420ms ease  80ms both; }
+.fade-up-2 { animation: fadeUp 420ms ease 180ms both; }
+.fade-up-3 { animation: fadeUp 420ms ease 280ms both; }
+.fade-up-4 { animation: fadeUp 420ms ease 360ms both; }

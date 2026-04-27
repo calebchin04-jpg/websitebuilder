@@ -1,0 +1,36 @@
+export const siteConfig = {
+  name: 'Mr. Rooter Plumbing of Markham',
+  shortName: 'Mr. Rooter Markham',
+  tagline: 'Markham\'s Emergency Plumber — Available 24/7',
+  phone: '(905) 472-9100',
+  phoneHref: 'tel:+19054729100',
+  email: 'markham@mrrooter.ca',
+  address: {
+    street: '123 Main Street',
+    city: 'Markham',
+    province: 'ON',
+    postalCode: 'L3P 1Y8',
+    full: 'Markham, ON',
+  },
+  hours: {
+    emergency: '24/7 Emergency Service',
+    regular: 'Mon–Fri: 8:00am–6:00pm',
+    weekend: 'Sat–Sun: 8:00am–4:00pm',
+  },
+  googleRating: 4.8,
+  reviewCount: 200,
+  yearsInBusiness: 30,
+  foundedYear: 1995,
+  siteUrl: 'https://mrrootermarkham.ca',
+  offer: {
+    text: '$30 Off Your Next Plumbing Service',
+    expires: '2026-09-30',
+    code: 'SAVE30',
+  },
+  trustPoints: [
+    { label: '30+ Years Local', subtext: 'Serving Markham since 1995' },
+    { label: '24/7 Emergency', subtext: 'No after-hours surcharge' },
+    { label: 'No Overtime Charges', subtext: 'Flat-rate pricing, always' },
+    { label: '5-Star Rated', subtext: '200+ Google reviews' },
+  ],
+} as const
