@@ -1,0 +1,222 @@
+/* ─────────────────────────────────────────────
+   Base reset & page
+───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0a0a0f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+/* ─────────────────────────────────────────────
+   Pricing grid
+───────────────────────────────────────────── */
+.pricing-section {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Pricing card — base state
+───────────────────────────────────────────── */
+.pricing-card {
+  position: relative;
+  background: #111118;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  /* Lift + glow transition */
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+
+  will-change: transform, box-shadow;
+}
+
+/* ─────────────────────────────────────────────
+   Hover: lift + glow
+   translateY(-10px) = upward lift
+   box-shadow = blue radial glow bleeding outward
+───────────────────────────────────────────── */
+.pricing-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.25),
+    0 8px 30px rgba(99, 102, 241, 0.20),
+    0 20px 60px rgba(99, 102, 241, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* ─────────────────────────────────────────────
+   Popular card — pre-glowed (always active)
+   gets a stronger glow on hover
+───────────────────────────────────────────── */
+.card--popular {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.15),
+    0 8px 40px rgba(99, 102, 241, 0.10);
+}
+
+.card--popular:hover {
+  border-color: rgba(99, 102, 241, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.4),
+    0 8px 40px rgba(99, 102, 241, 0.30),
+    0 24px 80px rgba(99, 102, 241, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* ─────────────────────────────────────────────
+   Popular badge
+───────────────────────────────────────────── */
+.popular-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #6366f1;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────
+   Card internals
+───────────────────────────────────────────── */
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.plan-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+.plan-desc {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.price {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #f1f5f9;
+}
+
+.price-period {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ─────────────────────────────────────────────
+   CTA button
+───────────────────────────────────────────── */
+.card-cta {
+  display: block;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  background: transparent;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.card-cta:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.cta--primary {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: #fff;
+}
+
+.cta--primary:hover {
+  background: #4f51d8;
+  border-color: #4f51d8;
+}
+
+/* ─────────────────────────────────────────────
+   Feature list
+───────────────────────────────────────────── */
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.feature-list li {
+  font-size: 13px;
+  color: #94a3b8;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.feature-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #6366f1;
+  font-weight: 700;
+  font-size: 12px;
+}

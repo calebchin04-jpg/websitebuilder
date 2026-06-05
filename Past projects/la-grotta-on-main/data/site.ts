@@ -1,0 +1,33 @@
+export const siteConfig = {
+  name: 'La Grotta On Main',
+  tagline: '29 years of family-owned Italian dining in historic Unionville',
+  phone: '(905) 940-0235',
+  phoneHref: 'tel:+19059400235',
+  email: 'lagrottaonmain@gmail.com',
+  address: {
+    street: '205 Main Street',
+    city: 'Unionville',
+    province: 'ON',
+    postalCode: 'L3R 2G8',
+    full: '205 Main Street, Unionville, ON L3R 2G8',
+  },
+  hours: {
+    monday: 'Closed (available for large groups & holidays)',
+    tuesday: '12:00pm–3:00pm, 5:30pm–9:30pm',
+    wednesday: '12:00pm–3:00pm, 5:30pm–9:30pm',
+    thursday: '12:00pm–3:00pm, 5:30pm–9:30pm',
+    friday: '12:00pm–3:00pm, 5:30pm–10:00pm',
+    saturday: '12:00pm–10:00pm',
+    sunday: '12:00pm–10:00pm',
+  },
+  social: {
+    instagram: 'https://www.instagram.com/lagrottaonmain',
+    facebook: 'https://www.facebook.com/lagrottaonmain',
+    instagramHandle: '@lagrottaonmain',
+  },
+  googleRating: 4.3,
+  yearsInBusiness: 29,
+  foundedYear: 1996,
+  siteUrl: 'https://lagrottaonmain.ca',
+  directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=La+Grotta+on+Main+205+Main+St++Unionville%2C+ON+L3R+2G8',
+} as const

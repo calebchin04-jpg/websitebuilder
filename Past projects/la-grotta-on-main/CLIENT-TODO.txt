@@ -1,0 +1,96 @@
+LA GROTTA ON MAIN — CLIENT ACTION ITEMS
+=========================================
+Everything below is needed before or during the build.
+Items marked [BEFORE BUILD] are blockers — the build cannot be completed without them.
+Items marked [BEFORE LAUNCH] can be provided later but must be done before the site goes live.
+Items marked [OPTIONAL] improve the site but are not required.
+
+
+CONTENT & COPY
+--------------
+
+1. [BEFORE BUILD] FOUNDING STORY
+   We need a few sentences about the restaurant's history:
+   - What year did La Grotta open? (We're estimating 1996 based on "29 years" — please confirm)
+   - What was the original motivation for opening the restaurant?
+   - What has stayed the same over the years?
+   - Is the owner's name Sebastian? Is he comfortable being named/mentioned on the website?
+   Even 3–5 sentences in your own words is enough — we'll turn it into polished copy.
+
+2. [BEFORE BUILD] HOURS OF OPERATION
+   Please provide the full weekly hours:
+   - Monday through Sunday open/close times
+   - Any seasonal variations or days closed
+
+3. [BEFORE LAUNCH] MENU ACCURACY
+   Is the menu currently on lagrottaonmain.ca up to date?
+   - If yes, we'll build from that.
+   - If no, please send the current menu (any format — photo, Word doc, PDF, handwritten is fine).
+
+4. [BEFORE LAUNCH] PRIVATE FUNCTIONS DETAILS
+   For the Private Functions page we need:
+   - Maximum guest capacity for private events
+   - Types of events you host (corporate dinners, birthdays, anniversaries, etc.)
+   - Do you offer a set/fixed menu for private events? Any pricing you're comfortable disclosing?
+   - Do you have AV or presentation equipment available?
+   - What is the typical booking lead time you recommend?
+   - These answers will be used to write the FAQ section on that page.
+
+
+ASSETS
+------
+
+5. [BEFORE BUILD] LOGO FILE
+   We need the logo in high resolution.
+   - Preferred format: PNG or SVG with transparent background
+   - If you don't have the file, we can attempt to re-export it from the current site — but a clean
+     original file is much better.
+   - Do you also have a white/reversed version of the logo (for dark backgrounds)?
+
+6. [OPTIONAL] PROFESSIONAL PHOTOS
+   We're sourcing photos from your Yelp listing and Instagram (@lagrottaonmain).
+   If you have any professional food or interior photos saved on your phone or computer —
+   even from a previous shoot — please send them. Higher resolution is always better.
+   If photo quality turns out to be an issue, we may recommend a short professional
+   photography session before launch.
+
+
+TECHNICAL / SETUP
+-----------------
+
+7. [BEFORE BUILD] POST-LAUNCH EDITING PREFERENCE
+   After the site is built, will you want to update content yourself (menu changes, photo updates,
+   hours, etc.)?
+   - YES → we need to add a content management system (CMS), which adds some build time
+   - NO → we build a static site, which is simpler and faster
+   Please let us know your preference.
+
+8. [BEFORE BUILD] DOMAIN & HOSTING
+   - Who currently hosts lagrottaonmain.ca and manages the domain?
+   - Do you have login access to your hosting account?
+   - We'll need to coordinate with you for the final deployment.
+
+9. [OPTIONAL] GOOGLE BUSINESS PROFILE ACCESS
+   If you have access to your Google Business Profile (the listing that shows up on Google Maps),
+   it would help to ensure the profile and website are consistent.
+   Not required, but useful.
+
+10. [OPTIONAL] RESERVATION SYSTEM
+    You currently take reservations by phone only. Is that how you'd like to keep it, or would
+    you consider adding an online reservation system (like OpenTable or Resy) in the future?
+    No action needed now — just useful to know for planning.
+
+
+APPROVALS NEEDED DURING BUILD
+------------------------------
+
+11. Copy approval — we'll write all website copy and send it for your review before it goes live.
+    Particularly important: the story/about section on the homepage.
+
+12. Menu page review — once we build the menu page, please review it for accuracy before launch.
+
+13. Private Functions page review — please confirm all event details and FAQ answers are accurate.
+
+
+=========================================
+Questions? Reach out and we'll walk through anything on this list.

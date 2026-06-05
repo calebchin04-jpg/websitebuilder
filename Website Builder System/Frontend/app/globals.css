@@ -1,0 +1,255 @@
+@import "tailwindcss";
+@import 'tw-animate-css';
+
+/* ════════════════════════════════════════════════════════════
+   CROSSROADS — Heritage palette (Night + Map)
+
+   Two-mode system: dark walnut companion to the cream paper
+   marketing site. Same accent family in both modes — accents
+   are slightly brightened on dark for legibility, slightly
+   deepened on light for ink-on-paper feel.
+
+   Usage:
+     :root        → Heritage Night (dark) — default for Hub
+     .heritage-light → Heritage Map  (light) — apply to /join,
+                       /merchant, business detail pages
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Heritage Night (dark) ── */
+  --background:      #14110D;            /* deep walnut */
+  --bg-elevated:     #1F1A14;            /* warmer raised */
+  --surface:         #2A2218;            /* card surface */
+  --surface-raised:  #36291C;            /* most-elevated */
+
+  --border-subtle:   rgba(236,226,206,0.06);
+  --border-default:  rgba(236,226,206,0.12);
+  --border-strong:   rgba(236,226,206,0.22);
+
+  --text-primary:    #ECE2CE;            /* parchment cream */
+  --text-secondary:  rgba(236,226,206,0.7);
+  --text-muted:      rgba(236,226,206,0.5);
+  --text-faint:      rgba(236,226,206,0.3);
+
+  /* Brand accents — brighter variants for legibility on dark */
+  --forest:          #2F7A5F;
+  --forest-bright:   #4FA17C;
+  --forest-deep:     #1F4E3D;            /* matches marketing site */
+  --brass:           #DFA75C;            /* primary highlight on dark */
+  --brass-bright:    #F0BC74;
+  --brass-deep:      #B8782E;
+  --rust:            #C0594F;
+  --mulberry:        #8C4970;
+  --indigo:          #5C7BA4;
+  --verdigris:       #5BA08A;
+
+  /* Glows — for constellation nodes, hover states, live indicators */
+  --glow-brass:      0 0 24px rgba(223,167,92,0.45);
+  --glow-forest:     0 0 24px rgba(47,122,95,0.4);
+  --glow-cream:      0 0 16px rgba(236,226,206,0.15);
+
+  /* Status (functional) — Night variants */
+  --success:         #2F7A5F;
+  --warning:         #DFA75C;
+  --danger:          #C0594F;
+  --info:            #5C7BA4;
+
+  /* Per-category accents (used in Hub directory) */
+  --cat-restaurant:  #C0594F;            /* cartographer red */
+  --cat-retail:      #DFA75C;            /* brass */
+  --cat-health:      #2F7A5F;            /* forest */
+  --cat-services:    #5C7BA4;            /* indigo */
+  --cat-trades:      #8B7458;            /* warm gray-brown */
+  --cat-fitness:     #8C4970;            /* mulberry */
+
+  /* ── Heritage Map (light) — used via .heritage-light ── */
+  --paper:                  #F4ECD8;     /* aged paper */
+  --paper-warm:             #EDE3CB;
+  --surface-light:          #FBF6E9;
+  --surface-raised-light:   #FFFCF2;
+
+  --border-subtle-light:    rgba(42,31,20,0.06);
+  --border-default-light:   rgba(42,31,20,0.12);
+  --border-strong-light:    rgba(42,31,20,0.22);
+
+  --text-ink:               #2A1F14;     /* sepia ink */
+  --text-ink-secondary:     rgba(42,31,20,0.65);
+  --text-ink-muted:         rgba(42,31,20,0.45);
+  --text-ink-faint:         rgba(42,31,20,0.28);
+
+  /* ────────────────────────────────────────────────────────
+     Backward-compat aliases — old tokens map to Heritage Night
+     so existing components inherit the new dark theme until
+     they're migrated to the new token names.
+     ──────────────────────────────────────────────────────── */
+  --jet:             var(--background);
+  --slate-dark:      var(--forest);
+  --accent-mid:      var(--forest-bright);
+  --accent-text:     var(--forest);                  /* was sage #5A9E8F */
+  --gainsboro:       var(--text-primary);            /* was #EFEFEF */
+  --gold:            var(--brass);                   /* was #C9A870 */
+  --gold-subtle:     rgba(223,167,92,0.15);
+  --white:           #FFFFFF;
+  --accent-glow:     rgba(47,122,95,0.25);
+  --text-tertiary:   var(--text-faint);
+
+  /* /join page — was a separate corporate-blue light theme.
+     Aliased to Heritage Map so /join becomes light heritage
+     when its components are eventually migrated. */
+  --join-bg:           var(--paper);
+  --join-surface:      var(--surface-light);
+  --join-border:       var(--border-default-light);
+  --join-accent:       var(--forest-deep);           /* forest replaces #0F4C81 */
+  --join-accent-hover: #2A6651;
+  --join-accent-light: rgba(31,78,61,0.08);
+  --join-text:         var(--text-ink);
+  --join-subtext:      var(--text-ink-secondary);
+  --join-success:      var(--forest-deep);
+}
+
+/* ── Heritage Map mode — apply to any subtree to flip to light ── */
+.heritage-light {
+  --background:      var(--paper);
+  --bg-elevated:     var(--paper-warm);
+  --surface:         var(--surface-light);
+  --surface-raised:  var(--surface-raised-light);
+
+  --border-subtle:   var(--border-subtle-light);
+  --border-default:  var(--border-default-light);
+  --border-strong:   var(--border-strong-light);
+
+  --text-primary:    var(--text-ink);
+  --text-secondary:  var(--text-ink-secondary);
+  --text-muted:      var(--text-ink-muted);
+  --text-faint:      var(--text-ink-faint);
+
+  /* Accents shift to deeper variants for ink-on-paper contrast */
+  --forest:          var(--forest-deep);
+  --forest-bright:   #2A6651;
+  --brass:           var(--brass-deep);
+  --brass-bright:    #D08F3D;
+
+  /* Glows are barely visible on light — replace with soft drop shadows */
+  --glow-brass:      0 12px 32px rgba(184,120,46,0.18);
+  --glow-forest:     0 12px 32px rgba(31,78,61,0.2);
+  --glow-cream:      none;
+
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-text: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-forest: var(--forest);
+  --color-brass: var(--brass);
+  --color-rust: var(--rust);
+  --color-mulberry: var(--mulberry);
+  --color-indigo: var(--indigo);
+  --color-verdigris: var(--verdigris);
+
+  /* Legacy aliases */
+  --color-jet: var(--jet);
+  --color-slate-dark: var(--slate-dark);
+  --color-gainsboro: var(--gainsboro);
+  --color-join-bg: var(--join-bg);
+  --color-join-surface: var(--join-surface);
+  --color-join-border: var(--join-border);
+  --color-join-accent: var(--join-accent);
+  --color-join-accent-hover: var(--join-accent-hover);
+  --color-join-accent-light: var(--join-accent-light);
+  --color-join-text: var(--join-text);
+  --color-join-subtext: var(--join-subtext);
+  --color-join-success: var(--join-success);
+
+  --font-sans: 'Satoshi', sans-serif;
+  --font-display: 'Satoshi', sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 400;
+}
+
+/* Heritage Night routes use the native cursor — no custom cursor hiding */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+}
+
+/* Scrollbar — tinted to bg/forest in both modes via vars */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--forest); border-radius: 2px; }
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(47,122,95,0.4); }
+  50%      { box-shadow: 0 0 24px 6px rgba(47,122,95,0.8); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes carousel-fade {
+  0%, 25% { opacity: 1; }
+  33%, 92% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Neon-pulse — for constellation node hover / trending markers.
+   Switched from sage to brass for warm lantern-light effect on walnut. */
+@keyframes neon-pulse {
+  0%, 100% {
+    stroke: rgba(223,167,92,0.9);
+    stroke-width: 1.5px;
+    filter: drop-shadow(0 0 4px rgba(223,167,92,0.6));
+  }
+  50% {
+    stroke: rgba(223,167,92,1);
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 16px rgba(223,167,92,0.85));
+  }
+}
+
+.animate-fade-in    { animation: fadeIn 0.6s ease forwards; }
+.animate-slide-up   { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-pulse-glow { animation: pulse-glow 2s infinite ease-in-out; }
+.animate-slide-in   { animation: slide-in-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.trending-glow      { animation: neon-pulse 2.5s infinite ease-in-out; }
+
+@keyframes shimmer {
+  0%   { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+
+.shimmer-metallic {
+  background: linear-gradient(90deg, transparent, rgba(223, 167, 92, 0.2), transparent);
+  animation: shimmer 3s infinite linear;
+}

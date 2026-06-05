@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — 3 Animation Concepts</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d0d0d;
+      --card: #141414;
+      --border: #252525;
+      --text: #f0f0f0;
+      --muted: #787878;
+      --accent: #4ecca3;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 0.25rem;
+    }
+
+    .nav-logo {
+      margin-right: auto;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .nav-logo strong { display: block; font-size: 0.9rem; color: var(--text); letter-spacing: 0.06em; }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+    nav a:hover { color: var(--text); background: var(--card); }
+    nav a.is-active { color: var(--accent); border-color: rgba(78,204,163,0.25); }
+
+    /* ─── SHARED INTRO ─── */
+    .section-intro {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 6rem 2rem 3rem;
+      text-align: center;
+    }
+    .concept-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .concept-tag span { color: var(--accent); }
+    .section-intro h2 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .section-intro p { font-size: 0.95rem; color: var(--muted); max-width: 460px; margin: 0 auto; }
+
+    /* ─── DIVIDER ─── */
+    .concept-divider {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .concept-divider::before,
+    .concept-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .concept-divider span {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       CONCEPT 1 — STICKY STORYTELLING
+    ═══════════════════════════════════════════ */
+
+    #sticky { padding-top: 58px; }
+
+    .sticky-wrap {
+      display: flex;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 2rem 12rem;
+      gap: 5rem;
+      align-items: flex-start;
+    }
+
+    /* Left: sticky panel */
+    .s-left {
+      width: 440px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 78px;
+      height: calc(100vh - 100px);
+      display: flex;
+      align-items: center;
+    }
+
+    .browser-shell {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+
+    .browser-bar {
+      background: #1b1b1b;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .url-bar {
+      flex: 1;
+      margin-left: 8px;
+      background: #0d0d0d;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .browser-screen {
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* visual states */
+    .v-state {
+      position: absolute;
+      inset: 0;
+      padding: 1.5rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+    .v-state.on { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    /* State 1 — signup */
+    .s1-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .s1-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; }
+    .fake-field {
+      background: #1b1b1b;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.75rem;
+      color: #555;
+      margin-bottom: 0.6rem;
+    }
+    .tier-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .tier-card {
+      flex: 1;
+      background: #1b1b1b;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.5rem;
+      text-align: center;
+    }
+    .tier-card.sel { border-color: var(--accent); background: rgba(78,204,163,0.07); }
+    .tier-price { font-size: 1rem; font-weight: 600; }
+    .tier-size { font-size: 0.6rem; color: var(--muted); }
+    .cta-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 7px;
+      padding: 0.65rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    /* State 2 — listing */
+    .listing-head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .listing-icon {
+      width: 46px; height: 46px;
+      background: linear-gradient(135deg, #4ecca3, #2a9d8f);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .listing-name { font-weight: 600; font-size: 0.95rem; }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(78,204,163,0.1);
+      border: 1px solid rgba(78,204,163,0.25);
+      border-radius: 20px;
+      padding: 2px 9px;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 3px;
+    }
+    .live-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+    .info-cell { background: #1b1b1b; border-radius: 7px; padding: 0.5rem 0.7rem; }
+    .info-lbl { font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .info-val { font-size: 0.78rem; margin-top: 1px; }
+    .visibility-bar { background: #1b1b1b; border-radius: 7px; padding: 0.6rem 0.8rem; display: flex; align-items: center; justify-content: space-between; }
+    .vis-lbl { font-size: 0.7rem; color: var(--muted); }
+    .vis-val { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+
+    /* State 3 — flyer + NFC */
+    .s3-lbl { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.9rem; }
+    .s3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .flyer-mock {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 0.9rem;
+      display: flex; flex-direction: column; gap: 6px;
+      aspect-ratio: 3/4;
+    }
+    .f-stripe { height: 5px; background: var(--accent); border-radius: 2px; }
+    .f-name { font-size: 0.6rem; font-weight: 700; color: #111; letter-spacing: 0.04em; }
+    .f-body { flex: 1; background: #e0e0e0; border-radius: 4px; }
+    .f-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .f-scan { font-size: 0.5rem; color: #888; }
+    .f-qr {
+      width: 30px; height: 30px; background: #111; border-radius: 3px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; padding: 4px;
+    }
+    .f-qr-dot { background: white; border-radius: 1px; }
+    .nfc-card {
+      border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; text-align: center;
+    }
+    .nfc-icon {
+      width: 46px; height: 46px;
+      border: 2px solid var(--accent); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      animation: nfc-pulse 3s ease-in-out infinite;
+    }
+    @keyframes nfc-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(78,204,163,0)} 50%{box-shadow:0 0 0 8px rgba(78,204,163,0.15)} }
+    .nfc-lbl { font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .nfc-action { font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+    .reach-row {
+      grid-column: 1/-1; text-align: center;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .reach-row strong { color: var(--accent); font-size: 1rem; }
+
+    /* State 4 — customers */
+    .s4-lbl { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.9rem; }
+    .review-card {
+      background: #1b1b1b; border-radius: 8px; padding: 0.7rem 0.8rem;
+      display: flex; gap: 0.7rem; margin-bottom: 0.5rem;
+    }
+    .r-avatar {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 600;
+    }
+    .r-stars { font-size: 0.65rem; color: #f59e0b; margin-bottom: 2px; }
+    .r-text { font-size: 0.73rem; color: var(--muted); }
+    .return-stat { background: #1b1b1b; border-radius: 8px; padding: 0.65rem 0.8rem; margin-top: 0.5rem; }
+    .stat-lbl { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .stat-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #28c840); border-radius: 3px; transition: width 1s ease 0.3s; }
+    .stat-fill.go { width: 72%; }
+    .stat-num { font-size: 0.72rem; color: var(--accent); margin-top: 5px; }
+
+    /* Right: step list */
+    .s-right { flex: 1; padding-top: 1rem; }
+
+    .step-block {
+      min-height: 70vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.25;
+      transition: opacity 0.4s ease;
+    }
+    .step-block:last-child { border-bottom: none; }
+    .step-block.on { opacity: 1; }
+
+    .step-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      border: 1px solid var(--border);
+      border-radius: 30px; padding: 3px 11px;
+      font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      transition: all 0.4s;
+    }
+    .step-block.on .step-pill { border-color: rgba(78,204,163,0.4); color: var(--accent); background: rgba(78,204,163,0.07); }
+
+    .step-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid var(--border);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 600; color: var(--muted);
+      margin-bottom: 1rem;
+      transition: all 0.4s;
+    }
+    .step-block.on .step-circle { background: var(--accent); color: #0d0d0d; border-color: var(--accent); }
+
+    .step-heading {
+      font-size: clamp(1.3rem, 2vw, 1.7rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+    .step-body { font-size: 0.9rem; color: var(--muted); line-height: 1.75; max-width: 460px; }
+
+
+    /* ═══════════════════════════════════════════
+       CONCEPT 2 — BUILDING BLOCKS
+    ═══════════════════════════════════════════ */
+
+    #blocks { border-top: 1px solid var(--border); }
+
+    .blocks-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 10rem;
+    }
+
+    /* Pillar chart */
+    .pillars-chart {
+      position: relative;
+      height: 220px;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto 0;
+      padding: 0 20px;
+    }
+
+    .pillar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pillar-bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      overflow: hidden;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.9s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    .pillar-bar.up { transform: scaleY(1); }
+    .pillar-col:nth-child(2) .pillar-bar { transition-delay: 0.12s; }
+    .pillar-col:nth-child(3) .pillar-bar { transition-delay: 0.24s; }
+    .pillar-col:nth-child(4) .pillar-bar { transition-delay: 0.36s; }
+
+    .pillar-col:nth-child(1) .pillar-bar { height: 80px; }
+    .pillar-col:nth-child(2) .pillar-bar { height: 120px; }
+    .pillar-col:nth-child(3) .pillar-bar { height: 160px; }
+    .pillar-col:nth-child(4) .pillar-bar { height: 200px; }
+
+    .pillar-fill {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(78,204,163,0.35), rgba(78,204,163,0.06));
+      border: 1px solid rgba(78,204,163,0.3); border-bottom: none;
+    }
+    .pillar-bar.up .pillar-fill { border-color: rgba(78,204,163,0.5); }
+
+    .pillar-emoji {
+      position: absolute; top: 10px; left: 0; right: 0; text-align: center; font-size: 1.2rem;
+    }
+    .pillar-tag {
+      font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+      text-align: center; padding-bottom: 0;
+      opacity: 0; transition: opacity 0.4s ease 0.6s;
+    }
+    .pillar-bar.up ~ .pillar-tag { opacity: 1; }
+
+    .pillars-base { height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); max-width: 800px; margin: 0 auto; }
+    .pillars-caption { text-align: center; margin-top: 1.2rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .pillars-caption em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+    /* Block cards */
+    .block-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px;
+      margin-top: 4rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .block-card {
+      background: var(--card);
+      padding: 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .block-card:last-child { border-right: none; }
+    .block-card.show { opacity: 1; transform: translateY(0); }
+    .block-card:nth-child(2) { transition-delay: 0.1s; }
+    .block-card:nth-child(3) { transition-delay: 0.2s; }
+    .block-card:nth-child(4) { transition-delay: 0.3s; }
+
+    .bc-num {
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .bc-icon {
+      width: 52px; height: 52px;
+      background: #1b1b1b; border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.2rem;
+      transition: all 0.4s;
+    }
+    .block-card.show .bc-icon { border-color: rgba(78,204,163,0.35); box-shadow: 0 0 20px rgba(78,204,163,0.1); }
+    .bc-layer {
+      font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.4rem;
+    }
+    .bc-title { font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.6rem; }
+    .bc-desc { font-size: 0.77rem; color: var(--muted); line-height: 1.65; }
+
+    /* Connected strip */
+    .connector-strip {
+      display: flex; align-items: center;
+      max-width: 1100px; margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .conn-node {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .conn-line { flex: 1; height: 1px; background: rgba(78,204,163,0.3); }
+    .conn-label {
+      font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); padding: 0 0.6rem; white-space: nowrap;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       CONCEPT 3 — BLUEPRINT TO LAUNCH
+    ═══════════════════════════════════════════ */
+
+    #blueprint { border-top: 1px solid var(--border); }
+
+    .bp-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 12rem;
+    }
+
+    .bp-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      position: relative;
+    }
+
+    /* horizontal connector */
+    .bp-cards::after {
+      content: '';
+      position: absolute;
+      top: calc(38% );
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(78,204,163,0.3) 20%, rgba(78,204,163,0.3) 80%, transparent);
+      pointer-events: none;
+    }
+
+    .bp-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+      position: relative;
+    }
+    .bp-card.show { opacity: 1; transform: translateY(0); }
+    .bp-card:nth-child(2) { transition-delay: 0.1s; }
+    .bp-card:nth-child(3) { transition-delay: 0.2s; }
+    .bp-card:nth-child(4) { transition-delay: 0.3s; }
+
+    /* The evolving visual */
+    .bp-screen {
+      aspect-ratio: 3/4.2;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Phase 1 — blueprint */
+    .bp-screen.p1 { background: #060c16; }
+    .bp-screen.p1::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(78,204,163,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(78,204,163,0.07) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+
+    /* Phase 2 — structure */
+    .bp-screen.p2 { background: #0a0f18; }
+
+    /* Phase 3 — build */
+    .bp-screen.p3 { background: #0d1219; }
+
+    /* Phase 4 — launch */
+    .bp-screen.p4 {
+      background: #0a1218;
+      box-shadow: 0 0 40px rgba(78,204,163,0.12);
+      border-color: rgba(78,204,163,0.3);
+    }
+
+    .bp-phase-tag {
+      position: absolute; top: 10px; left: 12px;
+      font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(78,204,163,0.55);
+    }
+
+    .bp-wires {
+      position: absolute;
+      inset: 28px 14px 14px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+
+    /* wireframe rect styles per phase */
+    .wr {
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* P1 — dashed, barely visible */
+    .p1 .wr { border: 1px dashed rgba(78,204,163,0.3); }
+
+    /* P2 — solid, clean */
+    .p2 .wr { border: 1px solid rgba(78,204,163,0.45); background: rgba(78,204,163,0.03); }
+
+    /* P3 — filled, defined */
+    .p3 .wr { border: 1px solid rgba(78,204,163,0.6); background: rgba(78,204,163,0.07); }
+
+    /* P4 — glowing, final */
+    .p4 .wr { border: 1px solid rgba(78,204,163,0.8); background: rgba(78,204,163,0.12); box-shadow: 0 0 6px rgba(78,204,163,0.15); }
+
+    /* Arrow between cards */
+    .bp-arrow {
+      position: absolute;
+      top: calc(38% - 11px);
+      right: -20px;
+      width: 22px; height: 22px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; color: var(--accent);
+      z-index: 2;
+    }
+    .bp-card:last-child .bp-arrow { display: none; }
+
+    .bp-step-num { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .bp-title { font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.35rem; }
+    .bp-badge {
+      display: inline-block;
+      font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(78,204,163,0.3);
+      border-radius: 20px; padding: 2px 8px; margin-bottom: 0.6rem;
+    }
+    .bp-desc { font-size: 0.77rem; color: var(--muted); line-height: 1.65; }
+
+    /* Evolution progress bar */
+    .bp-progress {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      max-width: 1100px;
+      margin: 3.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .bp-prog-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .bp-prog-step.show { opacity: 1; }
+    .bp-prog-step:nth-child(2) { transition-delay: 0.1s; }
+    .bp-prog-step:nth-child(3) { transition-delay: 0.2s; }
+    .bp-prog-step:nth-child(4) { transition-delay: 0.3s; }
+    .bp-prog-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 1px solid rgba(78,204,163,0.4);
+      background: transparent;
+      transition: all 0.4s;
+    }
+    .bp-prog-step.show .bp-prog-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(78,204,163,0.4); }
+    .bp-prog-lbl { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .bp-prog-line { flex: 1; height: 1px; background: rgba(78,204,163,0.2); align-self: flex-start; margin-top: 5px; }
+
+    /* Footer spacer */
+    .page-end { height: 6rem; }
+
+    /* ─── Step 2: Hub SVG + NFC animation ─── */
+    .hub-svg-wrap {
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: #e8e3db;
+      display: block;
+    }
+
+    .nfc-tap-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: #0f0f0f;
+    }
+
+    /* flash on tap */
+    .nfc-tap-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(78,204,163,0.09);
+      opacity: 0;
+      pointer-events: none;
+      animation: tap-flash 3.5s ease-out infinite;
+      animation-delay: 1.35s;
+    }
+    @keyframes tap-flash {
+      0%,100% { opacity: 0; }
+      2%       { opacity: 1; }
+      18%      { opacity: 0; }
+    }
+
+    /* phone */
+    .t-phone {
+      width: 28px;
+      height: 48px;
+      background: #1c1c1c;
+      border-radius: 6px;
+      border: 1.5px solid #3a3a3a;
+      position: relative;
+      animation: t-phone-drop 3.5s cubic-bezier(0.4,0,0.2,1) infinite;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    .t-phone::before {  /* speaker notch */
+      content: '';
+      position: absolute;
+      top: 4px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 2px;
+      background: #333; border-radius: 1px;
+    }
+    .t-phone-screen {
+      position: absolute;
+      top: 9px; left: 2px; right: 2px; bottom: 4px;
+      background: #0a1740;
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* NFC waves icon on screen */
+    .t-screen-nfc {
+      width: 12px; height: 12px;
+      border: 1.5px solid rgba(78,204,163,0.8);
+      border-radius: 50%;
+      position: relative;
+    }
+    .t-screen-nfc::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(78,204,163,0.4);
+      border-radius: 50%;
+    }
+
+    @keyframes t-phone-drop {
+      0%   { transform: translateY(-26px); }
+      36%  { transform: translateY(5px); }
+      58%  { transform: translateY(5px); }
+      90%  { transform: translateY(-26px); }
+      100% { transform: translateY(-26px); }
+    }
+
+    /* ripple waves between phone and card */
+    .t-waves {
+      width: 50px;
+      height: 20px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .t-wave {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0.2);
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: t-wave-pop 3.5s ease-out infinite;
+    }
+    .t-wave:nth-child(1) { width: 12px; height: 12px; animation-delay: 1.35s; }
+    .t-wave:nth-child(2) { width: 24px; height: 24px; animation-delay: 1.52s; }
+    .t-wave:nth-child(3) { width: 40px; height: 40px; animation-delay: 1.70s; }
+
+    @keyframes t-wave-pop {
+      0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.2); }
+      10%  { opacity: 1; }
+      65%  { opacity: 0; transform: translate(-50%,-50%) scale(1.1); }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(1.1); }
+    }
+
+    /* card */
+    .t-card {
+      width: 70px;
+      height: 44px;
+      background: linear-gradient(135deg, #18263e, #22365a);
+      border-radius: 5px;
+      border: 1px solid rgba(78,204,163,0.35);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 14px rgba(78,204,163,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .t-card::before { /* card stripe */
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 12px;
+      background: rgba(78,204,163,0.08);
+    }
+    .t-card span {
+      font-size: 0.48rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .t-lbl {
+      font-size: 0.52rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">GTA<strong>MARKETING</strong></div>
+    <a href="#sticky">01 — Sticky Storytelling</a>
+    <a href="#blocks">02 — Building Blocks</a>
+    <a href="#blueprint">03 — Blueprint to Launch</a>
+  </nav>
+
+
+  <!-- ═══ CONCEPT 1 ═══ -->
+  <section id="sticky">
+    <div class="section-intro">
+      <div class="concept-tag"><span>Concept 01</span> / 03 — Sticky Storytelling Panel</div>
+      <h2>Scroll through the process.</h2>
+      <p>The left panel stays fixed and updates with each step as you scroll down the right side.</p>
+    </div>
+
+    <div class="sticky-wrap">
+
+      <!-- LEFT — sticky browser -->
+      <div class="s-left">
+        <div class="browser-shell">
+          <div class="browser-bar">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <div class="url-bar">gtahub.ca / join</div>
+          </div>
+          <div class="browser-screen">
+
+            <!-- State 1: Listing live (was step 2) -->
+            <div class="v-state on" id="vs1">
+              <div class="listing-head">
+                <div class="listing-icon">🏪</div>
+                <div>
+                  <div class="listing-name">Your Business</div>
+                  <div class="live-badge"><div class="live-dot"></div>Now Live</div>
+                </div>
+              </div>
+              <div class="info-grid">
+                <div class="info-cell">
+                  <div class="info-lbl">Address</div>
+                  <div class="info-val">123 Main St</div>
+                </div>
+                <div class="info-cell">
+                  <div class="info-lbl">Phone</div>
+                  <div class="info-val">(416) 555-0199</div>
+                </div>
+                <div class="info-cell">
+                  <div class="info-lbl">Photos</div>
+                  <div class="info-val" style="color:var(--accent)">6 uploaded</div>
+                </div>
+                <div class="info-cell">
+                  <div class="info-lbl">Links</div>
+                  <div class="info-val" style="color:var(--accent)">Website + Maps</div>
+                </div>
+              </div>
+              <div class="visibility-bar">
+                <div class="vis-lbl">Visible to residents</div>
+                <div class="vis-val">40,000+ &uarr;</div>
+              </div>
+            </div>
+
+            <!-- State 2: Hub flyer + NFC animation (was step 3) -->
+            <div class="v-state" id="vs2">
+              <div class="s3-lbl">Deployed to your area this week</div>
+              <div class="s3-grid">
+
+                <!-- Markham Community Hub (pixelized SVG) -->
+                <div class="hub-svg-wrap">
+                  <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+                    <defs>
+                      <radialGradient id="bg-g" cx="50%" cy="48%" r="70%">
+                        <stop offset="0%"   stop-color="#d2cec8"/>
+                        <stop offset="100%" stop-color="#9a9590"/>
+                      </radialGradient>
+                      <clipPath id="hub-clip"><circle cx="70" cy="90" r="22"/></clipPath>
+                    </defs>
+
+                    <!-- Background -->
+                    <rect width="140" height="180" fill="url(#bg-g)" rx="3"/>
+
+                    <!-- Title -->
+                    <text x="70" y="14" text-anchor="middle" font-family="'Arial Black',sans-serif" font-size="7.5" font-weight="900" fill="#111">Markham</text>
+                    <text x="70" y="24" text-anchor="middle" font-family="'Arial Black',sans-serif" font-size="7.5" font-weight="900" fill="#111">Community Hub</text>
+
+                    <!-- Edge labels -->
+                    <text transform="translate(7,58) rotate(-90)"  text-anchor="middle" font-family="sans-serif" font-size="4" letter-spacing="1.1" font-weight="700" fill="#444">EXPLORE</text>
+                    <text transform="translate(133,58) rotate(90)" text-anchor="middle" font-family="sans-serif" font-size="4" letter-spacing="1.1" font-weight="700" fill="#444">WELLNESS</text>
+                    <text transform="translate(7,128) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="4" letter-spacing="1.1" font-weight="700" fill="#444">SERVICE</text>
+                    <text transform="translate(133,128) rotate(90)" text-anchor="middle" font-family="sans-serif" font-size="4" letter-spacing="1.1" font-weight="700" fill="#444">OFFICE</text>
+
+                    <!-- Connector lines EXPLORE (orange) — drawn before hexes so they appear beneath -->
+                    <line x1="70" y1="90" x2="21" y2="38"  stroke="#D84818" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="40" y2="38"  stroke="#D84818" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="21" y2="56"  stroke="#D84818" stroke-width="0.9" opacity="0.75"/>
+                    <!-- WELLNESS (green) -->
+                    <line x1="70" y1="90" x2="100" y2="38" stroke="#2d8b35" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="119" y2="38" stroke="#2d8b35" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="119" y2="56" stroke="#2d8b35" stroke-width="0.9" opacity="0.75"/>
+                    <!-- SERVICE (blue) -->
+                    <line x1="70" y1="90" x2="21" y2="118" stroke="#2a7fc0" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="40" y2="136" stroke="#2a7fc0" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="21" y2="154" stroke="#2a7fc0" stroke-width="0.9" opacity="0.75"/>
+                    <!-- OFFICE (dark) -->
+                    <line x1="70" y1="90" x2="100" y2="118" stroke="#4a5e6e" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="119" y2="136" stroke="#4a5e6e" stroke-width="0.9" opacity="0.75"/>
+                    <line x1="70" y1="90" x2="100" y2="154" stroke="#4a5e6e" stroke-width="0.9" opacity="0.75"/>
+
+                    <!-- hex r=11: points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" -->
+
+                    <!-- EXPLORE (orange) — top left, 2col×3row -->
+                    <polygon transform="translate(21,38)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#E05520" stroke="#b03a0a" stroke-width="0.8"/>
+                    <polygon transform="translate(40,38)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#D84818" stroke="#b03a0a" stroke-width="0.8"/>
+                    <polygon transform="translate(21,56)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#E86030" stroke="#b03a0a" stroke-width="0.8"/>
+                    <polygon transform="translate(40,56)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#E05520" stroke="#b03a0a" stroke-width="0.8"/>
+                    <polygon transform="translate(21,74)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#D84818" stroke="#b03a0a" stroke-width="0.8"/>
+                    <polygon transform="translate(40,74)"  points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#E86030" stroke="#b03a0a" stroke-width="0.8"/>
+
+                    <!-- WELLNESS (green) — top right, 2col×3row -->
+                    <polygon transform="translate(100,38)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3a9b40" stroke="#1a6820" stroke-width="0.8"/>
+                    <polygon transform="translate(119,38)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2d8b35" stroke="#1a6820" stroke-width="0.8"/>
+                    <polygon transform="translate(100,56)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2d8b35" stroke="#1a6820" stroke-width="0.8"/>
+                    <polygon transform="translate(119,56)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3a9b40" stroke="#1a6820" stroke-width="0.8"/>
+                    <polygon transform="translate(100,74)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3a9b40" stroke="#1a6820" stroke-width="0.8"/>
+                    <polygon transform="translate(119,74)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2d8b35" stroke="#1a6820" stroke-width="0.8"/>
+
+                    <!-- SERVICE (blue) — bottom left, 2col×3row -->
+                    <polygon transform="translate(21,118)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2a7fc0" stroke="#1050a0" stroke-width="0.8"/>
+                    <polygon transform="translate(40,118)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3285c8" stroke="#1050a0" stroke-width="0.8"/>
+                    <polygon transform="translate(21,136)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3285c8" stroke="#1050a0" stroke-width="0.8"/>
+                    <polygon transform="translate(40,136)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2a7fc0" stroke="#1050a0" stroke-width="0.8"/>
+                    <polygon transform="translate(21,154)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#2a7fc0" stroke="#1050a0" stroke-width="0.8"/>
+                    <polygon transform="translate(40,154)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#3285c8" stroke="#1050a0" stroke-width="0.8"/>
+
+                    <!-- OFFICE (dark slate) — bottom right, 2col×3row -->
+                    <polygon transform="translate(100,118)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#4a5e6e" stroke="#30424e" stroke-width="0.8"/>
+                    <polygon transform="translate(119,118)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#546878" stroke="#30424e" stroke-width="0.8"/>
+                    <polygon transform="translate(100,136)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#546878" stroke="#30424e" stroke-width="0.8"/>
+                    <polygon transform="translate(119,136)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#4a5e6e" stroke="#30424e" stroke-width="0.8"/>
+                    <polygon transform="translate(100,154)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#4a5e6e" stroke="#30424e" stroke-width="0.8"/>
+                    <polygon transform="translate(119,154)" points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="#546878" stroke="#30424e" stroke-width="0.8"/>
+
+                    <!-- Center hub: base circle then 4 colored quadrant sections -->
+                    <circle cx="70" cy="90" r="22" fill="#1a2744"/>
+                    <rect x="48" y="68" width="22" height="22" fill="#E05520" clip-path="url(#hub-clip)" opacity="0.9"/>
+                    <rect x="70" y="68" width="22" height="22" fill="#2d8b35" clip-path="url(#hub-clip)" opacity="0.9"/>
+                    <rect x="48" y="90" width="22" height="22" fill="#2a7fc0" clip-path="url(#hub-clip)" opacity="0.9"/>
+                    <rect x="70" y="90" width="22" height="22" fill="#4a5e6e" clip-path="url(#hub-clip)" opacity="0.9"/>
+                    <circle cx="70" cy="90" r="22" fill="rgba(5,15,35,0.5)"/>
+
+                    <!-- QR code — white square on top of hub -->
+                    <rect x="57" y="77" width="26" height="26" fill="white" stroke="#ddd" stroke-width="0.3"/>
+                    <!-- top-left finder -->
+                    <rect x="58.5" y="78.5" width="9"  height="9"  fill="#111"/>
+                    <rect x="59.5" y="79.5" width="7"  height="7"  fill="white"/>
+                    <rect x="60.5" y="80.5" width="5"  height="5"  fill="#111"/>
+                    <!-- top-right finder -->
+                    <rect x="74.5" y="78.5" width="9"  height="9"  fill="#111"/>
+                    <rect x="75.5" y="79.5" width="7"  height="7"  fill="white"/>
+                    <rect x="76.5" y="80.5" width="5"  height="5"  fill="#111"/>
+                    <!-- bottom-left finder -->
+                    <rect x="58.5" y="94.5" width="9"  height="9"  fill="#111"/>
+                    <rect x="59.5" y="95.5" width="7"  height="7"  fill="white"/>
+                    <rect x="60.5" y="96.5" width="5"  height="5"  fill="#111"/>
+                    <!-- data modules (scattered) -->
+                    <rect x="74.5" y="94.5" width="2" height="2" fill="#111"/>
+                    <rect x="77.5" y="94.5" width="2" height="2" fill="#111"/>
+                    <rect x="80.5" y="95.5" width="2" height="2" fill="#111"/>
+                    <rect x="74.5" y="97.5" width="4" height="2" fill="#111"/>
+                    <rect x="80.5" y="98.5" width="2" height="2" fill="#111"/>
+                    <rect x="76.5" y="100.5" width="2" height="2" fill="#111"/>
+                    <rect x="79.5" y="101.5" width="2" height="2" fill="#111"/>
+                    <rect x="74.5" y="101.5" width="2" height="2" fill="#111"/>
+                  </svg>
+                </div>
+
+                <!-- NFC tap animation -->
+                <div class="nfc-tap-wrap">
+                  <div class="t-phone">
+                    <div class="t-phone-screen">
+                      <div class="t-screen-nfc"></div>
+                    </div>
+                  </div>
+                  <div class="t-waves">
+                    <div class="t-wave"></div>
+                    <div class="t-wave"></div>
+                    <div class="t-wave"></div>
+                  </div>
+                  <div class="t-card"><span>Tap to Vote</span></div>
+                  <div class="t-lbl">No app needed</div>
+                </div>
+
+                <div class="reach-row">Reaching <strong>40,000</strong> residents</div>
+              </div>
+            </div>
+
+            <!-- State 3: Customers return (was step 4) -->
+            <div class="v-state" id="vs3">
+              <div class="s4-lbl">Customer activity this month</div>
+              <div class="review-card">
+                <div class="r-avatar" style="background:rgba(78,204,163,0.12);color:var(--accent)">SK</div>
+                <div>
+                  <div class="r-stars">★★★★★</div>
+                  <div class="r-text">Won a gift card — came back and brought my family!</div>
+                </div>
+              </div>
+              <div class="review-card">
+                <div class="r-avatar" style="background:rgba(91,141,238,0.12);color:#5b8dee">MR</div>
+                <div>
+                  <div class="r-stars">★★★★★</div>
+                  <div class="r-text">Tapped NFC, deal unlocked instantly. Love this.</div>
+                </div>
+              </div>
+              <div class="return-stat">
+                <div class="stat-lbl">Return visit rate this month</div>
+                <div class="stat-bar"><div class="stat-fill" id="stat-fill"></div></div>
+                <div class="stat-num">+72% repeat customers</div>
+              </div>
+            </div>
+
+            <!-- State 4: Sign up (was step 1) -->
+            <div class="v-state" id="vs4">
+              <div class="s1-title">Join as a Founding Member</div>
+              <div class="s1-sub">2-month free trial · no card required</div>
+              <div class="fake-field">Business name</div>
+              <div class="fake-field">Email address</div>
+              <div class="tier-row">
+                <div class="tier-card">
+                  <div class="tier-price">$5</div>
+                  <div class="tier-size">Small</div>
+                </div>
+                <div class="tier-card sel">
+                  <div class="tier-price">$25</div>
+                  <div class="tier-size">Medium</div>
+                </div>
+                <div class="tier-card">
+                  <div class="tier-price">$37.50</div>
+                  <div class="tier-size">Large</div>
+                </div>
+              </div>
+              <div class="cta-btn">Start free trial →</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — step blocks -->
+      <div class="s-right">
+
+        <div class="step-block on" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-pill">Goes Live Within 24 Hrs</div>
+          <h3 class="step-heading">Your business goes live on the Digital Hub.</h3>
+          <p class="step-body">A permanent listing on the interactive Markham directory — name, address, phone, photos, and links. Visible to every resident who visits the platform.</p>
+        </div>
+
+        <div class="step-block" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-pill">We Handle Everything</div>
+          <h3 class="step-heading">Flyers land in 10,000 homes. NFC card installed.</h3>
+          <p class="step-body">A professionally designed brochure reaches 40,000 residents with your QR code. We install a custom NFC card in your store — customers tap once to vote, no app needed.</p>
+        </div>
+
+        <div class="step-block" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-pill">The Loop Closes</div>
+          <h3 class="step-heading" style="color:var(--accent)">Real customers come back.</h3>
+          <p class="step-body">Every vote unlocks an exclusive deal from your business on the spot. We use 30% of our monthly revenue to buy gift cards directly from you — then give them away to voters as prizes.</p>
+        </div>
+
+        <div class="step-block" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-pill">No Payment Required</div>
+          <h3 class="step-heading">Sign up and choose your tier.</h3>
+          <p class="step-body">Pick Small ($5), Medium ($25), or Large ($37.50) per month as a Founding 30 member. Your 2-month free trial starts immediately.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ CONCEPT 2 ═══ -->
+  <div class="concept-divider"><span>Concept 02 — Building Blocks</span></div>
+
+  <section id="blocks">
+    <div class="section-intro">
+      <div class="concept-tag"><span>Concept 02</span> / 03 — Building Blocks &amp; Connected Pillars</div>
+      <h2>Four pillars. One system.</h2>
+      <p>Each step is a foundational layer. Together they build something durable and repeatable.</p>
+    </div>
+
+    <div class="blocks-inner">
+
+      <!-- Pillar chart -->
+      <div class="pillars-chart" id="pillars-chart">
+        <div class="pillar-col">
+          <div class="pillar-bar" id="pb1"><div class="pillar-fill"><div class="pillar-emoji">📋</div></div></div>
+          <div class="pillar-tag" id="pt1">Join</div>
+        </div>
+        <div class="pillar-col">
+          <div class="pillar-bar" id="pb2"><div class="pillar-fill"><div class="pillar-emoji">🌐</div></div></div>
+          <div class="pillar-tag" id="pt2">Live</div>
+        </div>
+        <div class="pillar-col">
+          <div class="pillar-bar" id="pb3"><div class="pillar-fill"><div class="pillar-emoji">📮</div></div></div>
+          <div class="pillar-tag" id="pt3">Reach</div>
+        </div>
+        <div class="pillar-col">
+          <div class="pillar-bar" id="pb4"><div class="pillar-fill"><div class="pillar-emoji">🔄</div></div></div>
+          <div class="pillar-tag" id="pt4">Grow</div>
+        </div>
+      </div>
+      <div class="pillars-base"></div>
+      <div class="pillars-caption" style="margin-bottom:3rem">Four pillars = <em>A business built to grow</em></div>
+
+      <!-- Connector strip -->
+      <div class="connector-strip">
+        <div class="conn-node"></div>
+        <div class="conn-line"></div><div class="conn-label">Foundation</div>
+        <div class="conn-line"></div><div class="conn-label">Structure</div>
+        <div class="conn-line"></div><div class="conn-label">Trust</div>
+        <div class="conn-line"></div><div class="conn-label">Growth</div>
+        <div class="conn-line"></div>
+        <div class="conn-node"></div>
+      </div>
+
+      <!-- Block cards -->
+      <div class="block-cards" id="block-cards">
+        <div class="block-card">
+          <div class="bc-num">Layer 01</div>
+          <div class="bc-icon">📋</div>
+          <div class="bc-layer">Foundation</div>
+          <div class="bc-title">Sign Up & Choose Tier</div>
+          <div class="bc-desc">The starting layer. Pick your membership and lock in Founding 30 pricing. Your free trial kicks off immediately.</div>
+        </div>
+        <div class="block-card">
+          <div class="bc-num">Layer 02</div>
+          <div class="bc-icon">🌐</div>
+          <div class="bc-layer">Structure</div>
+          <div class="bc-title">Digital Hub Listing</div>
+          <div class="bc-desc">Your permanent presence on the Markham directory — visible to 40,000+ residents from day one, live in 24 hours.</div>
+        </div>
+        <div class="block-card">
+          <div class="bc-num">Layer 03</div>
+          <div class="bc-icon">📮</div>
+          <div class="bc-layer">Trust</div>
+          <div class="bc-title">Flyers + NFC Card</div>
+          <div class="bc-desc">Physical reach meets digital voting. 10,000 homes get your flyer. NFC in your store closes the loop without an app.</div>
+        </div>
+        <div class="block-card">
+          <div class="bc-num">Layer 04</div>
+          <div class="bc-icon">🔄</div>
+          <div class="bc-layer">Growth</div>
+          <div class="bc-title">Real Customers Return</div>
+          <div class="bc-desc">Every vote unlocks a deal. Gift cards funded directly from platform revenue drive repeat visits and word-of-mouth.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══ CONCEPT 3 ═══ -->
+  <div class="concept-divider"><span>Concept 03 — Blueprint to Launch</span></div>
+
+  <section id="blueprint">
+    <div class="section-intro">
+      <div class="concept-tag"><span>Concept 03</span> / 03 — Blueprint to Launch</div>
+      <h2>From concept to live business.</h2>
+      <p>Watch each phase evolve — from rough wireframe to a fully operational presence.</p>
+    </div>
+
+    <div class="bp-inner">
+      <div class="bp-cards" id="bp-cards">
+
+        <!-- Step 1 -->
+        <div class="bp-card" style="position:relative">
+          <div class="bp-screen p1">
+            <div class="bp-phase-tag">Phase 01 — Concept</div>
+            <div class="bp-wires">
+              <div class="wr" style="height:16px"></div>
+              <div class="wr" style="height:36px"></div>
+              <div class="wr" style="height:10px;width:70%"></div>
+              <div class="wr" style="height:10px;width:55%"></div>
+              <div style="display:flex;gap:6px">
+                <div class="wr" style="flex:1;height:36px"></div>
+                <div class="wr" style="flex:1;height:36px"></div>
+                <div class="wr" style="flex:1;height:36px"></div>
+              </div>
+              <div class="wr" style="height:20px"></div>
+            </div>
+          </div>
+          <div class="bp-arrow">›</div>
+          <div class="bp-step-num">Step 01</div>
+          <div class="bp-title">Sign Up & Choose Tier</div>
+          <div class="bp-badge">No Payment Required</div>
+          <div class="bp-desc">The idea takes form. Pick your tier and kick off the free trial — the blueprint is drawn.</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bp-card" style="position:relative">
+          <div class="bp-screen p2">
+            <div class="bp-phase-tag">Phase 02 — Structure</div>
+            <div class="bp-wires">
+              <div class="wr" style="height:16px;background:rgba(78,204,163,0.08)"></div>
+              <div class="wr" style="height:32px;background:rgba(78,204,163,0.04)"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+                <div class="wr" style="height:22px"></div>
+                <div class="wr" style="height:22px"></div>
+                <div class="wr" style="height:22px"></div>
+                <div class="wr" style="height:22px"></div>
+              </div>
+              <div class="wr" style="height:6px;width:80%;background:rgba(78,204,163,0.15)"></div>
+              <div class="wr" style="height:24px;background:rgba(78,204,163,0.1)"></div>
+            </div>
+          </div>
+          <div class="bp-arrow">›</div>
+          <div class="bp-step-num">Step 02</div>
+          <div class="bp-title">Business Goes Live</div>
+          <div class="bp-badge">Goes Live Within 24 Hrs</div>
+          <div class="bp-desc">Structure forms. Your listing appears on the directory — name, photos, links, visible to all.</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bp-card" style="position:relative">
+          <div class="bp-screen p3">
+            <div class="bp-phase-tag">Phase 03 — Build</div>
+            <div class="bp-wires">
+              <div class="wr" style="height:16px"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+                <div class="wr" style="height:68px;grid-row:span 2"></div>
+                <div class="wr" style="height:30px"></div>
+                <div class="wr" style="height:30px"></div>
+              </div>
+              <div class="wr" style="height:5px;background:rgba(78,204,163,0.3)"></div>
+              <div class="wr" style="height:22px;background:rgba(78,204,163,0.15)"></div>
+            </div>
+          </div>
+          <div class="bp-arrow">›</div>
+          <div class="bp-step-num">Step 03</div>
+          <div class="bp-title">Flyers + NFC Installed</div>
+          <div class="bp-badge">We Handle Everything</div>
+          <div class="bp-desc">The system is built. Physical and digital merge — 10,000 homes reached, NFC live in store.</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bp-card" style="position:relative">
+          <div class="bp-screen p4">
+            <div class="bp-phase-tag" style="color:var(--accent)">Phase 04 — Launch</div>
+            <div class="bp-wires">
+              <div class="wr" style="height:16px;background:rgba(78,204,163,0.2);box-shadow:0 0 8px rgba(78,204,163,0.25)"></div>
+              <div class="wr" style="height:30px;background:rgba(78,204,163,0.08)"></div>
+              <div style="display:flex;gap:2px;font-size:1rem">⭐⭐⭐⭐⭐</div>
+              <div class="wr" style="height:9px;width:75%"></div>
+              <div class="wr" style="height:9px;width:55%"></div>
+              <div class="wr" style="height:22px;background:rgba(78,204,163,0.25);box-shadow:0 0 12px rgba(78,204,163,0.2)"></div>
+            </div>
+          </div>
+          <div class="bp-step-num">Step 04</div>
+          <div class="bp-title" style="color:var(--accent)">Real Customers Return</div>
+          <div class="bp-badge">The Loop Closes</div>
+          <div class="bp-desc">Launch complete. Votes unlock deals, gift cards drive repeat visits, growth compounds.</div>
+        </div>
+
+      </div>
+
+      <!-- Progress bar -->
+      <div class="bp-progress" id="bp-progress">
+        <div class="bp-prog-step"><div class="bp-prog-dot"></div><div class="bp-prog-lbl">Concept</div></div>
+        <div class="bp-prog-line"></div>
+        <div class="bp-prog-step"><div class="bp-prog-dot"></div><div class="bp-prog-lbl">Structure</div></div>
+        <div class="bp-prog-line"></div>
+        <div class="bp-prog-step"><div class="bp-prog-dot"></div><div class="bp-prog-lbl">Build</div></div>
+        <div class="bp-prog-line"></div>
+        <div class="bp-prog-step"><div class="bp-prog-dot"></div><div class="bp-prog-lbl">Launch</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="page-end"></div>
+
+
+  <script>
+    /* ─── CONCEPT 1: Step-lock scroll hijack ─── */
+    const NAV_H    = 58;
+    const stepEls  = [...document.querySelectorAll('.step-block')];
+    const vStateEls = document.querySelectorAll('.v-state');
+    let stepTops   = [];
+    let curStep    = 0;
+    let locked     = false;
+
+    // Cache absolute scroll positions for each step
+    function cacheStepTops() {
+      stepTops = stepEls.map(el =>
+        Math.round(el.getBoundingClientRect().top + window.scrollY - NAV_H)
+      );
+    }
+    window.addEventListener('load', cacheStepTops);
+    window.addEventListener('resize', cacheStepTops);
+
+    // Update all visual state for a given step index (0-based)
+    function activateStep(idx) {
+      curStep = idx;
+      stepEls.forEach(s => s.classList.remove('on'));
+      stepEls[idx].classList.add('on');
+      vStateEls.forEach(v => v.classList.remove('on'));
+      document.getElementById(`vs${idx + 1}`)?.classList.add('on');
+      if (idx === 2) setTimeout(() => document.getElementById('stat-fill')?.classList.add('go'), 500);
+    }
+
+    function jumpToStep(idx) {
+      window.scrollTo({ top: stepTops[idx], behavior: 'smooth' });
+      activateStep(idx);
+    }
+
+    // True when the viewport is scrolled into the step zone
+    function inStepZone() {
+      if (!stepTops.length) return false;
+      const y = window.scrollY;
+      return y >= stepTops[0] - 60
+          && y <= stepTops[stepTops.length - 1] + window.innerHeight * 0.8;
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (!inStepZone()) return;
+
+      const dir = e.deltaY > 0 ? 1 : -1;
+
+      // At boundaries let the page scroll naturally
+      if (dir < 0 && curStep === 0 && window.scrollY <= stepTops[0] + 10) return;
+      if (dir > 0 && curStep === stepEls.length - 1) return;
+
+      // Inside the zone — always cancel native scroll
+      e.preventDefault();
+      if (locked) return;
+
+      locked = true;
+      const nextIdx = Math.max(0, Math.min(stepEls.length - 1, curStep + dir));
+      jumpToStep(nextIdx);
+      // Last step gets an extra second so momentum can't drift past it
+      const lockMs = nextIdx === stepEls.length - 1 ? 2000 : 1000;
+      setTimeout(() => { locked = false; }, lockMs);
+    }, { passive: false });
+
+    // Touch support
+    let touchY0 = 0;
+    window.addEventListener('touchstart', e => {
+      touchY0 = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      if (inStepZone()) e.preventDefault();
+    }, { passive: false });
+    window.addEventListener('touchend', e => {
+      if (!inStepZone() || locked) return;
+      const dy = touchY0 - e.changedTouches[0].clientY;
+      if (Math.abs(dy) < 30) return;
+      const dir = dy > 0 ? 1 : -1;
+      if (dir < 0 && curStep === 0) return;
+      if (dir > 0 && curStep === stepEls.length - 1) return;
+      locked = true;
+      const nextIdx = Math.max(0, Math.min(stepEls.length - 1, curStep + dir));
+      jumpToStep(nextIdx);
+      const lockMs = nextIdx === stepEls.length - 1 ? 2000 : 1000;
+      setTimeout(() => { locked = false; }, lockMs);
+    });
+
+    /* ─── CONCEPT 2: Building Blocks ─── */
+    const pillarsChart = document.getElementById('pillars-chart');
+    const blockCards   = document.getElementById('block-cards');
+
+    const blocksObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        // pillars
+        document.querySelectorAll('.pillar-bar').forEach((p, i) => {
+          setTimeout(() => {
+            p.classList.add('up');
+            p.nextElementSibling?.classList.add('up'); // tag opacity handled via CSS sibling
+          }, i * 130);
+        });
+        // update tag opacity manually since css sibling trick may not fire
+        document.querySelectorAll('.pillar-tag').forEach((t, i) => {
+          setTimeout(() => { t.style.opacity = '1'; }, i * 130 + 500);
+        });
+        // cards
+        document.querySelectorAll('.block-card').forEach((c, i) => {
+          setTimeout(() => c.classList.add('show'), i * 100);
+        });
+      });
+    }, { threshold: 0.25 });
+
+    if (pillarsChart) blocksObs.observe(pillarsChart);
+
+    /* ─── CONCEPT 3: Blueprint to Launch ─── */
+    const bpSection = document.getElementById('bp-cards');
+
+    const bpObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        document.querySelectorAll('.bp-card').forEach((c, i) => {
+          setTimeout(() => c.classList.add('show'), i * 110);
+        });
+        document.querySelectorAll('.bp-prog-step').forEach((s, i) => {
+          setTimeout(() => s.classList.add('show'), i * 150 + 200);
+        });
+      });
+    }, { threshold: 0.2 });
+
+    if (bpSection) bpObs.observe(bpSection);
+
+    /* ─── Nav active state ─── */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('nav a');
+
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(l => l.classList.remove('is-active'));
+        document.querySelector(`nav a[href="#${e.target.id}"]`)?.classList.add('is-active');
+      });
+    }, { threshold: 0.25 });
+
+    sections.forEach(s => navObs.observe(s));
+  </script>
+</body>
+</html>

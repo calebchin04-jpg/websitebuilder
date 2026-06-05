@@ -1,0 +1,143 @@
+LA GROTTA ON MAIN — LAUNCH CHECKLIST
+======================================
+Work through this list top to bottom before going live.
+Items marked [CLIENT] require input from the restaurant.
+Items marked [DEV] are technical tasks for the build team.
+
+
+CONTENT — MUST COMPLETE BEFORE LAUNCH
+--------------------------------------
+
+[ ] [CLIENT] Confirm founding year is 1996 (currently assumed).
+    → If different, update data/site.ts (foundedYear) and app/layout.tsx (JSON-LD schema).
+
+[ ] [CLIENT] Confirm or correct the story copy in data/pages/home.ts (story.body[]).
+    → The three paragraphs are placeholder text. Replace with the real founding story.
+
+[ ] [CLIENT] Confirm weekly hours of operation.
+    → Current hours in data/site.ts are estimated. Update monday–sunday fields.
+    → Also update the openingHoursSpecification in app/layout.tsx (JSON-LD schema).
+
+[ ] [CLIENT] Confirm the menu is accurate before launch.
+    → Current menu in data/menu.ts is a placeholder structure.
+    → Also remove the placeholder notice from components/sections/MenuContent.tsx (line ~16).
+
+[ ] [CLIENT] Confirm Private Functions details (capacity, pricing, deposit policy).
+    → FAQ answers in data/faq.ts are placeholders — update with real answers.
+
+
+ASSETS — MUST COMPLETE BEFORE LAUNCH
+--------------------------------------
+
+[ ] [CLIENT] Provide logo file (PNG or SVG, transparent background).
+    → Place at: public/images/logo/logo.png (or logo.svg)
+    → If a white/reversed version exists, also add: public/images/logo/logo-white.png
+    → Update app/icon.svg (current placeholder is a gold "L" on dark) with real logo icon.
+
+[ ] [CLIENT/DEV] Replace gold hex placeholder.
+    → Current gold colour: #C9A052 (placeholder)
+    → Extract real gold from the logo using an eyedropper tool / browser DevTools
+    → Update in: app/globals.css (--color-gold and --color-gold-hover)
+
+[ ] [CLIENT/DEV] Add hero photo.
+    → Place at: public/images/hero/hero-main.jpg
+    → Recommended: warm interior or patio shot, landscape, min 1920×1080px
+    → Also: public/images/hero/hero-private.jpg (for Private Functions page)
+
+[ ] [CLIENT/DEV] Add family/interior story photo.
+    → Place at: public/images/story/story-interior.jpg
+    → Recommended: dining room interior, portrait crop friendly
+
+[ ] [CLIENT/DEV] Add signature dish photos (3 required).
+    → public/images/dishes/dish-rack-of-lamb.jpg
+    → public/images/dishes/dish-sea-bass.jpg
+    → public/images/dishes/dish-beef-tenderloin.jpg
+    → Min resolution: 800×600px, 4:3 aspect ratio
+
+[ ] [CLIENT/DEV] Add gallery photos (up to 24 slots across 4 categories).
+    → public/images/gallery/food/food-01.jpg through food-06.jpg
+    → public/images/gallery/interior/interior-01.jpg through interior-06.jpg
+    → public/images/gallery/patio/patio-01.jpg through patio-06.jpg
+    → public/images/gallery/events/event-01.jpg through event-06.jpg
+    → If fewer than 6 good photos per category, use fewer — remove unused entries from data/gallery.ts
+
+[ ] [DEV] Create OG image for social sharing.
+    → Place at: public/images/og/og-default.jpg
+    → Required dimensions: 1200×630px
+    → Should show restaurant name + a strong food/interior photo
+
+
+TECHNICAL — MUST COMPLETE BEFORE LAUNCH
+-----------------------------------------
+
+[ ] [DEV] Get real Google Maps embed URL.
+    → Go to Google Maps → search "La Grotta On Main Unionville" → Share → Embed a map → copy URL
+    → Replace placeholder in: components/sections/GoogleMap.tsx
+
+[ ] [DEV] Set up Resend for the inquiry form.
+    → Create account at resend.com
+    → Add and verify the sending domain (lagrottaonmain.ca)
+    → Get API key
+    → Add to Vercel environment variables: RESEND_API_KEY=re_xxxxxxxxxxxx
+    → Test the form end-to-end before launch
+
+[ ] [DEV] Set up Google Analytics.
+    → Create a GA4 property at analytics.google.com
+    → Get Measurement ID (format: G-XXXXXXXXXX)
+    → Add to Vercel environment variables: NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+[ ] [DEV] Deploy to Vercel.
+    → Push project to a GitHub repository
+    → Connect to Vercel (vercel.com → Import Project)
+    → Add environment variables (RESEND_API_KEY, NEXT_PUBLIC_GA_ID)
+    → Confirm build passes in Vercel dashboard
+
+[ ] [CLIENT/DEV] Point domain to Vercel.
+    → Confirm who controls lagrottaonmain.ca DNS (client to confirm)
+    → In Vercel: Settings → Domains → Add lagrottaonmain.ca
+    → Update DNS A record or CNAME at registrar to point to Vercel
+    → Vercel automatically provisions SSL
+
+[ ] [DEV] Test the live domain after DNS propagation.
+    → Homepage loads with correct fonts and images
+    → Mobile bottom bar visible on phone
+    → "Reserve Your Table" button dials the correct number
+    → Private Functions form submits and redirects to /thank-you
+    → Confirmation email arrives at lagrottaonmain@gmail.com
+    → Google Maps loads on Contact page
+    → Gallery tab filters and lightbox work
+
+
+FINAL APPROVALS — BEFORE LAUNCH
+---------------------------------
+
+[ ] [CLIENT] Review and approve homepage copy (especially the family story section).
+[ ] [CLIENT] Review and approve menu page for accuracy.
+[ ] [CLIENT] Review and approve Private Functions page and FAQ answers.
+[ ] [CLIENT] Confirm phone number is correct: (905) 940-0235.
+[ ] [CLIENT] Confirm email is correct: lagrottaonmain@gmail.com.
+[ ] [CLIENT] Confirm address is correct: 205 Main Street, Unionville, ON L3R 2G8.
+
+
+KNOWN PLACEHOLDERS IN THE CODEBASE
+------------------------------------
+These are flagged with TODO comments — search the codebase for "TODO" to find them all.
+
+1. Gold hex: app/globals.css — replace #C9A052 with real value from logo
+2. Google Maps URL: components/sections/GoogleMap.tsx — replace iframe src
+3. Rating count: app/layout.tsx JSON-LD schema — ratingCount: 100 is an estimate
+4. Menu content: data/menu.ts — placeholder items, confirm with client
+5. FAQ answers: data/faq.ts — confirm capacity/deposit details with client
+6. Story copy: data/pages/home.ts — confirm founding story with client
+7. Hours: data/site.ts — confirm exact hours with client
+
+
+POST-LAUNCH (OPTIONAL)
+------------------------
+[ ] Submit sitemap to Google Search Console (lagrottaonmain.ca/sitemap.xml)
+[ ] Verify Google Business Profile matches website hours/address
+[ ] Set up Vercel Analytics for Core Web Vitals monitoring
+[ ] Consider a professional photography session if sourced photos are low quality
+
+======================================
+Questions? See CLIENT-TODO.txt for the version formatted for the client.

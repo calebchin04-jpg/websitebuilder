@@ -72,10 +72,10 @@ export function HowItWorks() {
       ref={outerRef}
       id="how-it-works"
       className="hiw-outer border-t border-[rgba(42,31,20,0.1)]"
-      style={{ height: `${STEPS.length * 100 + 100}vh` }}
+      style={{ height: `${STEPS.length * 50 + 50}vh` }}
     >
       <style>{`
-        .hiw-outer { background: #FBF6E9; }
+        .hiw-outer { background: #FBF6E9; overflow: clip; }
 
         /* ── Sticky panel ── */
         .hiw-sticky {
@@ -334,7 +334,7 @@ export function HowItWorks() {
           width:28px; height:28px; border-radius:50%;
           background:#1F4E3D; color:#FBF6E9; border:1px solid #1F4E3D;
           display:inline-flex; align-items:center; justify-content:center;
-          font-size:0.7rem; font-weight:600; margin-bottom:1rem;
+          font-size:0.7rem; font-weight:600; margin-bottom:1rem; margin-right:5px;
         }
         .hiw-pill {
           display:inline-flex; align-items:center;
