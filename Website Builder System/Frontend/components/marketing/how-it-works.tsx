@@ -33,6 +33,294 @@ const STEPS = [
   },
 ]
 
+function MobileHowItWorks() {
+  const [tierSel, setTierSel] = useState(1)
+
+  return (
+    <div className="lg:hidden" style={{ background: "#FBF6E9", borderTop: "1px solid rgba(42,31,20,0.1)" }}>
+      <style>{`
+        .hiw-m-wrap { padding: 3rem 20px 4rem; }
+        .hiw-m-eyebrow {
+          font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+          color: rgba(42,31,20,0.5); margin-bottom: 0.75rem;
+        }
+        .hiw-m-title {
+          font-size: clamp(1.5rem,6vw,2rem); font-weight: 700;
+          letter-spacing: -0.025em; color: #2A1F14; line-height: 1.15; margin-bottom: 2rem;
+        }
+        .hiw-m-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+        .hiw-m-card {
+          background: #FFFCF2; border: 1px solid rgba(42,31,20,0.1);
+          border-radius: 16px; overflow: hidden;
+        }
+        .hiw-m-card-text { padding: 20px 20px 16px; }
+        .hiw-m-chip { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px; }
+        .hiw-m-num {
+          width: 22px; height: 22px; border-radius: 50%;
+          background: #1F4E3D; color: #FBF6E9;
+          display: inline-flex; align-items: center; justify-content: center;
+          font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+        }
+        .hiw-m-tag { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #1F4E3D; }
+        .hiw-m-heading {
+          font-size: clamp(1.1rem,4.5vw,1.4rem); font-weight: 700;
+          letter-spacing: -0.02em; color: #2A1F14; line-height: 1.25; margin-bottom: 0.55rem;
+        }
+        .hiw-m-heading.accent { color: #1F4E3D; }
+        .hiw-m-body { font-size: 0.88rem; color: rgba(42,31,20,0.62); line-height: 1.72; }
+        .hiw-m-visual {
+          background: #F4ECD8; padding: 18px 20px;
+          border-top: 1px solid rgba(42,31,20,0.07);
+        }
+
+        /* VS1 — listing */
+        .hiw-m-listing-head { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem; }
+        .hiw-m-listing-icon {
+          width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+          background: linear-gradient(135deg,#2A6651,#1F4E3D);
+          display: flex; align-items: center; justify-content: center; font-size: 1.35rem;
+        }
+        .hiw-m-listing-name { font-weight: 600; font-size: 1rem; color: #2A1F14; }
+        .hiw-m-live-badge {
+          display: inline-flex; align-items: center; gap: 5px;
+          background: rgba(31,78,61,0.1); border: 1px solid rgba(31,78,61,0.25);
+          border-radius: 20px; padding: 3px 9px;
+          font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+          color: #1F4E3D; margin-top: 2px;
+        }
+        .hiw-m-live-dot { width: 5px; height: 5px; background: #1F4E3D; border-radius: 50%; animation: hiw-blink 2s infinite; }
+        .hiw-m-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.9rem; }
+        .hiw-m-info-cell { background: rgba(42,31,20,0.05); border-radius: 7px; padding: 0.55rem 0.75rem; }
+        .hiw-m-info-lbl { font-size: 0.62rem; color: rgba(42,31,20,0.5); text-transform: uppercase; letter-spacing: 0.05em; }
+        .hiw-m-info-val { font-size: 0.85rem; color: #2A1F14; margin-top: 1px; }
+        .hiw-m-vis-bar {
+          background: rgba(42,31,20,0.05); border-radius: 7px; padding: 0.62rem 0.85rem;
+          display: flex; align-items: center; justify-content: space-between;
+        }
+        .hiw-m-vis-lbl { font-size: 0.78rem; color: rgba(42,31,20,0.55); }
+        .hiw-m-vis-val { font-size: 0.82rem; color: #1F4E3D; font-weight: 600; }
+
+        /* VS2 — flyer + NFC */
+        .hiw-m-s2-lbl { font-size: 0.78rem; color: rgba(42,31,20,0.55); margin-bottom: 0.9rem; }
+        .hiw-m-s2-row { display: flex; gap: 0.75rem; margin-bottom: 0.9rem; }
+        .hiw-m-flyer-card {
+          flex: 1; background: rgba(42,31,20,0.05); border-radius: 9px;
+          padding: 14px 12px; display: flex; flex-direction: column;
+          align-items: center; gap: 8px;
+        }
+        .hiw-m-flyer-icon { font-size: 1.8rem; }
+        .hiw-m-flyer-lbl { font-size: 0.72rem; color: rgba(42,31,20,0.65); text-align: center; line-height: 1.4; }
+        .hiw-m-nfc-card {
+          flex: 1; background: linear-gradient(135deg,#0F2A20,#1F4E3D);
+          border-radius: 9px; padding: 14px 12px;
+          border: 1px solid rgba(184,120,46,0.3);
+          display: flex; flex-direction: column; align-items: center;
+          gap: 8px; position: relative; overflow: hidden;
+        }
+        .hiw-m-nfc-card::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px;
+          background: rgba(184,120,46,0.1);
+        }
+        .hiw-m-nfc-label { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: #DFA75C; font-weight: 600; }
+        .hiw-m-nfc-sub { font-size: 0.62rem; color: rgba(184,120,46,0.7); }
+        .hiw-m-reach { text-align: center; font-size: 0.82rem; color: rgba(42,31,20,0.55); }
+        .hiw-m-reach strong { color: #1F4E3D; font-size: 1.1rem; }
+
+        /* VS3 — customers */
+        .hiw-m-s3-lbl { font-size: 0.78rem; color: rgba(42,31,20,0.55); margin-bottom: 0.85rem; }
+        .hiw-m-review {
+          background: rgba(42,31,20,0.05); border-radius: 8px; padding: 0.72rem 0.85rem;
+          display: flex; gap: 0.72rem; margin-bottom: 0.5rem;
+        }
+        .hiw-m-avatar {
+          width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 0.75rem; font-weight: 600;
+        }
+        .hiw-m-stars { font-size: 0.72rem; color: #B8782E; margin-bottom: 2px; }
+        .hiw-m-rtext { font-size: 0.82rem; color: rgba(42,31,20,0.62); }
+        .hiw-m-stat { background: rgba(42,31,20,0.05); border-radius: 8px; padding: 0.7rem 0.85rem; margin-top: 0.5rem; }
+        .hiw-m-stat-lbl { font-size: 0.65rem; color: rgba(42,31,20,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; }
+        .hiw-m-stat-bar { height: 6px; background: rgba(42,31,20,0.1); border-radius: 3px; overflow: hidden; }
+        .hiw-m-stat-fill {
+          height: 100%; width: 0; background: linear-gradient(90deg,#1F4E3D,#3A7866);
+          border-radius: 3px; animation: hiw-m-bar-fill 1s ease 0.8s forwards;
+        }
+        @keyframes hiw-m-bar-fill { to { width: 72%; } }
+        .hiw-m-stat-num { font-size: 0.82rem; color: #1F4E3D; margin-top: 5px; }
+
+        /* VS4 — sign up */
+        .hiw-m-form-title { font-size: 1.05rem; font-weight: 600; color: #2A1F14; margin-bottom: 4px; }
+        .hiw-m-form-sub { font-size: 0.8rem; color: rgba(42,31,20,0.55); margin-bottom: 1rem; }
+        .hiw-m-input {
+          display: block; width: 100%; box-sizing: border-box;
+          background: rgba(42,31,20,0.05); border: 1px solid rgba(42,31,20,0.15); border-radius: 7px;
+          padding: 0.7rem 0.9rem; font-size: 0.88rem; color: #2A1F14; margin-bottom: 0.6rem;
+          outline: none; font-family: inherit; transition: border-color 0.2s; -webkit-appearance: none;
+        }
+        .hiw-m-input::placeholder { color: rgba(42,31,20,0.35); }
+        .hiw-m-input:focus { border-color: #1F4E3D; }
+        .hiw-m-tiers { display: flex; gap: 0.5rem; margin-bottom: 0.85rem; }
+        .hiw-m-tier {
+          flex: 1; background: rgba(42,31,20,0.05); border: 1px solid rgba(42,31,20,0.15);
+          border-radius: 8px; padding: 0.75rem 0.5rem; text-align: center;
+          cursor: pointer; transition: border-color 0.2s, background 0.2s; font-family: inherit;
+        }
+        .hiw-m-tier.sel { border-color: #1F4E3D; background: rgba(31,78,61,0.07); }
+        .hiw-m-tier-price { font-size: 1.05rem; font-weight: 600; color: #2A1F14; }
+        .hiw-m-tier-size { font-size: 0.65rem; color: rgba(42,31,20,0.55); }
+        .hiw-m-cta {
+          width: 100%; background: #1F4E3D; color: #FBF6E9;
+          border: none; border-radius: 8px; padding: 0.82rem;
+          font-size: 0.95rem; font-weight: 600; cursor: pointer;
+          font-family: inherit; transition: background 0.2s; -webkit-appearance: none;
+        }
+        .hiw-m-cta:active { background: #2A6651; }
+      `}</style>
+
+      <div className="hiw-m-wrap">
+        <div className="hiw-m-eyebrow">How it works</div>
+        <h2 className="hiw-m-title">From sign-up to foot traffic in four steps.</h2>
+
+        <div className="hiw-m-steps">
+
+          {/* Step 1 */}
+          <div className="hiw-m-card">
+            <div className="hiw-m-card-text">
+              <div className="hiw-m-chip">
+                <span className="hiw-m-num">1</span>
+                <span className="hiw-m-tag">Goes Live Within 24 Hrs</span>
+              </div>
+              <h3 className="hiw-m-heading">Your business goes live on the Digital Hub.</h3>
+              <p className="hiw-m-body">A permanent listing on the interactive Markham directory — name, address, phone, photos, and links. Visible to every resident who visits the platform.</p>
+            </div>
+            <div className="hiw-m-visual">
+              <div className="hiw-m-listing-head">
+                <div className="hiw-m-listing-icon">🏪</div>
+                <div>
+                  <div className="hiw-m-listing-name">Your Business</div>
+                  <div className="hiw-m-live-badge"><div className="hiw-m-live-dot" />Now Live</div>
+                </div>
+              </div>
+              <div className="hiw-m-info-grid">
+                <div className="hiw-m-info-cell">
+                  <div className="hiw-m-info-lbl">Address</div>
+                  <div className="hiw-m-info-val">123 Main St</div>
+                </div>
+                <div className="hiw-m-info-cell">
+                  <div className="hiw-m-info-lbl">Phone</div>
+                  <div className="hiw-m-info-val">(416) 555-0199</div>
+                </div>
+                <div className="hiw-m-info-cell">
+                  <div className="hiw-m-info-lbl">Photos</div>
+                  <div className="hiw-m-info-val" style={{ color: "#1F4E3D" }}>6 uploaded</div>
+                </div>
+                <div className="hiw-m-info-cell">
+                  <div className="hiw-m-info-lbl">Links</div>
+                  <div className="hiw-m-info-val" style={{ color: "#1F4E3D" }}>Website + Maps</div>
+                </div>
+              </div>
+              <div className="hiw-m-vis-bar">
+                <div className="hiw-m-vis-lbl">Visible to residents</div>
+                <div className="hiw-m-vis-val">40,000+ ↑</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div className="hiw-m-card">
+            <div className="hiw-m-card-text">
+              <div className="hiw-m-chip">
+                <span className="hiw-m-num">2</span>
+                <span className="hiw-m-tag">We Handle Everything</span>
+              </div>
+              <h3 className="hiw-m-heading">Flyers land in 10,000 homes. NFC card installed.</h3>
+              <p className="hiw-m-body">A professionally designed brochure reaches 40,000 residents with your QR code. We install a custom NFC card in your store — customers tap once to vote, no app needed.</p>
+            </div>
+            <div className="hiw-m-visual">
+              <div className="hiw-m-s2-lbl">Deployed to your area this week</div>
+              <div className="hiw-m-s2-row">
+                <div className="hiw-m-flyer-card">
+                  <div className="hiw-m-flyer-icon">📄</div>
+                  <div className="hiw-m-flyer-lbl">Community flyer to 10,000 homes</div>
+                </div>
+                <div className="hiw-m-nfc-card">
+                  <div style={{ fontSize: "1.5rem" }}>📲</div>
+                  <div className="hiw-m-nfc-label">Tap to Vote</div>
+                  <div className="hiw-m-nfc-sub">No app needed</div>
+                </div>
+              </div>
+              <div className="hiw-m-reach">Reaching <strong>40,000</strong> residents</div>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="hiw-m-card">
+            <div className="hiw-m-card-text">
+              <div className="hiw-m-chip">
+                <span className="hiw-m-num">3</span>
+                <span className="hiw-m-tag">The Loop Closes</span>
+              </div>
+              <h3 className="hiw-m-heading accent">Real customers come back.</h3>
+              <p className="hiw-m-body">Every vote unlocks an exclusive deal from your business on the spot. We use 30% of our monthly revenue to buy gift cards directly from you — then give them away to voters as prizes.</p>
+            </div>
+            <div className="hiw-m-visual">
+              <div className="hiw-m-s3-lbl">Customer activity this month</div>
+              <div className="hiw-m-review">
+                <div className="hiw-m-avatar" style={{ background: "rgba(31,78,61,0.12)", color: "#1F4E3D" }}>SK</div>
+                <div>
+                  <div className="hiw-m-stars">★★★★★</div>
+                  <div className="hiw-m-rtext">Won a gift card — came back and brought my family!</div>
+                </div>
+              </div>
+              <div className="hiw-m-review">
+                <div className="hiw-m-avatar" style={{ background: "rgba(45,74,110,0.15)", color: "#2D4A6E" }}>MR</div>
+                <div>
+                  <div className="hiw-m-stars">★★★★★</div>
+                  <div className="hiw-m-rtext">Tapped NFC, deal unlocked instantly. Love this.</div>
+                </div>
+              </div>
+              <div className="hiw-m-stat">
+                <div className="hiw-m-stat-lbl">Return visit rate this month</div>
+                <div className="hiw-m-stat-bar"><div className="hiw-m-stat-fill" /></div>
+                <div className="hiw-m-stat-num">+72% repeat customers</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 4 */}
+          <div className="hiw-m-card">
+            <div className="hiw-m-card-text">
+              <div className="hiw-m-chip">
+                <span className="hiw-m-num">4</span>
+                <span className="hiw-m-tag">No Payment Required</span>
+              </div>
+              <h3 className="hiw-m-heading">Sign up and choose your tier.</h3>
+              <p className="hiw-m-body">Pick Small ($5), Medium ($25), or Large ($37.50) per month as a Founding 30 member. Your 2-month free trial starts immediately.</p>
+            </div>
+            <div className="hiw-m-visual">
+              <div className="hiw-m-form-title">Join as a Founding Member</div>
+              <div className="hiw-m-form-sub">2-month free trial · no card required</div>
+              <input className="hiw-m-input" type="text" placeholder="Business name" />
+              <input className="hiw-m-input" type="email" placeholder="Email address" />
+              <div className="hiw-m-tiers">
+                {[{ price: "$5", size: "Small" }, { price: "$25", size: "Medium" }, { price: "$37.50", size: "Large" }].map((t, i) => (
+                  <button key={i} className={`hiw-m-tier${tierSel === i ? " sel" : ""}`} onClick={() => setTierSel(i)}>
+                    <div className="hiw-m-tier-price">{t.price}</div>
+                    <div className="hiw-m-tier-size">{t.size}</div>
+                  </button>
+                ))}
+              </div>
+              <button className="hiw-m-cta">Start free trial →</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function HowItWorks() {
   const outerRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
@@ -68,6 +356,8 @@ export function HowItWorks() {
   const step = STEPS[activeStep]
 
   return (
+    <>
+    <div className="hidden lg:block">
     <div
       ref={outerRef}
       id="how-it-works"
@@ -559,5 +849,8 @@ export function HowItWorks() {
         </div>
       </div>
     </div>
+    </div>
+    <MobileHowItWorks />
+    </>
   )
 }
