@@ -52,8 +52,8 @@ export function Section({
   return (
     <section
       id={id}
-      className={`relative isolate ${paddingY} ${borderClass} ${className}`}
-      style={{ backgroundColor: bg, paddingLeft: 75, paddingRight: 75, ...style }}
+      className={`relative isolate px-5 lg:px-[75px] ${paddingY} ${borderClass} ${className}`}
+      style={{ backgroundColor: bg, ...style }}
     >
       <div className={`w-full ${innerClassName}`}>
         {children}

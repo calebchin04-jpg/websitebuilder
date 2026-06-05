@@ -53,7 +53,7 @@ export function FAQ() {
 
   return (
     <Section bg="#FBF6E9">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-20 lg:gap-28">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-28">
           {/* Left col */}
           <FadeIn>
             <div>
@@ -93,7 +93,7 @@ export function FAQ() {
                 <div className="border-b border-[rgba(42,31,20,0.1)]">
                   <button
                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="w-full py-8 flex items-center justify-between text-left"
+                    className="w-full py-5 lg:py-8 flex items-center justify-between text-left"
                   >
                     <span className="text-base font-semibold text-[#2A1F14] pr-8">
                       {faq.question}

@@ -21,14 +21,11 @@ const tiers = [
 export function Founding30() {
   return (
     <section
+      className="px-5 lg:px-[75px] py-14 lg:py-24"
       style={{
         backgroundColor: "#FBF6E9",
         position: "relative",
         overflow: "hidden",
-        paddingLeft: 75,
-        paddingRight: 75,
-        paddingTop: 80,
-        paddingBottom: 96,
       }}
     >
       {/* Radial vignette — forest green glow at bottom */}
@@ -55,7 +52,7 @@ export function Founding30() {
 
             <h2
               style={{
-                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                fontSize: "clamp(1.8rem, 5vw, 4.5rem)",
                 fontWeight: 800,
                 lineHeight: 1.08,
                 letterSpacing: "-0.03em",
@@ -76,7 +73,7 @@ export function Founding30() {
 
         {/* ── Card + bullets row ── */}
         <FadeIn delay={0.1}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
             {/* LEFT — bullets */}
             <div style={{ paddingTop: 8 }}>

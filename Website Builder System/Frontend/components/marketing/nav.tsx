@@ -31,7 +31,7 @@ export function Nav() {
           : "bg-transparent"
       }`}
     >
-      <div className="w-full flex items-center" style={{ paddingLeft: 56, paddingRight: 75, paddingTop: 28, paddingBottom: 28 }}>
+      <div className="w-full flex items-center px-5 lg:pl-[56px] lg:pr-[75px] py-5 lg:py-7">
         <button onClick={handleLogoClick} className="flex items-center gap-3 cursor-pointer select-none group relative">
           {/* Sonar ring — expands outward from the logo on loop */}
           <motion.div
@@ -56,7 +56,7 @@ export function Nav() {
               style={{ background: '#1F4E3D' }} />
           </span>
 
-          <span className="text-[22px] font-bold text-[#2A1F14] tracking-[0.18em] group-hover:opacity-70 transition-opacity">
+          <span className="text-[17px] lg:text-[22px] font-bold text-[#2A1F14] tracking-[0.18em] group-hover:opacity-70 transition-opacity">
             CROSSROADS
           </span>
         </button>

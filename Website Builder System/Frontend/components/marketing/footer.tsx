@@ -25,10 +25,10 @@ const linkCols: {
 
 export function Footer() {
   return (
-    <footer className="bg-[#EDE3CB] border-t border-[rgba(42,31,20,0.1)] pt-16 pb-10 px-3 md:px-5" style={{ paddingLeft: 75, paddingRight: 75 }}>
+    <footer className="bg-[#EDE3CB] border-t border-[rgba(42,31,20,0.1)] pt-12 lg:pt-16 pb-10 px-5 lg:px-[75px]">
       <div className="w-full">
         {/* Top grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 mb-10 lg:mb-12">
           {/* Brand block */}
           <div className="md:col-span-5">
             <a href="#" className="flex items-baseline mb-5">

@@ -43,10 +43,10 @@ function PairRow({
   return (
     <div
       ref={ref}
-      className={`grid grid-cols-[38%_62%] min-h-[400px] ${isFirst ? "" : "border-t border-[rgba(42,31,20,0.08)]"}`}
+      className={`grid grid-cols-1 lg:grid-cols-[38%_62%] ${isFirst ? "" : "border-t border-[rgba(42,31,20,0.08)]"}`}
     >
       {/* Left column - decorative number */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden hidden lg:block">
         <motion.span
           className="absolute left-[-12px] bottom-[-40px] font-black select-none pointer-events-none"
           style={{
@@ -65,7 +65,7 @@ function PairRow({
       </div>
 
       {/* Right column - content */}
-      <div className="flex flex-col justify-center gap-7 py-16 px-8 pr-12">
+      <div className="flex flex-col justify-center gap-5 lg:gap-7 py-8 lg:py-16 px-5 lg:px-8 lg:pr-12">
         {/* Agency block */}
         <div className="relative inline-block">
           <motion.p
@@ -153,8 +153,7 @@ export function Problems() {
       {/* Section heading */}
       <motion.div
         ref={headingRef}
-        className="w-full py-20 px-3 md:px-5 pb-16"
-        style={{ paddingLeft: 75, paddingRight: 75 }}
+        className="w-full py-16 lg:py-20 pb-10 lg:pb-16 px-5 lg:px-[75px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: headingInView ? 1 : 0, y: headingInView ? 0 : 20 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}

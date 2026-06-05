@@ -112,7 +112,7 @@ export function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 flex-1 flex flex-col justify-center">
-        <div className="w-full pt-32 pb-12" style={{ paddingLeft: 75, paddingRight: 75 }}>
+        <div className="w-full pt-24 lg:pt-32 pb-12 px-5 lg:px-[75px]">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-16">
 
             {/* Left: Copy */}
@@ -137,7 +137,7 @@ export function Hero() {
               {/* Headline — line-by-line reveal */}
               <h1
                 className="font-bold leading-[1.18] tracking-[-0.03em] mb-8"
-                style={{ fontSize: "clamp(3.2rem, 6.5vw, 6rem)" }}
+                style={{ fontSize: "clamp(2rem, 6.5vw, 6rem)" }}
               >
                 {HEADLINE.map((line, i) => (
                   <div key={i} className="overflow-hidden">
@@ -259,7 +259,7 @@ export function Hero() {
 
       {/* Stats bar */}
       <div ref={statsRef} className="relative z-10" style={{ paddingTop: 8, paddingBottom: 40 }}>
-        <div className="w-full" style={{ paddingLeft: 75, paddingRight: 75 }}>
+        <div className="w-full px-5 lg:px-[75px]">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
               <StatItem key={s.label} stat={s} idx={i} active={statsInView} />
